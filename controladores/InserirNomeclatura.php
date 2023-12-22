@@ -20,7 +20,7 @@
 
         $RemedioUpper = strtoupper($remedio);
         $funcao->inserirNomeclatura($RemedioUpper);
-        header("Location: ./Nomeclatura.php?insercao=sucesso");
+        header("Location: ../Nomeclatura.php?insercao=sucesso");
     }
 
     

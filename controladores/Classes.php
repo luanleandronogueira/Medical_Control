@@ -147,5 +147,49 @@ class Remedio {
         $stmt->execute();
     }
 
+    public function chamaRemedio() {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_remedio";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute(); 
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            $r[] = $retorno;
+
+        };
+
+        return $r;
+
+    }
+
+    public function chamaRemedioPorEstoque($idEstoque){
+
+        // Consulta SQL para obter os remédios associados ao estoque atual
+        $query = "SELECT * FROM tb_remedio WHERE estoque_remedio = :idEstoque";
+        $conn = $this->conexao->Conectar();
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(":idEstoque", $idEstoque);
+        $stmt->execute();
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            $r[] = $retorno;
+
+        };
+
+        return $r;
+
+    }
+
 
 }

@@ -101,6 +101,13 @@ function sideBar(){
                 </li>
 
                 <li class='nav-item'>
+                    <a class='nav-link collapsed' href='administrarEstoque.php'>
+                        <i class='bx bx-abacus'></i>
+                        Administrar Estoques
+                    </a>
+                </li>
+
+                <li class='nav-item'>
                     <a class='nav-link collapsed' href='cadastrarMedicamento.php'>
                         <i class='bx bxs-capsule'></i>
                         Cadastrar Medicamento
@@ -109,7 +116,7 @@ function sideBar(){
 
                 <li class='nav-item'>
                     <a class='nav-link collapsed' href='cadastrarEstoque.php'>
-                        <i class='bx bx-abacus'></i>
+                        <i class='bx bxs-book-content'></i>
                         Cadastrar Estoque
                     </a>
                 </li>

@@ -127,6 +127,13 @@ function sideBar(){
                         Nomeclatura de Itens
                     </a>
                 </li>
+
+                <li class='nav-item'>
+                    <a class='nav-link collapsed' href='transferenciasEntreEstoques.php'>
+                        <i class='bx bx-network-chart'></i>
+                        Transferência de Itens
+                    </a>
+                </li>
             </ul>";
 
 

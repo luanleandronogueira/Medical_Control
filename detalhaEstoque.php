@@ -79,7 +79,7 @@
                     <td><?= $r['nome_remedio']; ?></td>
                     <td><?= $r['uni_medida_remedio'] ?></td>
                     <td>
-                        <?php if($r['quantidade_remedio'] == 0 ) {?>
+                        <?php if($r['quantidade_remedio'] <= 0 ) {?>
                             <span type='button' class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#disablebackdrop<?= $r['id_remedio'] ?>">
                                 <?php echo $r['quantidade_remedio'] ?>
                             </span>
@@ -93,19 +93,23 @@
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Adicionar Quantidade no Estoque:</h5>
+                                            <h5 class="modal-title">Atualizar Quantidade no Estoque:</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
+                                        <form action="controladores/AtualizaItemEstoque.php" method="post">
                                         <div class="modal-body">
-                                            <form action="controladores/atualizaItemEstoque.php" method="post">
+                                            
                                                 <?php echo $r['nome_remedio'] ?>:
-                                                <input type="number" name="" id=""> 
-                                            </form>
+                                                <input type="number" name="quantidade_remedio" id="">
+                                                <input type="hidden" value="<?=$r['id_remedio']?>" name="id_remedio"> 
+                                                <input type="hidden" value="<?=$id_estoque?>" name="id_estoque"> 
+                                            
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                            <button type="button" class="btn btn-primary">Adicionar</button>
+                                            <button type="submit" class="btn btn-primary">Adicionar</button>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>

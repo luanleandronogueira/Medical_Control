@@ -61,6 +61,17 @@
        
         <div class="card">
           <div class="card-body">
+
+          <?php if(isset($_GET['cadastrar']) == 'sucesso') { ?>
+
+          <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+            <i class="bi bi-check-circle me-1"></i>
+                Inserido com Sucesso!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+
+          <?php }?>
+
             <h5 class="card-title">Cadastrar Medicamento</h5>
 
             <form action="controladores/InserirMedicamento.php" method="$_REQUEST">

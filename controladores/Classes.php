@@ -169,6 +169,24 @@ class Remedio {
 
     }
 
+    public function chamaRemedioPorNome($id_estoque, $nome_remedio) {
+        
+        $conn = $this->conexao->Conectar();
+    
+        $query = "SELECT * FROM tb_remedio WHERE estoque_remedio = :estoque_remedio AND nome_remedio = :nome_remedio";
+    
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':estoque_remedio', $id_estoque);
+        $stmt->bindParam(':nome_remedio', $nome_remedio);
+    
+        $stmt->execute(); 
+    
+        $retorno = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        return $retorno;
+    }
+    
+
     public function chamaRemedioPorEstoque($idEstoque){
 
         // Consulta SQL para obter os remédios associados ao estoque atual
@@ -188,6 +206,37 @@ class Remedio {
         };
 
         return $r;
+
+    }
+
+    public function chamaUnidadeRemedio($id_remedio) {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_remedio WHERE id_remedio = :id_remedio";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_remedio', "$id_remedio");
+
+        $stmt->execute(); 
+
+        $retorno = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $retorno;
+
+    }
+
+    public function atualizaRemedioEstoque($id_remedio, $soma_remedio) {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "UPDATE tb_remedio SET quantidade_remedio = :soma_remedio WHERE id_remedio = :id_remedio";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':soma_remedio', "$soma_remedio");
+        $stmt->bindValue(':id_remedio', "$id_remedio");
+        
+        $stmt->execute(); 
 
     }
 

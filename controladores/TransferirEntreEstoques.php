@@ -2,24 +2,43 @@
 
     include 'Classes.php';
 
-    echo '<pre>';
-        print_r($_POST);
-    echo '</pre>';
-
+    // instancia a classe Remedio
     $func = new Remedio;
 
-    $chamaRemedioPnome = $func->chamaRemedioPorNome($_POST['estoque'],$_POST['nome_remedio']);
+    // chama os remedio da unidade
+    $chamaUnidadeRemedio = $func->chamaUnidadeRemedio($_POST['id_remedio']);
 
-    $quant_recebida = $_POST['quantidade_remedio'];
-    $estoque_transferencia = $_POST['estoque'];
+    // Faz o abatimento antes de atualizar no banco de dados a saida dos itens
+    $AbateRemedio = $chamaUnidadeRemedio['quantidade_remedio'] - $_POST['quantidade_remedio'];
 
-    $comparacao = strcmp($chamaRemedioPnome['nome_remedio'], $_POST['nome_remedio']);
-    
+    // atualiza a saída do estoque atual
+    $AtualizaRemedio = $func->atualizaRemedioEstoque($_POST['id_remedio'], $AbateRemedio);
+
+    // Traz os dados do Estoque que está recebendo a atualização
+    $chamaNomeRemedio = $func->chamaRemedioPorNome($_POST['estoque'], $_POST['nome_remedio']);
 
 
-    echo $quant_recebida . " " . $estoque_transferencia . '</br>';
+    if($chamaNomeRemedio == ""){
 
-    echo '<pre>';
-        print_r($chamaRemedioPnome);
-    echo '</pre>';
-?>
+        // se no estoque ainda não tiver esse remedio, inserir um novo
+        $inserirRemedio = $func->inserirRemedio($_POST['nome_remedio'],              
+                                                $chamaUnidadeRemedio['uni_medida_remedio'], 
+                                                $_POST['quantidade_remedio'], 
+                                                $chamaUnidadeRemedio['vencimento_remedio'], 
+                                                $_POST['estoque']);
+
+        header("Location: ../detalhaEstoque.php?id=".$_POST['estoque']."&&insercao=sucesso");
+
+    } else {
+
+        // se já tiver, primeiro faz a soma dos itens já trazidos
+        $somaAtualizada = $chamaNomeRemedio['quantidade_remedio'] + $_POST['quantidade_remedio'];
+
+        // agora atualiza usando a função.
+        $atualizandoValorRemedio = $func->atualizaRemedioEstoque($chamaNomeRemedio['id_remedio'], $somaAtualizada);
+
+       header("Location: ../detalhaEstoque.php?id=".$_POST['estoque']."&&insercao=sucesso"); 
+
+
+    }
+

@@ -2,11 +2,16 @@
   include "controladores/Controller.php";
   include "controladores/Classes.php";
 
+  // Verifica se há sessão aberta.
+	verificarSessao();
+
   $func = new Remedio;
   $chamaRemedio = $func->chamaRemedioPorEstoque($_GET['id']);
 
   $func2 = new Estoque;
   $chamaEstoque = $func2->chamaEstoque();
+
+  $nomeEstoque = $_GET['nome'];
 
 ?>
 
@@ -22,13 +27,7 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <div class="d-flex align-items-center justify-content-between">
-      <a href="index.html" class="logo d-flex align-items-center">
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <span class="d-none d-lg-block">Medical Control</span>
-      </a>
-      <i class="bi bi-list toggle-sidebar-btn"></i>
-    </div><!-- End Logo -->
+    <?php logoBar()?>
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -44,9 +43,9 @@
         <?php echo Perfil() ?>
 
       </ul>
-    </nav><!-- End Icons Navigation -->
+    </nav>
 
-  </header><!-- End Header -->
+  </header>
 
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
@@ -64,7 +63,7 @@
                                 <div class="col-lg-12 col-md-12">
                                     <div class="card">
                                         <div class="card-body">
-                                        <h5 class="card-title">Transferências Entre Estoques</h5>
+                                        <h5 class="card-title">Transferências Entre Estoques (<?php echo $nomeEstoque?>)</h5>
                                         <h4 class="card-title">De:</h4>
                                         <table class="table table-sm">
                                             <thead>
@@ -104,6 +103,7 @@
                                                         <?php echo $remedio['quantidade_remedio'] ?></a>
                                                     </span>:</label>
                                                                 <input type="number" name="quantidade_remedio" id="">
+                                                                <input type="hidden" name="id_remedio" value="<?=$remedio['id_remedio']?>">
                                                                 <input type="hidden" name="nome_remedio" value="<?=$remedio['nome_remedio']?>">
                                                                 </br></br>
                                                                 <label for="">Para:</label>
@@ -136,12 +136,6 @@
                                         </div>
                                     </div>
                                 </div>
-                        
-                        
-
-
-
-
       </div>
     </section>
 

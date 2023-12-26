@@ -66,6 +66,41 @@ class Nomeclatura {
 
 }
 
+class Usuario {
+
+    private $id;
+    private $conexao;
+    private $nome_usuario;
+    private $cpf_usuario;
+    private $senha_usuario;
+    private $tipo_usuario;
+
+
+    // Adicione um construtor para inicializar a conexão
+    public function __construct() {
+        $this->conexao = new Conexao();
+    }
+
+    public function consultarUsuario($login, $senha){
+
+        $query = "SELECT * FROM tb_usuario WHERE cpf_usuario = :login LIMIT 1";
+
+        $conn = $this->conexao->Conectar();
+
+        $stmt = $conn->prepare($query);  
+        $stmt->bindParam(':login', $login);
+        // $stmt->bindParam(':senha', $senha);
+        $stmt->execute();
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $usuario;
+    }
+
+
+
+}
+
 class Estoque {
 
     private $id;
@@ -113,6 +148,22 @@ class Estoque {
         return $r;
     }
 
+    public function chamaEstoqueEspecifico($id_estoque){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_estoques WHERE id_estoque = :id_estoque";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam('id_estoque', $id_estoque);
+
+        $stmt->execute(); 
+
+        $r = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $r;
+    }
+
 }
 
 class Remedio {
@@ -138,11 +189,11 @@ class Remedio {
         $query = "INSERT INTO tb_remedio (nome_remedio, uni_medida_remedio, quantidade_remedio, vencimento_remedio, estoque_remedio ) VALUES (:nome_remedio, :uni_medida_remedio, :quantidade_remedio, :vencimento_remedio, :estoque_remedio)";
 
         $stmt = $conn->prepare($query);
-        $stmt->bindValue('nome_remedio', $nome_remedio);
-        $stmt->bindValue('uni_medida_remedio', $uni_medida_remedio);
-        $stmt->bindValue('quantidade_remedio', $quantidade_remedio);
-        $stmt->bindValue('vencimento_remedio', $vencimento_remedio);
-        $stmt->bindValue('estoque_remedio', $estoque_remedio);
+        $stmt->bindValue(':nome_remedio', $nome_remedio);
+        $stmt->bindValue(':uni_medida_remedio', $uni_medida_remedio);
+        $stmt->bindValue(':quantidade_remedio', $quantidade_remedio);
+        $stmt->bindValue(':vencimento_remedio', $vencimento_remedio);
+        $stmt->bindValue(':estoque_remedio', $estoque_remedio);
 
         $stmt->execute();
     }
@@ -240,5 +291,17 @@ class Remedio {
 
     }
 
+    
 
+}
+// Função para verificar se há uma sessão aberta
+function verificarSessao() {
+    session_start();
+    // ob_start(); // Se necessário, descomente esta linha
+
+    if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
+        $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
+        header("Location: index.php?usuario=negado");
+        exit(); // Importante para evitar execução adicional após o redirecionamento
+    }
 }

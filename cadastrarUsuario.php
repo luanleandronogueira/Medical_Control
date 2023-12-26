@@ -1,21 +1,14 @@
-<?php
-
+<?php 
   include "controladores/Controller.php";
   include "controladores/Classes.php";
 
   // Verifica se há sessão aberta.
 	verificarSessao();
 
-  $func = new Nomeclatura;
-
-  // Chama dados do banco
-  $retorno = $func->chamaNomeclatura();
-
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
-<title>Nomeclatura - Medical Control</title>
 
 <head>
     <?php head()?>
@@ -56,62 +49,46 @@
   <main id="main" class="main">
     <section class="section">
       <div class="row">
-        <div class="card">
+       
+
+
+      <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Inserir Novo Item</h5>
-                <form class="row g-3" action="controladores/InserirNomeclatura.php" method="post">
+              <h5 class="card-title">Cadastrar Novo Usuário</h5>
 
-                    <!-- <div class="col-12"> -->
-                        <label class="form-label">Nome do Novo Item:</label>
-                        <input type="text" name="remedio" maxlength="220" required class="form-control">
-                    <!-- </div> -->
-        
-                    <!-- <div class="text-center"> -->
-                        <button type="submit" class="btn btn-primary">Cadastrar</button>
-                    <!-- </div> -->
+              <!-- Vertical Form -->
+              <form class="row g-3">
+                <div class="col-12">
+                  <label class="form-label">Nome do Usuário</label>
+                  <input type="text" class="form-control" name="nome_usuario">
+                </div>
+                <div class="col-12">
+                  <label for="inputEmail4" class="form-label">CPF</label>
+                  <input type="text" maxlength="14" class="form-control" name="cpf_usuario">
+                </div>
+                <div class="col-12">
+                  <label for="inputPassword4" class="form-label">Senha do Usuário</label>
+                  <input type="password" class="form-control" name="senha_usuario">
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Tipo de Usuário</label>
+                      <div class="col-md-12 col-lg-12">
+                        <select class="form-control" name="tipo_usuario" id="">
+                          <option value="a">Administrador</option>
+                          <option value="u">Usuário</option>
+                        </select>
+                      </div>
+                </div>
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Cadastrar</button>
+                  <button type="reset" class="btn btn-secondary">Resetar</button>
+                </div>
+              </form><!-- Vertical Form -->
 
-                </form>
             </div>
           </div>
-       </div>
 
-
-       <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Nome dos Itens Cadastrados</h5>
-
-              <!-- Table with stripped rows -->
-              <table class="table datatable">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-
-                <?php foreach ($retorno as $r) { ?>
-
-                  <tr>
-                    <td><?= $r['id_nomeclatura'] ?></td>
-                    <td><?= $r['nome_nomeclatura'] ?></td>
-                    <td><a href="EditarNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Editar</a></td>
-                    <td><a href="ExcluirNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Excluir</a></td>
-                    <td></td>
-                  </tr>
-
-                 <?php } ?> 
-                </tbody>
-              </table>
-              <!-- End Table with stripped rows -->
-
-            </div>
       </div>
-
-
     </section>
 
   </main><!-- End #main -->

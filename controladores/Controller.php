@@ -127,8 +127,15 @@ function sideBar(){
                 </li>
 
                 <li class='nav-item'>
+                    <a class='nav-link collapsed' href='historicoDeTransferencia.php'>
+                        <i class='bx bx-transfer'></i>
+                        Histórico de Transferências
+                    </a>
+                </li>
+
+                <li class='nav-item'>
                     <a class='nav-link collapsed' href='Nomeclatura.php'>
-                        <i class='bi bi-person'></i>
+                        <i class='bx bxs-book'></i>
                         Nomeclatura de Itens
                     </a>
                 </li>

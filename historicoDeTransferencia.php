@@ -5,6 +5,9 @@
   // Verifica se há sessão aberta.
 	verificarSessao();
 
+    $func = new Historico;
+    $retorno = $func->chamaHistorico();  
+
 ?>
 
 <!DOCTYPE html>
@@ -49,17 +52,50 @@
   <main id="main" class="main">
     <section class="section">
       <div class="row">
-       
+        <!-- <?php echo '<pre>'; print_r($retorno); echo '</pre>';?> -->
+      <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Histórico de Transferências</h5>
 
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Histórico</th>
+                    <th>Data Transferência</th>
+                    <th>Gestor</th>
+                    <th>Item</th>
+                    <th>Quantidade</th>
+                    <th>Enviado</th>
+                    <th>Recebido</th>
+                    <th></th>
 
-          <!-- <?php  
-          
-          $senha = 152610;
-          $se = password_hash($senha, PASSWORD_DEFAULT);
+                  </tr>
+                </thead>
+                <tbody>
 
-          echo $se;
-          
-          ?> -->
+                <!-- <?php foreach ($retorno as $r) { ?> -->
+
+                  <tr>
+                    <td><?=$r['id_historico'] ?></td>
+                    <td><?=$r['historico_historico'] ?></td>
+                    <td><?=$r['data_historico'] ?></td>
+                    <td><?=$r['sessao_historico'] ?></td>
+                    <td><?=$r['item_tras_historico'] ?></td>
+                    <td><?=$r['quantidade_historico'] ?></td>
+                    <td><?=$r['nome_enviado'] ?></td>
+                    <td><?=$r['nome_recebido'] ?></td>
+                    <td></td>
+                  </tr>
+
+                 <!-- <?php } ?>  -->
+                </tbody>
+              </table>
+              <!-- End Table with stripped rows -->
+
+            </div>
+      </div>
 
 
       </div>

@@ -294,6 +294,83 @@ class Remedio {
     
 
 }
+
+
+class Historico {
+
+    private $id_historico;
+    private $conexao;
+    private $historico_historico;
+    private $data_historico;
+    private $sessao_historico;
+    private $item_tras_historico;
+    private $quantidade_historico;
+    private $id_estoque_historico;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+
+    public function inserirHistorico($historico_historico, $data_historico, $sessao_historico, $item_tras_historico, $quantidade_historico, $id_estoque_enviado_historico, $id_estoque_recebido_historico){
+
+        $conn = $this->conexao->Conectar();
+        
+        $query = "INSERT INTO tb_historico (historico_historico, data_historico, sessao_historico, item_tras_historico, quantidade_historico, id_estoque_enviado_historico, id_estoque_recebido_historico) VALUES (:historico_historico, :data_historico, :sessao_historico, :item_tras_historico, :quantidade_historico, :id_estoque_enviado_historico, :id_estoque_recebido_historico)";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindValue(':historico_historico', "$historico_historico");
+        $stmt->bindValue(':data_historico', "$data_historico");
+        $stmt->bindValue(':sessao_historico', "$sessao_historico");
+        $stmt->bindValue(':item_tras_historico', "$item_tras_historico");
+        $stmt->bindValue(':quantidade_historico', "$quantidade_historico");
+        $stmt->bindValue(':id_estoque_enviado_historico', "$id_estoque_enviado_historico");
+        $stmt->bindValue(':id_estoque_recebido_historico', "$id_estoque_recebido_historico");
+
+        $stmt->execute(); 
+
+    }
+
+    public function chamaHistorico() {
+        $conn = $this->conexao->Conectar();
+    
+        $query = "
+            SELECT 
+                h.*, 
+                e_enviado.nome_estoque AS nome_enviado, 
+                e_recebido.nome_estoque AS nome_recebido
+            FROM 
+                tb_historico h
+            LEFT JOIN 
+                tb_estoques e_enviado ON h.id_estoque_enviado_historico = e_enviado.id_estoque
+            LEFT JOIN 
+                tb_estoques e_recebido ON h.id_estoque_recebido_historico = e_recebido.id_estoque
+            ORDER BY 
+                h.id_historico DESC
+        ";
+    
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+    
+        $historico = [];
+    
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+            $historico[] = $retorno;
+        }
+    
+        return $historico;
+    }
+    
+    
+
+
+
+}
+
+
+
 // Função para verificar se há uma sessão aberta
 function verificarSessao() {
     session_start();

@@ -30,7 +30,7 @@
 
                 $senhaHash = password_hash($_POST['senha_usuario'], PASSWORD_DEFAULT); 
         
-                $cadastraUsuario = $func->inserirUsuario($nome, $cpfNumeros, $senhaHash, $_POST['tipo_usuario']);
+                $cadastraUsuario = $func->inserirUsuario($nome, $cpfNumeros, $senhaHash, $_POST['tipo_usuario'], $_POST['setor_usuario']);
 
                 header("Location: ../cadastrarUsuario.php?insercao=sucesso]");
 

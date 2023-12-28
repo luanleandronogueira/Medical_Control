@@ -150,8 +150,70 @@ function sideBar(){
                 
             </ul>";
 
+}
+
+function sideBarUsuario(){
 
 
+    print"<ul class='sidebar-nav' id='sidebar-nav'>
+                <li class='nav-item'>
+                    <a class='nav-link collapsed' href='dashboardUsuario.php'>
+                        <i class='bi bi-grid'></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li class='nav-item'>
+                    <a class='nav-link collapsed' href='SairSessao.php'>
+                        <i class='bi bi-box-arrow-right'></i>
+                        <span>Sair</span>
+                    </a>
+                </li>
+           
+            </ul>";
+
+
+
+
+}
+
+function PerfilUsuario() {
+
+    print "<li class='nav-item dropdown pe-3'>
+    <a class='nav-link nav-profile d-flex align-items-center pe-0' href='#' data-bs-toggle='dropdown'>
+         <!-- <img src='assets/img/profile-img.jpg' alt='Profile' class='rounded-circle'> --> 
+        <span class='d-none d-md-block dropdown-toggle ps-2'>" . $_SESSION['nome_usuario'] . "</span>
+    </a><!-- End Profile Iamge Icon -->
+
+    <ul class='dropdown-menu dropdown-menu-end dropdown-menu-arrow profile'>
+        <li class='dropdown-header'>
+            <h6>" . $_SESSION['nome_usuario'] . " </h6>
+            <span>Usuário</span>
+        </li>
+        <li>
+            <hr class='dropdown-divider'>
+        </li>
+
+        <li>
+            <a class='dropdown-item d-flex align-items-center' href='perfil.php'>
+                <i class='bi bi-person'></i>
+                <span>Meu Perfil</span>
+            </a>
+        </li>
+        <li>
+            <hr class='dropdown-divider'>
+        </li>
+
+        <li>
+            <a class='dropdown-item d-flex align-items-center' href='SairSessao.php'>
+                <i class='bi bi-box-arrow-right'></i>
+                <span>Sair</span>
+            </a>
+        </li>
+
+        
+    </ul><!-- End Profile Dropdown Items -->
+</li>";
 
 }
 

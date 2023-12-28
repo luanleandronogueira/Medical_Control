@@ -113,9 +113,9 @@ class Usuario {
         return $usuario;
     }
 
-    public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario){
+    public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario, $setor_usuario){
 
-        $query = "INSERT INTO tb_usuario (nome_usuario, cpf_usuario, senha_usuario, tipo_usuario) VALUES (:nome_usuario, :cpf_usuario, :senha_usuario, :tipo_usuario)";
+        $query = "INSERT INTO tb_usuario (nome_usuario, cpf_usuario, senha_usuario, tipo_usuario, setor_usuario) VALUES (:nome_usuario, :cpf_usuario, :senha_usuario, :tipo_usuario, :setor_usuario)";
         
         $conn = $this->conexao->Conectar();
 
@@ -124,6 +124,7 @@ class Usuario {
         $stmt->bindParam(':cpf_usuario', $cpf_usuario);
         $stmt->bindParam(':senha_usuario', $senha_usuario);
         $stmt->bindParam(':tipo_usuario', $tipo_usuario);
+        $stmt->bindParam(':setor_usuario', $setor_usuario);
 
         $stmt->execute();
     }
@@ -448,7 +449,7 @@ function verificarSessao() {
     session_start();
     // ob_start(); // Se necessário, descomente esta linha
 
-    if($_SESSION['tipo_usuario'] != 'a'){
+    if($_SESSION['tipo_usuario'] === 'u'){
 
         header("Location: index.php?usuario=negado");
         exit(); // Importante para evitar execução adicional após o redirecionamento
@@ -458,6 +459,29 @@ function verificarSessao() {
         if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
             $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
             
+        }
+
+
+    }
+     
+}
+
+// Função para verificar se há uma sessão aberta
+function verificarSessaoUsuario() {
+    session_start();
+    // ob_start(); // Se necessário, descomente esta linha
+
+    if($_SESSION['tipo_usuario'] != 'u'){
+
+        header("Location: index.php?usuario=negado");
+        exit(); // Importante para evitar execução adicional após o redirecionamento
+
+    } else {
+
+        if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
+            $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
+            header("Location: index.php?usuario=negado");
+            exit(); // Importante para evitar execução adicional após o redirecionamento
         }
 
 

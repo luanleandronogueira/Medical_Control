@@ -33,7 +33,7 @@ if (!empty($login) and !empty($senha)) {
             $_SESSION['id_usuario'] = $usuario['id'];
             $_SESSION['nome_usuario'] = $usuario['nome_usuario'];
             $_SESSION['cpf_usuario'] = $usuario['cpf_usuario'];
-            $usuario['tipo_usuario'];
+            $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
 
             if($usuario['tipo_usuario'] == 'a'){
                 
@@ -46,8 +46,11 @@ if (!empty($login) and !empty($senha)) {
 
             } else {
 
+                $usuario['tipo_usuario'] == 'u';
+                $_SESSION['setor_usuario'] == $usuario['setor_usuario'];
+
                 // colocar outra lógica que vai para a parte de saída do usuario simples
-                header('Location: ../dashboardUsuario.php');
+                header('Location: ../usuario/dashboardUsuario.php');
             }
             
         } else {

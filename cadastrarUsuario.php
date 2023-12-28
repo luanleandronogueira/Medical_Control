@@ -5,6 +5,10 @@
   // Verifica se há sessão aberta.
 	verificarSessao();
 
+  $func = new Estoque;
+
+  $chamaEstoque = $func->chamaEstoque();
+
 ?>
 
 <!DOCTYPE html>
@@ -94,11 +98,24 @@
                     <label class="form-label">Tipo de Usuário</label>
                       <div class="col-md-12 col-lg-12">
                         <select class="form-control" name="tipo_usuario" id="" required>
-                          <option value="a">Administrador</option>
                           <option value="u">Usuário</option>
+                          <option value="a">Administrador</option>
                         </select>
                       </div>
                 </div>
+                <div class="col-12">
+                    <label class="form-label">Selecionar Setor de Acesso</label>
+                      <div class="col-md-12 col-lg-12">
+                        <select class="form-control" name="setor_usuario" id="" required>
+                            <?php foreach($chamaEstoque as $estoque) { ?>
+
+                               <option value="<?=$estoque['id_estoque']?>"><?=$estoque['nome_estoque']?></option>
+                            <?php } ?>
+                         
+                        </select>
+                      </div>
+                </div>
+                
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary">Cadastrar</button>
                   <button type="reset" class="btn btn-secondary">Resetar</button>

@@ -52,14 +52,16 @@
        
 
 
-          <!-- <?php  
+          <?php  
           
-          $senha = 152610;
+          $senha = 1234;
           $se = password_hash($senha, PASSWORD_DEFAULT);
 
           echo $se;
           
-          ?> -->
+          ?> 
+
+          <!-- <?php echo $_SESSION['tipo_usuario']; ?>
 
 
       </div>

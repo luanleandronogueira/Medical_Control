@@ -97,7 +97,85 @@ class Usuario {
         return $usuario;
     }
 
+    public function consultarUsuarioCadastrado($cpf){
 
+        $query = "SELECT cpf_usuario FROM tb_usuario WHERE cpf_usuario = :cpf LIMIT 1";
+
+        $conn = $this->conexao->Conectar();
+
+        $stmt = $conn->prepare($query);  
+        $stmt->bindParam(':cpf', $cpf);
+        // $stmt->bindParam(':senha', $senha);
+        $stmt->execute();
+
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $usuario;
+    }
+
+    public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario){
+
+        $query = "INSERT INTO tb_usuario (nome_usuario, cpf_usuario, senha_usuario, tipo_usuario) VALUES (:nome_usuario, :cpf_usuario, :senha_usuario, :tipo_usuario)";
+        
+        $conn = $this->conexao->Conectar();
+
+        $stmt = $conn->prepare($query);  
+        $stmt->bindParam(':nome_usuario', $nome_usuario);
+        $stmt->bindParam(':cpf_usuario', $cpf_usuario);
+        $stmt->bindParam(':senha_usuario', $senha_usuario);
+        $stmt->bindParam(':tipo_usuario', $tipo_usuario);
+
+        $stmt->execute();
+    }
+
+    public function atualizarUsuario($id, $nome_usuario, $tipo_usuario){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "UPDATE tb_usuario SET nome_usuario = :nome_usuario, tipo_usuario = :tipo_usuario WHERE id = :id";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':nome_usuario', "$nome_usuario");
+        $stmt->bindValue(':tipo_usuario', "$tipo_usuario");
+        $stmt->bindValue(':id', $id);
+        
+        $stmt->execute();
+
+
+    }
+
+    public function atualizarSenhaUsuario($id, $senha){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "UPDATE tb_usuario SET senha_usuario = :senha_usuario WHERE id = :id";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':senha_usuario', "$senha");
+        $stmt->bindValue(':id', $id);
+        
+        $stmt->execute();
+
+
+    }
+
+    public function chamaUsuario($id){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_usuario WHERE id = :id";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam('id', $id);
+
+        $stmt->execute(); 
+
+        $r = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $r;
+
+
+    }
 
 }
 
@@ -362,23 +440,27 @@ class Historico {
     
         return $historico;
     }
-    
-    
-
-
 
 }
-
-
 
 // Função para verificar se há uma sessão aberta
 function verificarSessao() {
     session_start();
     // ob_start(); // Se necessário, descomente esta linha
 
-    if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
-        $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
+    if($_SESSION['tipo_usuario'] != 'a'){
+
         header("Location: index.php?usuario=negado");
         exit(); // Importante para evitar execução adicional após o redirecionamento
+
+    } else {
+
+        if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
+            $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
+            
+        }
+
+
     }
+     
 }

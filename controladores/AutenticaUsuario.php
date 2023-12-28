@@ -18,9 +18,9 @@ if (!empty($login) and !empty($senha)) {
     
     $usuario = $func->consultarUsuario($login, $senha);
 
-    echo '<pre>';
-        print_r($usuario);
-    echo '</pre>';
+    // echo '<pre>';
+    //     print_r($usuario);
+    // echo '</pre>';
    
     if (empty($_POST['enviar_requisicao'])) {
 
@@ -30,14 +30,26 @@ if (!empty($login) and !empty($senha)) {
     
         if (password_verify($senha, $senha_salva)) {
 
-            $_SESSION['id_usuario'] = $usuario['id_usuario'];
+            $_SESSION['id_usuario'] = $usuario['id'];
             $_SESSION['nome_usuario'] = $usuario['nome_usuario'];
             $_SESSION['cpf_usuario'] = $usuario['cpf_usuario'];
-            $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
-            header('Location: ../dashboard.php');
+            $usuario['tipo_usuario'];
+
+            if($usuario['tipo_usuario'] == 'a'){
+                
+                $_SESSION['tipo_usuario'] = $usuario['tipo_usuario'];
+
+                header('Location: ../dashboard.php');
                 // echo '<pre>';
                 //     print_r($usuario);
                 // echo '</pre>';
+
+            } else {
+
+                // colocar outra lógica que vai para a parte de saída do usuario simples
+                header('Location: ../dashboardUsuario.php');
+            }
+            
         } else {
     
             header('Location: ../index.php?erro=3');

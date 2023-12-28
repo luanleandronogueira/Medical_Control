@@ -56,24 +56,44 @@
             <div class="card-body">
               <h5 class="card-title">Cadastrar Novo Usuário</h5>
 
-              <!-- Vertical Form -->
-              <form class="row g-3">
+              <?php if(isset($_GET['insercao']) == 'sucesso') { ?>
+
+              <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                    Feito com Sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+
+              <?php }?> 
+
+              <?php if(isset($_GET['usuario']) == 'jacadastrado') { ?>
+
+              <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                    Já Existe esse Usuário!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+
+              <?php }?>
+
+              <!-- Form -->
+              <form class="row g-3" method="post" action="controladores/CadastrarUsuario.php">
                 <div class="col-12">
                   <label class="form-label">Nome do Usuário</label>
-                  <input type="text" class="form-control" name="nome_usuario">
+                  <input type="text" class="form-control" name="nome_usuario" required>
                 </div>
                 <div class="col-12">
                   <label for="inputEmail4" class="form-label">CPF</label>
-                  <input type="text" maxlength="14" class="form-control" name="cpf_usuario">
+                  <input type="text" maxlength="14" class="form-control" name="cpf_usuario" required>
                 </div>
                 <div class="col-12">
                   <label for="inputPassword4" class="form-label">Senha do Usuário</label>
-                  <input type="password" class="form-control" name="senha_usuario">
+                  <input type="password" class="form-control" name="senha_usuario" required>
                 </div>
                 <div class="col-12">
                     <label class="form-label">Tipo de Usuário</label>
                       <div class="col-md-12 col-lg-12">
-                        <select class="form-control" name="tipo_usuario" id="">
+                        <select class="form-control" name="tipo_usuario" id="" required>
                           <option value="a">Administrador</option>
                           <option value="u">Usuário</option>
                         </select>
@@ -83,7 +103,7 @@
                   <button type="submit" class="btn btn-primary">Cadastrar</button>
                   <button type="reset" class="btn btn-secondary">Resetar</button>
                 </div>
-              </form><!-- Vertical Form -->
+              </form><!-- Form -->
 
             </div>
           </div>

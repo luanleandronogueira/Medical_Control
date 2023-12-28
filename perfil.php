@@ -5,6 +5,12 @@
   // Verifica se há sessão aberta.
 	verificarSessao();
 
+  $nome = $_SESSION['nome_usuario'];
+  $tipo = $_SESSION['tipo_usuario'];
+
+  $func = new Usuario;
+  $chamaUsuario = $func->chamaUsuario($_SESSION['id_usuario']);
+
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +65,7 @@
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
               <!-- <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle"> -->
-              <h2><?= $_SESSION['nome_usuario']?></h2>
+              <h2><?= $chamaUsuario['nome_usuario']?></h2>
               <h3>Usuário</h3>
               <!-- <div class="social-links mt-2">
                 <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -95,22 +101,42 @@
               </ul>
               <div class="tab-content pt-2">
 
+              <?php if(isset($_GET['insercao']) == 'sucesso') { ?>
+
+              <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                    Feito com Sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+
+              <?php }?>
+
+              <?php if(isset($_GET['senha']) == 'diferente') { ?>
+
+              <div class="alert alert-danger alert-dismissible fade show mt-4" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                    As senhas estão diferentes!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+
+              <?php }?>
+
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                   <h5 class="card-title">Meu Perfil</h5>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label ">Nome Completo:</div>
-                    <div class="col-lg-9 col-md-8"><?= $_SESSION['nome_usuario']?></div>
+                    <div class="col-lg-9 col-md-8"><?= $chamaUsuario['nome_usuario']?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">CPF:</div>
-                    <div class="col-lg-9 col-md-8"><?= $_SESSION['cpf_usuario']?></div>
+                    <div class="col-lg-9 col-md-8"><?= $chamaUsuario['cpf_usuario']?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Login:</div>
-                    <div class="col-lg-9 col-md-8"><?= $_SESSION['cpf_usuario']?></div>
+                    <div class="col-lg-9 col-md-8"><?= $chamaUsuario['cpf_usuario']?></div>
                   </div>
 
                  
@@ -119,12 +145,12 @@
 
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
-                  <!-- Profile Edit Form -->
+                  <!-- Form -->
                   <form method="post" action="controladores/AlterarPerfil.php">
                     <div class="row mb-3">
                       <label  class="col-md-4 col-lg-3 col-form-label">Nome Completo</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="nome_usuario" type="text" class="form-control" id="fullName" value="<?= $_SESSION['nome_usuario']?>">
+                        <input name="nome_usuario" type="text" class="form-control" value="<?= $chamaUsuario['nome_usuario'] ?>">
                       </div>
                     </div>
 
@@ -136,39 +162,43 @@
                     </div>
 
                     <div class="row mb-3">
-                      <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">Nível de Acesso</label>
                       <div class="col-md-8 col-lg-9">
-                        <select class="form-control" name="tipo_usuario" id="">
+                        <select class="form-control" name="tipo_usuario">
                           <option value="a">Administrador</option>
                           <option value="u">Usuário</option>
                         </select>
                       </div>
                     </div>
 
+                    <input type="hidden" name="id" value="<?= $_SESSION['id_usuario'] ?>">
+
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Salvar Mudanças</button>
                     </div>
-                  </form><!-- End Profile Edit Form -->
+                  </form><!-- End Form -->
 
                 </div>
 
                 <div class="tab-pane fade pt-3" id="profile-change-password">
                   <!-- Change Password Form -->
-                  <form>
+                  <form action="controladores/AlterarPerfil.php" method="post">
 
                     <div class="row mb-3">
-                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Nova Senha:</label>
+                      <label class="col-md-4 col-lg-3 col-form-label">Nova Senha:</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="senha_usuario" type="password" class="form-control" id="currentPassword">
+                        <input name="senha_usuario" type="password" class="form-control">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Confirme Nova Senha:</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="newpassword" type="password" class="form-control" id="newPassword">
+                        <input name="confirma_senha_usuario" type="password" class="form-control">
                       </div>
                     </div>
+
+                    <input type="hidden" name="id" value="<?=$chamaUsuario['id'] ?>">
 
                     <div class="text-center">
                       <button type="submit" class="btn btn-primary">Salvar Informações</button>

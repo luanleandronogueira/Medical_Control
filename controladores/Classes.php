@@ -2,6 +2,7 @@
 
     include "Conexao.php";
     $conexao = new Conexao();
+    date_default_timezone_set('America/Sao_Paulo');
 
 class Nomeclatura {
 
@@ -62,7 +63,6 @@ class Nomeclatura {
         return $stmt->fetch(PDO::FETCH_ASSOC);
 
     }
-
 
 }
 
@@ -247,7 +247,6 @@ class Estoque {
 
 class Remedio {
 
-
     private $id;
     private $conexao;
     private $nome_remedio;
@@ -356,6 +355,53 @@ class Remedio {
 
     }
 
+    public function chamaEstoqueUsuario($id_estoque){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_remedio WHERE estoque_remedio = :id_estoque";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_estoque', "$id_estoque");
+
+        $stmt->execute(); 
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            $r[] = $retorno;
+
+        };
+
+        return $r;
+
+    } 
+    
+    public function chamaRemedioNomeEstoque($id_remedio, $nome_remedio, $estoque_remedio){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_remedio WHERE id_remedio = :id_remedio AND nome_remedio = :nome_remedio AND estoque_remedio = :estoque_remedio LIMIT 1";
+
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_remedio', $id_remedio);
+        $stmt->bindValue(':nome_remedio', $nome_remedio);
+        $stmt->bindValue(':estoque_remedio', "$estoque_remedio");
+
+        $stmt->execute(); 
+        
+        $retorno = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $r = $retorno;
+
+        return $r;
+
+    }
+
+
+
     public function atualizaRemedioEstoque($id_remedio, $soma_remedio) {
 
         $conn = $this->conexao->Conectar();
@@ -373,6 +419,7 @@ class Remedio {
     
 
 }
+
 
 
 class Historico {
@@ -413,6 +460,7 @@ class Historico {
     }
 
     public function chamaHistorico() {
+        
         $conn = $this->conexao->Conectar();
     
         $query = "
@@ -444,6 +492,111 @@ class Historico {
 
 }
 
+class Saida {
+
+    private $id;
+    private $conexao;
+    private $status_receita_saida;
+    private $id_remedio_saida;
+    private $remedio_saida;
+    private $quantidade_saida;
+    private $sus_saida;
+    private $nome_paciente_saida;
+    private $n_receita_saida;
+    private $observacao_saida;
+    private $sessao_saida;
+    private $data_saida;
+    private $estoque_saida;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function inserirSaida($status_receita_saida, 
+                                 $id_remedio_saida, 
+                                 $remedio_saida, 
+                                 $quantidade_saida,
+                                 $sus_saida,
+                                 $nome_paciente_saida,
+                                 $n_receita_saida,
+                                 $observacao_saida,
+                                 $sessao_saida,
+                                 $data_saida,
+                                 $estoque_saida){
+
+         $conn = $this->conexao->Conectar();
+         $query = "INSERT INTO tb_saida (status_receita_saida, id_remedio_saida, remedio_saida, quantidade_saida, sus_saida, nome_paciente_saida, n_receita_saida, observacao_saida, sessao_saida, data_saida, estoque_saida) VALUES (:status_receita_saida, :id_remedio_saida, :remedio_saida, :quantidade_saida, :sus_saida, :nome_paciente_saida, :n_receita_saida, :observacao_saida, :sessao_saida, :data_saida, :estoque_saida)";
+         
+         $stmt = $conn->prepare($query);
+
+         $stmt->bindValue(':status_receita_saida', $status_receita_saida);
+         $stmt->bindValue(':id_remedio_saida', $id_remedio_saida);
+         $stmt->bindValue(':remedio_saida', $remedio_saida);
+         $stmt->bindValue(':quantidade_saida', $quantidade_saida);
+         $stmt->bindValue(':sus_saida', $sus_saida);
+         $stmt->bindValue(':nome_paciente_saida', $nome_paciente_saida);
+         $stmt->bindValue(':n_receita_saida', $n_receita_saida);
+         $stmt->bindValue(':observacao_saida', $observacao_saida);
+         $stmt->bindValue(':sessao_saida', $sessao_saida);
+         $stmt->bindValue(':data_saida', $data_saida);
+         $stmt->bindValue(':estoque_saida', $estoque_saida);
+
+         $stmt->execute();
+
+         
+
+
+    }
+
+
+}
+
+
+class RemedioUsuario extends Remedio {
+
+    private $id;
+    private $conexao;
+    private $nome_remedio;
+    private $uni_medida_remedio;
+    private $quantidade_remedio;
+    private $vencimento_remedio;
+    private $estoque_remedio;
+
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+
+    public function chamaEstoqueUsuario($id_estoque){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_remedio WHERE estoque_remedio = :id_estoque";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_estoque', "$id_estoque");
+
+        $stmt->execute(); 
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            $r[] = $retorno;
+
+        };
+
+        return $r;
+
+    }
+
+   
+
+}
+
 // Função para verificar se há uma sessão aberta
 function verificarSessao() {
     session_start();
@@ -465,6 +618,7 @@ function verificarSessao() {
     }
      
 }
+
 
 // Função para verificar se há uma sessão aberta
 function verificarSessaoUsuario() {

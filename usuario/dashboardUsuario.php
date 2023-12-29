@@ -5,6 +5,16 @@
   // Verifica se há sessão aberta.
 	verificarSessaoUsuario();
 
+  $func2 = new Usuario;
+
+  $chamaUsuario = $func2->chamaUsuario($_SESSION['id_usuario']);
+
+
+  $func = new RemedioUsuario;
+  $remedio = $func->chamaEstoqueUsuario($chamaUsuario['setor_usuario']);
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -49,19 +59,48 @@
   <main id="main" class="main">
     <section class="section">
       <div class="row">
-       
 
+       <div class="card">
+            <center><h5 class="card-title">Bem Vindo, <?= $_SESSION['nome_usuario']?></h5></center>
+          </div>
+      <h5 class="card-title"># <?php echo $chamaUsuario['setor_usuario']?> Unidade em Estoque :</h5>
 
-          <?php  
-          
-          $senha = 1234;
-          $se = password_hash($senha, PASSWORD_DEFAULT);
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Item</th>
+                    <th>Unidade de Medida</th>
+                    <th>Quantidade</th>
+                    <th>Data de Vencimento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                   <?php foreach($remedio as $r) { ?>
 
-          echo $se;
-          
-          ?> 
+                  <tr>
+                    <td><?= $r['id_remedio']; ?></td>
+                    <td><?= $r['nome_remedio']; ?></td>
+                    <td><?= $r['uni_medida_remedio'] ?></td>
+                    <td>
+                        <?php if($r['quantidade_remedio'] <= 0 ) {?>
+                            <span class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#disablebackdrop<?= $r['id_remedio'] ?>">
+                                <?php echo $r['quantidade_remedio'] ?>
+                            </span>
+                        <?php } else { ?>
+                            <span class="badge bg-success" data-bs-toggle="modal" data-bs-target="#disablebackdrop<?= $r['id_remedio'] ?>">
+                                <?php echo $r['quantidade_remedio'] ?></a>
+                            </span>
+                        <?php } ?>
+  
+                      </td>
 
-          <!-- <?php echo $_SESSION['tipo_usuario']; ?>
+                        <td><?= $r['vencimento_remedio'] ?></td>
+                  </tr>
+                  
+                  <?php } ?> 
+                </tbody>
+              </table>
 
 
       </div>

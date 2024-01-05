@@ -127,6 +127,13 @@ function sideBar(){
                 </li>
 
                 <li class='nav-item'>
+                    <a class='nav-link collapsed' href='emitirPedido.php'>
+                        <i class='bx bxs-add-to-queue'></i>
+                        Entrada de Notas e Pedidos
+                    </a>
+                </li>
+
+                <li class='nav-item'>
                     <a class='nav-link collapsed' href='historicoDeTransferencia.php'>
                         <i class='bx bx-transfer'></i>
                         Histórico de Transferências
@@ -141,6 +148,13 @@ function sideBar(){
                 </li>
 
                 <li class='nav-item'>
+                    <a class='nav-link collapsed' href='relatorios.php'>
+                        <i class='bx bx-copy-alt'></i>
+                        Relatórios
+                    </a>
+                </li>
+
+                <li class='nav-item'>
                     <a class='nav-link collapsed' href='controladores/SairSessao.php'>
                         <i class='bi bi-box-arrow-right'></i>
                         Sair
@@ -151,6 +165,8 @@ function sideBar(){
             </ul>";
 
 }
+
+
 
 function sideBarUsuario(){
 

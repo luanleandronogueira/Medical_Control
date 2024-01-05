@@ -15,14 +15,15 @@ class Nomeclatura {
         $this->conexao = new Conexao();
     }
 
-    public function inserirNomeclatura($nomeclatura){
+    public function inserirNomeclatura($nomeclatura, $uni_medida_nomeclatura){
 
         $conn = $this->conexao->Conectar();
 
-        $query = "INSERT INTO tb_nomeclatura (nome_nomeclatura) VALUES (:nomeclatura)";
+        $query = "INSERT INTO tb_nomeclatura (nome_nomeclatura, uni_medida_nomeclatura) VALUES (:nomeclatura, :uni_medida_nomeclatura)";
 
         $stmt = $conn->prepare($query);
         $stmt->bindParam(":nomeclatura", $nomeclatura);
+        $stmt->bindParam(":uni_medida_nomeclatura", $uni_medida_nomeclatura);
 
         $stmt->execute();
 
@@ -400,8 +401,6 @@ class Remedio {
 
     }
 
-
-
     public function atualizaRemedioEstoque($id_remedio, $soma_remedio) {
 
         $conn = $this->conexao->Conectar();
@@ -415,11 +414,9 @@ class Remedio {
         $stmt->execute(); 
 
     }
-
-    
+ 
 
 }
-
 
 
 class Historico {
@@ -593,8 +590,157 @@ class RemedioUsuario extends Remedio {
 
     }
 
-   
+}
 
+class Pedido {
+
+    private $id_pedido;
+    private $conexao;
+    private $n_nota_fiscal_pedido;
+    private $chave_nota_pedido;
+    private $data_entrada_pedido;
+    
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function inserirPedido($n_nota_fiscal_pedido, $chave_nota_pedido, $data_entrada_pedido){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_pedido (n_nota_fiscal_pedido, chave_nota_pedido, data_entrada_pedido) VALUES (:n_nota_fiscal_pedido, :chave_nota_pedido, :data_entrada_pedido)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':n_nota_fiscal_pedido', $n_nota_fiscal_pedido);
+        $stmt->bindValue(':chave_nota_pedido', $chave_nota_pedido);
+        $stmt->bindValue(':data_entrada_pedido', $data_entrada_pedido);
+
+        $stmt->execute();
+    }
+
+    public function chamaPedido(){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_pedido ORDER BY id_pedido DESC";
+
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            $r[] = $retorno;
+
+        };
+
+        return $r;
+
+    }
+
+}
+
+class P_Emitido {
+
+    private $id_p_emitido;
+    private $conexao;
+    private $n_p_emitido;
+    private $nomeclatura_p_emitido;
+    private $quantidade_p_emitido;
+    private $data_val_p_emitido;
+    private $lote_p_emitido;
+    private $fabricante_p_emitido;
+    private $estoque_p_emitido;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function inserir_P_Emitido($n_p_emitido, 
+                                     $nomeclatura_p_emitido, 
+                                     $quantidade_p_emitido,
+                                     $data_val_p_emitido,
+                                     $lote_p_emitido,
+                                     $fabricante_p_emitido,
+                                     $estoque_p_emitido){
+                
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_p_emitido (n_p_emitido, 
+                                            nomeclatura_p_emitido, 
+                                            quantidade_p_emitido,
+                                            data_val_p_emitido,
+                                            lote_p_emitido,
+                                            fabricante_p_emitido,
+                                            estoque_p_emitido) VALUES (:n_p_emitido, 
+                                                                       :nomeclatura_p_emitido, 
+                                                                       :quantidade_p_emitido,
+                                                                       :data_val_p_emitido,
+                                                                       :lote_p_emitido,
+                                                                       :fabricante_p_emitido,
+                                                                       :estoque_p_emitido)";
+        
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':n_p_emitido', $n_p_emitido);
+        $stmt->bindValue(':nomeclatura_p_emitido', $nomeclatura_p_emitido);
+        $stmt->bindValue(':quantidade_p_emitido', $quantidade_p_emitido);
+        $stmt->bindValue(':data_val_p_emitido', $data_val_p_emitido);
+        $stmt->bindValue(':lote_p_emitido', $lote_p_emitido);
+        $stmt->bindValue(':fabricante_p_emitido', $fabricante_p_emitido);
+        $stmt->bindValue(':estoque_p_emitido', $estoque_p_emitido);
+
+        $stmt->execute();
+
+    }
+
+    public function consultaPedidosEmitidosPorData($dataInicial, $dataFinal) {
+    
+        $conn = $this->conexao->Conectar();
+    
+        try {
+            $query = "SELECT
+                pedido.id_pedido,
+                pedido.n_nota_fiscal_pedido,
+                pedido.chave_nota_pedido,
+                pedido.data_entrada_pedido,
+                p_emitido.n_p_emitido,
+                p_emitido.nomeclatura_p_emitido,
+                p_emitido.quantidade_p_emitido,
+                p_emitido.data_val_p_emitido,
+                p_emitido.lote_p_emitido,
+                p_emitido.fabricante_p_emitido,
+                estoques.nome_estoque
+            FROM
+                tb_pedido AS pedido
+            JOIN
+                tb_p_emitido AS p_emitido ON pedido.id_pedido = p_emitido.n_p_emitido
+            JOIN
+                tb_estoques AS estoques ON p_emitido.estoque_p_emitido = estoques.id_estoque
+            WHERE
+                pedido.data_entrada_pedido BETWEEN :dataInicial AND :dataFinal";
+    
+            $stmt = $conn->prepare($query);
+            $stmt->bindParam(':dataInicial', $dataInicial);
+            $stmt->bindParam(':dataFinal', $dataFinal);
+            $stmt->execute();
+    
+            // Verifique se há resultados
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+            return $result;
+    
+        } catch (PDOException $e) {
+            // Trate exceções PDO, por exemplo, imprima a mensagem de erro
+            echo "Erro: " . $e->getMessage();
+        } catch (Exception $e) {
+            // Trate outras exceções, se necessário
+            echo "Erro: " . $e->getMessage();
+        }
+    }
+    
 }
 
 // Função para verificar se há uma sessão aberta
@@ -616,7 +762,7 @@ function verificarSessao() {
 
 
     }
-     
+    
 }
 
 
@@ -640,5 +786,5 @@ function verificarSessaoUsuario() {
 
 
     }
-     
+    
 }

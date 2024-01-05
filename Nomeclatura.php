@@ -64,6 +64,9 @@
                     <!-- <div class="col-12"> -->
                         <label class="form-label">Nome do Novo Item:</label>
                         <input type="text" name="remedio" maxlength="220" required class="form-control">
+
+                        <label class="form-label">Unidade de Medida:</label>
+                        <input type="text" name="uni_medida_nomeclatura" maxlength="220" required class="form-control">
                     <!-- </div> -->
         
                     <!-- <div class="text-center"> -->
@@ -71,6 +74,15 @@
                     <!-- </div> -->
 
                 </form>
+
+                </br> 
+
+                
+                <!-- <label class="col-sm-2 col-form-label">Inserir via Planilha</label>
+                  <div class="col-sm-10">
+                    <input class="form-control" type="file" id="formFile">
+                  </div> -->
+                
             </div>
           </div>
        </div>
@@ -86,7 +98,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th></th>
+                    <th>Unidade de Medida</th>
                     <th></th>
                     <th></th>
                   </tr>
@@ -98,6 +110,7 @@
                   <tr>
                     <td><?= $r['id_nomeclatura'] ?></td>
                     <td><?= $r['nome_nomeclatura'] ?></td>
+                    <td><?= $r['uni_medida_nomeclatura']?></td>
                     <td><a href="EditarNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Editar</a></td>
                     <td><a href="ExcluirNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Excluir</a></td>
                     <td></td>

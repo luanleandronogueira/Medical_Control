@@ -4,6 +4,29 @@
 
   // Verifica se há sessão aberta.
 	verificarSessao();
+    $func = new Estoque;
+    $chamaEstoque = $func->chamaEstoque();
+
+  function dropdown($chamaEstoque){
+
+    
+
+
+    print "<label class='col-sm-2 col-form-label'>Select</label>
+    <div class='col-sm-10'>
+        <select class='form-select'>";
+
+        foreach ($chamaEstoque as $Es) {
+        echo "<option value='{$Es['id_estoque']}'>{$Es['nome_estoque']}</option>";
+        }
+
+        print "</select>
+            </div>";
+
+
+
+}
+
 
 ?>
 
@@ -57,11 +80,20 @@
           $senha = 1234;
           $se = password_hash($senha, PASSWORD_DEFAULT);
 
-          echo $se;
+          // echo $se  .  "</br>";
           
           ?> 
 
-          <!-- <?php echo $_SESSION['tipo_usuario']; ?>
+          <!-- <?php echo $_SESSION['tipo_usuario'] .  "</br>"; ?> -->
+
+          <?php 
+          
+         
+          ?>
+
+          <?php echo dropdown($chamaEstoque) ?>
+
+          
 
 
       </div>

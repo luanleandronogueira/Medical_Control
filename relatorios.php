@@ -62,7 +62,8 @@
                   
                     </br>
 
-                  <button class="btn btn-warning" name="rel_entrada" type="submit">Gerar Relatório</button>
+                  <button class="btn btn-warning" name="rel_entrada" type="submit">Gerar Relatório em PDF</button>
+                  
                     
 
                 </form>

@@ -2,27 +2,31 @@
 include "Classes.php";
 
 $datas = $_POST;
-extract($datas);
 
 $func = new P_Emitido;
 
-$chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($data_inicial, $data_final);
-
-//  echo '<pre>';
-//     print_r($chamaPedidoEmitido);
-//  echo '</pre>';
-
-?>
+$chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($datas['data_inicial'], 
+                                                            $datas['data_final']); ?>
 
 <!doctype html>
 <html lang="pt-br">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Relatório de Entrada</title>
+    <title>Relatório de Entrada <?php echo $datas['data_inicial'] . "- " . $datas['data_final']?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   </head>
+
   <body>
+
+    <!-- <div class="container">
+      <div class="row">
+        <div class="float-end">
+        <a href="Relatorios.php?dataI=<?= $datas['data_inicial'] ?>&dataF=<?= $datas['data_final'] ?>" class="btn btn-warning mt-3">Baixar Relatório em PDF</a>
+
+        </div>
+      </div>
+    </div> -->
 
     <div>
         <center>
@@ -34,14 +38,15 @@ $chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($data_inicial, $data
     <hr>
 
     <div class="mt-4">
-        <center><h4>Relatório de Entrada</h4></center>
+        <center><h4>Relatório de Entrada</h4>
+        <small><strong>Período <?= date('d/m/Y', strtotime($datas['data_inicial'])) . " - " . date('d/m/Y', strtotime($datas['data_final'])) ?></strong></small>
+      
+      </center>
     </div>
 </br>
 
     <div class="container">
       <div class="row">
-
-        
 
            <table class="table table-sm">
       <?php
@@ -82,7 +87,7 @@ $chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($data_inicial, $data
               <td>' . $pedido['nome_estoque'] . '</td>
               </tr>';
     }
-    echo '</tbody></table>'; // Feche a última tabela
+    echo '</tbody></table> </br>'; // Feche a última tabela
       ?>
 </table>
 
@@ -92,3 +97,4 @@ $chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($data_inicial, $data
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   </body>
 </html>
+

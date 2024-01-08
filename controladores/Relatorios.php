@@ -1,117 +1,116 @@
-<?php
-
-// Inclua as classes e outras dependências necessárias
+<?php 
 include "Classes.php";
-require '../assets/vendor/vendor/autoload.php';
+
+include '../assets/lib/vendor/autoload.php';
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
-extract($_POST);
+$datas = $_POST;
 
-// Cria uma instância da classe P_Emitido
 $func = new P_Emitido;
 
-// Consulta os pedidos emitidos por data
-$chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($data_inicial, $data_final);
+$chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($datas['data_inicial'], 
+                                                            $datas['data_final']); 
 
-// Configurações do Dompdf
 $options = new Options();
-$options->set('isHtml5ParserEnabled', true);
-$options->set('isPhpEnabled', true);
 
-// Cria uma instância do Dompdf
-$dompdf = new Dompdf($options, ['enable_remote' => true]);
+$dompdf = new Dompdf(['enable_remote' => true]);
 
-// HTML para o PDF
-$html = '<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Relatório de Entrada</title>
-    <style>
-        ' . file_get_contents('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css') . '
-    </style>
-</head>
-<body>';
+$html = "";
 
-$html .= '<div class="container">
-            <center>
-                <img width="300px" src="data:image/png;base64,' . base64_encode(file_get_contents('http://localhost/Medical_Control/assets/img/medical_control_vetor.png')) . '" alt="Logo">
-                <p class="text-center small">Seu Sistema de Controle de Medicamento</p>
-            </center>
-            <hr>
-            <div class="mt-4">
-                <center><h4>Relatório de Entrada</h4></center>
-            </div>
-            </br>
+$html .= "<!doctype html>";
+$html .= "<html lang='pt-br'>";
+$html .= "<head>";
+$html .= "<meta charset='utf-8'>";
+$html .= "<meta name='viewport' content='width=device-width, initial-scale=1'>";
+$html .= "<title>Relatório de Entrada</title>";
+$html .= "<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN' crossorigin='anonymous'>";
+$html .= "</head>";
 
-            <div class="row">
-                <table class="table table-sm">';
+$html .= "<body>";
 
+$html .= "<center>";
+$html .= "<img width='200px' src='http://localhost/Medical_Control/assets/img/medical_control_vetor.png'>";
+$html .= "<p class='text-center small'>Seu Sistema de Controle de Medicamento</p>";
+$html .= " </center>";
+
+$html .= "<hr>";
+
+$html .= "<div class='mt-1'>";
+$html .= "<h4>Relatório de Entrada</h4>";
+$html .= "<small><strong>Período " . date('d/m/Y', strtotime($datas['data_inicial'])) . " - " . date('d/m/Y', strtotime($datas['data_final'])) . "</strong></small>";
+//$html .= "</center>";
+$html .= "</div>";
+$html .= "</br>";
+
+// $html .= "<div class='container'>";
+// $html .= "<div class='row'>";
+$html .= "<table class='table'>";
+
+// Lógica PHP para listar corretamente
 $currentPedido = null;
-
 foreach ($chamaPedidoEmitido as $pedido) {
+  if ($currentPedido !== $pedido['n_p_emitido']) {
+    // Se o número do pedido mudou, comece uma nova tabela
 
-    if ($currentPedido !== $pedido['n_p_emitido']) {
+      if ($currentPedido !== null) {
+        $html .= "</tbody></table>"; 
+      }
+      
+      $html .= "<table class='table' style='margin-bottom: 10px;'>";
+      $html .= "<thead>";
+      $html .= "<tr>";
+      $html .= "<th><small>Nº N. Fiscal</small></th>";
+      $html .= "<th><small>Entrada</small></th>";
+      $html .= "<th><small>Nº Pedido</small></th>";
+      $html .= "<th><small>Item</small></th>";
+      $html .= "<th><small>Quant</small></th>";
+      $html .= "<th><small>Validade</small></th>";
+      $html .= "<th><small>Lote</small></th>";
+      $html .= "<th><small>Fabricante</small></th>";
+      $html .= "<th><small>Estoque</small></th>";
+      $html .= "</tr>";
+      $html .= "</thead>";
+      $html .= "<tbody>";
 
-        // Se o número do pedido mudou, comece uma nova tabela
-
-        if ($currentPedido !== null) {
-
-            $html .= '</tbody></table>'; // Feche a tabela anterior
-
-        }
-
-        $html .= '<table class="table table-sm">
-                    <thead>
-                        <tr>
-                            <th>Nº Nota Fiscal</th>
-                            <th>Data de Entrada</th>
-                            <th>Nº Pedido Emitido</th>
-                            <th>Item</th>
-                            <th>Quant</th>
-                            <th>Data de Validade</th>
-                            <th>Lote</th>
-                            <th>Fabricante</th>
-                            <th>Estoque de Entrada</th>
-                        </tr>
-                    </thead>
-                    <tbody>';
-
-        $currentPedido = $pedido['n_p_emitido'];
-
+      $currentPedido = $pedido['n_p_emitido'];
     }
 
-    $html .= '<tr>
-                <td>' . $pedido['n_nota_fiscal_pedido'] . '</td>
-                <td>' . date('d/m/Y', strtotime($pedido['data_entrada_pedido'])) . '</td>
-                <td>' . $pedido['n_p_emitido'] . '</td>
-                <td>' . $pedido['nomeclatura_p_emitido'] . '</td>
-                <td>' . $pedido['quantidade_p_emitido'] . '</td>
-                <td>' . date('d/m/Y', strtotime($pedido['data_val_p_emitido'])) . '</td>
-                <td>' . $pedido['lote_p_emitido'] . '</td>
-                <td>' . $pedido['fabricante_p_emitido'] . '</td>
-                <td>' . $pedido['nome_estoque'] . '</td>
-              </tr>';
+  // Exibir os dados da tabela
 
-}
+      $html .= "<tr>";
+        $html .= "<td><small>" . $pedido['n_nota_fiscal_pedido'] . "</small></td>";
+        $html .= "<td><small>" . date('d/m/Y', strtotime($pedido['data_entrada_pedido'])) . "</small></td>";
+        $html .= "<td><small>" . $pedido['n_p_emitido'] . "</small></td>";
+        $html .= "<td><small>" . $pedido['nomeclatura_p_emitido'] . "</small></td>";
+        $html .= "<td><small>" . $pedido['quantidade_p_emitido'] . "</small></td>";
+        $html .= "<td><small>" . date('d/m/Y', strtotime($pedido['data_val_p_emitido'])) . "</small></td>";
+        $html .= "<td><small>" . $pedido['lote_p_emitido'] . "</small></td>";
+        $html .= "<td><small>" . $pedido['fabricante_p_emitido'] . "</small></td>";
+        $html .= "<td><small>" . $pedido['nome_estoque'] . "</small></td>";
+      $html .="</tr>";
+  }
+    $html .= "</tbody></table> ";
 
-$html .= '</tbody></table></div></div>';
+    $html .= "</table> </br></br>";
+    // $html .= "</div>";
+    // $html .= "</div>";
 
-$html .= '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    </body>
-</html>';
+    // $html .="<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js' integrity='sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL' crossorigin='anonymous'></script>";
 
-// Carrega o HTML no Dompdf
+    $html .= "Emitido dia " . $date_emissao = date('d/m/Y H:i:s');
+    $html .="</body>";
+    $html .="</html>";
+
 $dompdf->loadHtml($html);
 
-// (Opcional) Configure o tamanho e a orientação do papel
-$dompdf->setPaper('A4', 'landscape');
+// (Optional) Setup the paper size and orientation
+$dompdf->setPaper('A4', 'portrait');
 
-// Renderiza o HTML como PDF
 $dompdf->render();
 
-// Saída do PDF para o navegador
-$dompdf->stream();
+
+$dompdf->stream("Relatório de Entrada data " . $datas['data_inicial'] . "-" . $datas['data_final']);
+
+?>

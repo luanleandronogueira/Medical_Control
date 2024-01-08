@@ -1,6 +1,8 @@
 <?php 
 
 include 'Classes.php';
+// Verifica se há sessão aberta.
+verificarSessao();
 
 $func = new Usuario;
 
@@ -8,7 +10,7 @@ $func = new Usuario;
 //     var_dump($_POST);
 // echo '</pre>';
 
-if($_POST == ''){
+if(empty($_POST)){
 
     header('Location: ../index.php');
     exit();

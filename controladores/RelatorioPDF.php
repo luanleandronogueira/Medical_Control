@@ -1,12 +1,26 @@
 <?php 
+
+//Permite o include de arquivos que não podem ser abertos no navegador
+define('__INCLUDED_BY_OTHER_FILE__', true);
+
 include "Classes.php";
 
 $datas = $_POST;
 
-$func = new P_Emitido;
+if (!empty($_POST)) {
 
-$chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($datas['data_inicial'], 
-                                                            $datas['data_final']); ?>
+  $func = new P_Emitido;
+
+  $chamaPedidoEmitido = $func->consultaPedidosEmitidosPorData($datas['data_inicial'], 
+                                                            $datas['data_final']);
+
+} else {
+
+  header("Location: ../index.php");
+  die();
+}
+
+?>
 
 <!doctype html>
 <html lang="pt-br">

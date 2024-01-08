@@ -1,11 +1,14 @@
 <?php 
-
-define('__INCLUDED_BY_OTHER_FILE__', true);
   include "controladores/Controller.php";
   include "controladores/Classes.php";
 
   // Verifica se há sessão aberta.
 	verificarSessao();
+
+    $id_saida = $_GET['id'];
+
+    $func = new Saida;
+    $chamaPessoaSaida = $func->chamaPessoaSaida($id_saida);
 
 ?>
 
@@ -21,10 +24,7 @@ define('__INCLUDED_BY_OTHER_FILE__', true);
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
-  
     <?php logoBar()?>
-
-  
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -54,13 +54,31 @@ define('__INCLUDED_BY_OTHER_FILE__', true);
   <main id="main" class="main">
     <section class="section">
       <div class="row">
-       
         <div class="card">
-            <center><h5 class="card-title">Bem Vindo, <?= $_SESSION['nome_usuario']?></h5></center>
-          </div>
+            <div class="card-body">
+              <h5 class="card-title">Distribuição à <em><?= $chamaPessoaSaida['nome_paciente_saida'] ?></em></h5>
 
+              <label><strong>Nome:</strong> <?= $chamaPessoaSaida['nome_paciente_saida'] ?></label></br>
+              <label><strong>Estoque de Saída:</strong> <?= $chamaPessoaSaida['estoque_saida'] ?></label></br> 
+              <label><strong>Receita:</strong>Status <?= $chamaPessoaSaida['status_receita_saida'] ?></label></br>
+              <label><strong>Remedio Entregue:</strong> <?= $chamaPessoaSaida['remedio_saida'] ?></label></br>
+              <label><strong>Quantidade entregue:</strong> <?= $chamaPessoaSaida['quantidade_saida'] ?></label></br>
+              <label><strong>Nº Cartão do SUS:</strong> <?= $chamaPessoaSaida['sus_saida'] ?></label></br>
+              <label><strong>Nº da Receita</strong>: <?= $chamaPessoaSaida['n_receita_saida'] ?></label></br>
+              <label><strong>Data Entregue: </strong><?=  date('d/m/Y H:i:s', strtotime($chamaPessoaSaida['data_saida'])) ?></label></br>
+              <label><strong>Quem liberou o remedio?:</strong> <?= $chamaPessoaSaida['sessao_saida'] ?></label> </br>
+              <label><strong>Observações:</strong> <?= $chamaPessoaSaida['observacao_saida'] ?></label></br>
 
+               <!-- <?php 
+                echo '<pre>';
+                    print_r($chamaPessoaSaida);
+                echo '</pre>';
+               ?> -->
+                </br>
+                <a href="historicoDeSaida.php" class="btn btn-block btn-secondary">Voltar</a>
 
+            </div>
+         </div>
 
       </div>
     </section>

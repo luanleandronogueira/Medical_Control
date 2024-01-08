@@ -1,5 +1,12 @@
 <?php
 
+// if (!defined('__INCLUDED_BY_OTHER_FILE__')) {
+//     // Se a constante não estiver definida, encerre a execução
+//     header('HTTP/1.0 403 Forbidden');
+//     header("Location: ./index.php?acesso=proibido");
+//     exit('Acesso proibido');
+// }
+
     include "Conexao.php";
     $conexao = new Conexao();
     date_default_timezone_set('America/Sao_Paulo');
@@ -540,12 +547,63 @@ class Saida {
          $stmt->bindValue(':estoque_saida', $estoque_saida);
 
          $stmt->execute();
+    }
 
-         
+    public function chamaSaida(){
 
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT 
+        s.id_saida,
+        s.status_receita_saida,
+        s.id_remedio_saida,
+        s.remedio_saida,
+        s.quantidade_saida,
+        s.sus_saida,
+        s.nome_paciente_saida,
+        s.n_receita_saida,
+        s.observacao_saida,
+        s.sessao_saida,
+        s.data_saida,
+        s.estoque_saida,
+        e.nome_estoque
+    FROM 
+        tb_saida s
+    JOIN 
+        tb_estoques e ON s.estoque_saida = e.id_estoque
+    ORDER BY 
+        s.id_saida DESC ";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute(); 
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+            $r[] = $retorno;
+
+        };
+
+        return $r;
 
     }
 
+    public function chamaPessoaSaida($id_saida){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_saida WHERE id_saida = :id_saida LIMIT 1";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_saida', $id_saida);
+
+        $stmt->execute();
+
+        $r = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $r;
+    }
 
 }
 

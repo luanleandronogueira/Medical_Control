@@ -1,5 +1,8 @@
 <?php 
 
+    //Permite o include de arquivos que não podem ser abertos no navegador
+    define('__INCLUDED_BY_OTHER_FILE__', true);
+
     include 'Classes.php';
 
     // Verifica se há sessão aberta.
@@ -15,7 +18,10 @@
     //recebe o histórico da transferência
     $historico = $_POST['historico_historico'];
 
-    //armazena a data da transferência em uma variável
+
+    if(!empty($historico)){
+
+        //armazena a data da transferência em uma variável
     $data = date('Y-m-d H:i:s');
 
     echo '<pre>';
@@ -79,4 +85,15 @@
 
 
      }
+
+
+    } else {
+
+        header("Location: index.php");
+        die();
+
+    }
+
+
+    
 

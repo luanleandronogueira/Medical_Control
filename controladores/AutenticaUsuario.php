@@ -1,9 +1,6 @@
 <?php 
 session_start();
 
-//Permite o include de arquivos que não podem ser abertos no navegador
-// define('__INCLUDED_BY_OTHER_FILE__', true);
-
 include 'Classes.php';
 
 $login_recebido = $_POST['nome_usuario'];

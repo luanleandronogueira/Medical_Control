@@ -1,5 +1,13 @@
 <?php 
+
+    //Permite o include de arquivos que não podem ser abertos no navegador
+    define('__INCLUDED_BY_OTHER_FILE__', true);
+
+
     include 'Classes.php';
+
+    // Verifica se há sessão aberta.
+	verificarSessao();
 
     $func = new Remedio;
 
@@ -21,7 +29,7 @@
 
     } else {
 
-        header("Location: ../detalhaEstoque.php?id=" . $recebido['id_estoque']);
+        header("Location: ../index.php");
         die();
 
     } 

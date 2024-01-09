@@ -82,7 +82,7 @@ function Perfil() {
 function logoBar(){
 
     print "<div class='d-flex align-items-center justify-content-between'>
-    <a href='index.html' class='logo d-flex align-items-center'>
+    <a href='dashboard.php' class='logo d-flex align-items-center'>
         <img src='assets/img/logo_.png' alt='' height='300px'>
         <img src='assets/img/medical_control_nome.png' alt='' height='300px'>
     </a>

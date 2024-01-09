@@ -4,7 +4,11 @@
 
   // Verifica se há sessão aberta.
 	verificarSessao();
- 
+
+  $func = new Estoque;
+  $chamaEstoque = $func->chamaEstoque();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -65,6 +69,30 @@
                   <button class="btn btn-warning" name="rel_entrada" type="submit">Gerar Relatório em PDF</button>
                   
                     
+
+                </form>
+            </div>
+      </div>
+
+      <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Gerar Relatório de Saída:</h5>
+                <form action="controladores/RelatorioDeSaida.php" method="post">
+
+                  <div class="col-lg-5">
+                    <label>Selecione a Unidade:</label>
+                    <select required class="form-control" name="id_estoque" id="">
+                        <?php foreach($chamaEstoque as $Estoque) { ?>
+                          <option value="<?= $Estoque['id_estoque'] ?>"><?= $Estoque['nome_estoque'] ?></option>
+                        <?php } ?>
+                    </select>
+                      Data Inicial:<input class="form-control" type="date" name="data_inicial" id="">
+                      Data Final:<input class="form-control" type="date" name="data_final" id="">
+                  </div>
+                  
+                    </br>
+
+                  <button class="btn btn-warning" name="rel_saida" type="submit">Gerar Relatório em PDF</button>
 
                 </form>
             </div>

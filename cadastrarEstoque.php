@@ -108,8 +108,8 @@
                   <tr>
                     <td><?= $r['id_estoque'] ?></td>
                     <td><?= $r['nome_estoque'] ?></td>
-                    <td><a href="EditarNomeclatura.php?id=<?=$r['id_estoque']?>">Editar</a></td>
-                    <td><a href="ExcluirNomeclatura.php?id=<?=$r['id_estoque']?>">Excluir</a></td>
+                    <!-- <td><a href="EditarNomeclatura.php?id=<?=$r['id_estoque']?>">Editar</a></td>
+                    <td><a href="ExcluirNomeclatura.php?id=<?=$r['id_estoque']?>">Excluir</a></td> -->
                     <td></td>
                   </tr>
 

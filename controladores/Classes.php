@@ -605,6 +605,35 @@ class Saida {
         return $r;
     }
 
+    public function chamaSaidaPorEstoque($estoque_saida, $data_inicial, $data_final){
+        
+        $conn = $this->conexao->Conectar();
+    
+        $query = "SELECT * FROM tb_saida WHERE estoque_saida = :estoque_saida AND data_saida BETWEEN :data_inicial AND :data_final";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':estoque_saida', $estoque_saida);
+        $stmt->bindValue(':data_inicial', $data_inicial);
+        $stmt->bindValue(':data_final', $data_final);
+
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Erro durante a execução da consulta: " . $e->getMessage();
+            die;
+        }
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $r[] = $retorno;
+        }
+
+        return $r;
+    
+    }
+    
+
 }
 
 
@@ -779,7 +808,7 @@ class P_Emitido {
                 tb_estoques AS estoques ON p_emitido.estoque_p_emitido = estoques.id_estoque
             WHERE
                 pedido.data_entrada_pedido BETWEEN :dataInicial AND :dataFinal";
-    
+
             $stmt = $conn->prepare($query);
             $stmt->bindParam(':dataInicial', $dataInicial);
             $stmt->bindParam(':dataFinal', $dataFinal);

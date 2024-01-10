@@ -72,6 +72,37 @@ class Nomeclatura {
 
     }
 
+    public function chamaNomeclaturaEspecifica($id_nomeclatura) {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_nomeclatura WHERE id_nomeclatura = :id_nomeclatura LIMIT 1";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindParam(':id_nomeclatura', $id_nomeclatura);
+
+        $stmt->execute(); 
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+
+    }
+
+    public function atualizarNomeclatura($nome_nomeclatura, $uni_medida_nomeclatura, $id_nomeclatura){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "UPDATE tb_nomeclatura SET nome_nomeclatura = :nome_nomeclatura, uni_medida_nomeclatura = :uni_medida_nomeclatura WHERE id_nomeclatura = :id_nomeclatura";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':nome_nomeclatura', "$nome_nomeclatura");
+        $stmt->bindValue(':uni_medida_nomeclatura', "$uni_medida_nomeclatura");
+        $stmt->bindValue(':id_nomeclatura', $id_nomeclatura);
+        
+        $stmt->execute();
+
+
+    }
+
 }
 
 class Usuario {

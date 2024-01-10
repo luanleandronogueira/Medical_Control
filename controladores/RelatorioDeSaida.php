@@ -82,9 +82,6 @@ if(!empty($_POST)){
             // $html .= "<td><small>" . $pedido['nome_estoque'] . "</small></td>";
         $html .="</tr>";
 
-
-
-
     }    
     $html .= "</tbody></table> ";
 
@@ -107,7 +104,8 @@ if(!empty($_POST)){
 
 } else {
 
-    // echo 'Vazio';
+    header("Location: index.php");
+    die();
 
 }
 

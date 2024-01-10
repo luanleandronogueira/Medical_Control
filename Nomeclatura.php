@@ -59,6 +59,17 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Inserir Novo Item</h5>
+
+                <?php if(isset($_GET['atualizado']) == 'sucesso') { ?>
+
+                <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
+                <i class="bi bi-check-circle me-1"></i>
+                    Feito com Sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <?php }?>
+                
                 <form class="row g-3" action="controladores/InserirNomeclatura.php" method="post">
 
                     <!-- <div class="col-12"> -->
@@ -111,8 +122,7 @@
                     <td><?= $r['id_nomeclatura'] ?></td>
                     <td><?= $r['nome_nomeclatura'] ?></td>
                     <td><?= $r['uni_medida_nomeclatura']?></td>
-                    <td><a href="EditarNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Editar</a></td>
-                    <td><a href="ExcluirNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Excluir</a></td>
+                    <td><a href="editarNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Editar</a></td>
                     <td></td>
                   </tr>
 

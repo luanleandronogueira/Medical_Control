@@ -105,6 +105,7 @@
                                                                 <input type="number" name="quantidade_remedio" id="">
                                                                 <input type="hidden" name="id_remedio" value="<?=$remedio['id_remedio']?>">
                                                                 <input type="hidden" name="nome_remedio" value="<?=$remedio['nome_remedio']?>">
+                                                                <input type="hidden" name="quant_min_estoque_remedio" value="<?=$remedio['quant_min_estoque_remedio'] ?>">
                                                                 <input type="hidden" name="estoque_enviando" value="<?=$_GET['id'] ?>">
                                                                 </br></br>
                                                                 <label for="">Para:</label>
@@ -117,9 +118,14 @@
 
                                                                 </select></br></br>
 
+                                                                <label for="">Data da Transferência:</label>
+                                                                <input type="date" name="data" ></br></br>
+
                                                                 <label for="">Histórico da Transferência (descreva o motivo):</label>
                                                                 <textarea name="historico_historico" maxlength="300" class="form-control" id="" cols="10" rows="5"></textarea>
                                                                 <small>Até 300 caracteres</small>
+                                                                
+
                                                                 
                                                             </div>
                                                             <div class="modal-footer">

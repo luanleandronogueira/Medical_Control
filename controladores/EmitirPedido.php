@@ -4,15 +4,28 @@ define('__INCLUDED_BY_OTHER_FILE__', true);
 
 include 'Classes.php';
 
+// echo '<pre>';
+// print_r($_POST);
+// echo '</pre>';
+
+
 // verifica se há um POST válido
 if (!empty($_POST)){
 
+    $DadosSeparados = explode('-', $_POST['nomeclatura_p_emitido']);
+    $quant_min_estoque_remedio = $DadosSeparados[1];
+   
     // vê qual a condição do POST enviado
     if(isset($_POST['nota_pedido'])) {
 
         // Instância o método e dá um extract no POST dividindo o Array em variáveis
         $func = new Pedido;
         extract($_POST);
+
+        if(empty($chave_nota_pedido)){
+
+            $chave_nota_pedido = "Sem chave fiscal";
+        }
 
         // chama o método para incluir o pedido no banco de dados
         $inserirPedido = $func->inserirPedido($n_nota_fiscal_pedido, $chave_nota_pedido, $data_entrada_pedido);
@@ -26,9 +39,12 @@ if (!empty($_POST)){
         $func = new P_Emitido;
         extract($_POST);
 
+        // Separa o string por explode
+        $nome_p_emitido = explode(' - ', $nomeclatura_p_emitido);
+
         // chama o método para incluir o pedido no banco de dados
         $inserirPedido = $func->inserir_P_Emitido($n_p_emitido, 
-                                                    $nomeclatura_p_emitido, 
+                                                    $nome_p_emitido[0], 
                                                     $quantidade_p_emitido,
                                                     $data_val_p_emitido,
                                                     $lote_p_emitido,
@@ -39,7 +55,7 @@ if (!empty($_POST)){
         $func2 = new Remedio;
 
         // chama a função para vê se há a unidade do remédio no DB
-        $chamaRemedio = $func2->chamaRemedioPorNome($estoque_p_emitido, $nomeclatura_p_emitido);
+        $chamaRemedio = $func2->chamaRemedioPorNome($estoque_p_emitido, $nome_p_emitido[0]);
 
         // condição caso ñ seja vazio
         if(!empty($chamaRemedio)){
@@ -61,7 +77,7 @@ if (!empty($_POST)){
         } else {
 
             // se for vazio ele insere o remédio novo com todos os dados no DB
-            $inserirRemedio = $func2->inserirRemedio($nomeclatura_p_emitido, $uni_medida_nomeclatura, $quantidade_p_emitido, $data_val_p_emitido, $estoque_p_emitido);
+            $inserirRemedio = $func2->inserirRemedio($nome_p_emitido[0], $uni_medida_nomeclatura, $quantidade_p_emitido, $quant_min_estoque_remedio, $data_val_p_emitido, $estoque_p_emitido);
             
             // faz o redirecionamento para a pagína passando os parâmetros 
             header("Location: ../emitirPedido.php?cadastrar=Sucessos&&EmitirPedido_P_Emitido");

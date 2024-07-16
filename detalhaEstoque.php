@@ -13,6 +13,8 @@
   $func2 = new Estoque;
   $estoque = $func2->chamaEstoqueEspecifico($id_estoque);
 
+ 
+
 ?>
 
 <!DOCTYPE html>
@@ -78,18 +80,20 @@
                     <th>Item</th>
                     <th>Unidade de Medida</th>
                     <th>Quantidade</th>
+                    <th>Quantidade Mínima</th>
                     <th>Data de Vencimento</th>
                   </tr>
                 </thead>
                 <tbody>
                     <?php foreach($remedio as $r) { ?>
 
+
                   <tr>
                     <td><?= $r['id_remedio']; ?></td>
                     <td><?= $r['nome_remedio']; ?></td>
                     <td><?= $r['uni_medida_remedio'] ?></td>
                     <td>
-                        <?php if($r['quantidade_remedio'] <= 0 ) {?>
+                        <?php if($r['quantidade_remedio'] <= $r['quant_min_estoque_remedio']) {?>
                             <span type='button' class="badge bg-danger" data-bs-toggle="modal" data-bs-target="#disablebackdrop<?= $r['id_remedio'] ?>">
                                 <?php echo $r['quantidade_remedio'] ?>
                             </span>
@@ -99,7 +103,7 @@
                             </span>
                         <?php } ?>
     
-                            <div class="modal fade" id="disablebackdrop<?= $r['id_remedio'] ?>" tabindex="-1" data-bs-backdrop="false">
+                            <!-- <div class="modal fade" id="disablebackdrop<?= $r['id_remedio'] ?>" tabindex="-1" data-bs-backdrop="false">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -122,9 +126,9 @@
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </td>
-
+                        <td><?=$r['quant_min_estoque_remedio'] ?></td>
                         <td><?= $r['vencimento_remedio'] ?></td>
                   </tr>
                   

@@ -16,21 +16,23 @@ class Nomeclatura {
     private $id;
     private $conexao;
     private $nomeclatura;
+    private $quant_minima_nomeclatura;
 
     // Adicione um construtor para inicializar a conexão
     public function __construct() {
         $this->conexao = new Conexao();
     }
 
-    public function inserirNomeclatura($nomeclatura, $uni_medida_nomeclatura){
+    public function inserirNomeclatura($nomeclatura, $uni_medida_nomeclatura, $quant_minima_nomeclatura){
 
         $conn = $this->conexao->Conectar();
 
-        $query = "INSERT INTO tb_nomeclatura (nome_nomeclatura, uni_medida_nomeclatura) VALUES (:nomeclatura, :uni_medida_nomeclatura)";
+        $query = "INSERT INTO tb_nomeclatura (nome_nomeclatura, uni_medida_nomeclatura, quant_minima_nomeclatura) VALUES (:nomeclatura, :uni_medida_nomeclatura, :quant_minima_nomeclatura)";
 
         $stmt = $conn->prepare($query);
         $stmt->bindParam(":nomeclatura", $nomeclatura);
         $stmt->bindParam(":uni_medida_nomeclatura", $uni_medida_nomeclatura);
+        $stmt->bindParam(":quant_minima_nomeclatura", $quant_minima_nomeclatura);
 
         $stmt->execute();
 
@@ -87,15 +89,16 @@ class Nomeclatura {
 
     }
 
-    public function atualizarNomeclatura($nome_nomeclatura, $uni_medida_nomeclatura, $id_nomeclatura){
+    public function atualizarNomeclatura($nome_nomeclatura, $uni_medida_nomeclatura, $quant_minima_nomeclatura,  $id_nomeclatura){
 
         $conn = $this->conexao->Conectar();
 
-        $query = "UPDATE tb_nomeclatura SET nome_nomeclatura = :nome_nomeclatura, uni_medida_nomeclatura = :uni_medida_nomeclatura WHERE id_nomeclatura = :id_nomeclatura";
+        $query = "UPDATE tb_nomeclatura SET nome_nomeclatura = :nome_nomeclatura, uni_medida_nomeclatura = :uni_medida_nomeclatura, quant_minima_nomeclatura = :quant_minima_nomeclatura WHERE id_nomeclatura = :id_nomeclatura";
 
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':nome_nomeclatura', "$nome_nomeclatura");
         $stmt->bindValue(':uni_medida_nomeclatura', "$uni_medida_nomeclatura");
+        $stmt->bindValue(':quant_minima_nomeclatura', "$quant_minima_nomeclatura");
         $stmt->bindValue(':id_nomeclatura', $id_nomeclatura);
         
         $stmt->execute();
@@ -291,6 +294,7 @@ class Remedio {
     private $nome_remedio;
     private $uni_medida_remedio;
     private $quantidade_remedio;
+    private $quant_min_estoque_remedio;
     private $vencimento_remedio;
     private $estoque_remedio;
 
@@ -299,16 +303,17 @@ class Remedio {
         $this->conexao = new Conexao();
     }
 
-    public function inserirRemedio($nome_remedio, $uni_medida_remedio, $quantidade_remedio, $vencimento_remedio, $estoque_remedio){
+    public function inserirRemedio($nome_remedio, $uni_medida_remedio, $quantidade_remedio, $quant_min_estoque_remedio, $vencimento_remedio, $estoque_remedio){
 
         $conn = $this->conexao->Conectar();
 
-        $query = "INSERT INTO tb_remedio (nome_remedio, uni_medida_remedio, quantidade_remedio, vencimento_remedio, estoque_remedio ) VALUES (:nome_remedio, :uni_medida_remedio, :quantidade_remedio, :vencimento_remedio, :estoque_remedio)";
+        $query = "INSERT INTO tb_remedio (nome_remedio, uni_medida_remedio, quantidade_remedio, quant_min_estoque_remedio, vencimento_remedio, estoque_remedio ) VALUES (:nome_remedio, :uni_medida_remedio, :quantidade_remedio, :quant_min_estoque_remedio, :vencimento_remedio, :estoque_remedio)";
 
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':nome_remedio', $nome_remedio);
         $stmt->bindValue(':uni_medida_remedio', $uni_medida_remedio);
         $stmt->bindValue(':quantidade_remedio', $quantidade_remedio);
+        $stmt->bindValue(':quant_min_estoque_remedio', $quant_min_estoque_remedio);
         $stmt->bindValue(':vencimento_remedio', $vencimento_remedio);
         $stmt->bindValue(':estoque_remedio', $estoque_remedio);
 
@@ -336,6 +341,33 @@ class Remedio {
         return $r;
 
     }
+
+    public function chamaRemedioNome($nome_remedio) {
+
+        $conn = $this->conexao->Conectar();
+    
+        $query = "SELECT *
+        FROM tb_remedio AS r
+        INNER JOIN tb_estoques AS e ON r.estoque_remedio = e.id_estoque
+        WHERE r.nome_remedio = :nome_remedio";
+    
+        $stmt = $conn->prepare($query);
+    
+        $stmt->bindParam(':nome_remedio', $nome_remedio);
+    
+        $stmt->execute(); 
+    
+        $r = [];
+    
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+    
+            $r[] = $retorno;
+    
+        };
+    
+        return $r;
+    
+    }    
 
     public function chamaRemedioPorNome($id_estoque, $nome_remedio) {
         

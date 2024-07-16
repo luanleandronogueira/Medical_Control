@@ -25,6 +25,7 @@ function head() {
     <link href='assets/vendor/remixicon/remixicon.css' rel='stylesheet'>
     <link href='assets/vendor/simple-datatables/style.css' rel='stylesheet'>
     
+    
     <!-- Template Main CSS File -->
     <link href='assets/css/style.css' rel='stylesheet'>";
 }
@@ -113,13 +114,6 @@ function sideBar(){
                 </li>
 
                 <li class='nav-item'>
-                    <a class='nav-link collapsed' href='cadastrarMedicamento.php'>
-                        <i class='bx bxs-capsule'></i>
-                        Cadastrar Medicamento
-                    </a>
-                </li>
-
-                <li class='nav-item'>
                     <a class='nav-link collapsed' href='cadastrarEstoque.php'>
                         <i class='bx bxs-book-content'></i>
                         Cadastrar Estoque
@@ -151,6 +145,13 @@ function sideBar(){
                     <a class='nav-link collapsed' href='Nomeclatura.php'>
                         <i class='bx bxs-book'></i>
                         Nomeclatura de Itens
+                    </a>
+                </li>
+
+                <li class='nav-item'>
+                    <a class='nav-link collapsed' href='pesquisarEstoques.php'>
+                        <i class='bx bxs-search'></i>
+                        Pesquisar Entre Estoques
                     </a>
                 </li>
 

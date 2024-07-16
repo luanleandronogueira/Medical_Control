@@ -77,7 +77,11 @@ if(!empty($_GET)){
 
                         <label class="form-label">Unidade de Medida:</label>
                         <input type="text" value="<?=$chamaNomeclaturaEspecifica['uni_medida_nomeclatura'] ?>" name="uni_medida_nomeclatura" maxlength="220" required class="form-control">
+
+                        <label class="form-label">Quantidade Minima em Estoque:</label>
+                        <input type="text" value="<?=$chamaNomeclaturaEspecifica['quant_minima_nomeclatura'] ?>" name="quant_minima_nomeclatura" maxlength="220" required class="form-control">
                         <input type="hidden" name="id_nomeclatura" value="<?=$chamaNomeclaturaEspecifica['id_nomeclatura'] ?>">
+                        
                     <!-- </div> -->
         
                     <!-- <div class="text-center"> -->

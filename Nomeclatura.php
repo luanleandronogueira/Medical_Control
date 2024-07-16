@@ -78,6 +78,9 @@
 
                         <label class="form-label">Unidade de Medida:</label>
                         <input type="text" name="uni_medida_nomeclatura" maxlength="220" required class="form-control">
+
+                        <label class="form-label">Quantidade Minima no Estoque:</label>
+                        <input type="number" name="quant_minima_nomeclatura"  required class="form-control">
                     <!-- </div> -->
         
                     <!-- <div class="text-center"> -->
@@ -110,7 +113,7 @@
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Unidade de Medida</th>
-                    <th></th>
+                    <th>Quant Minima</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -122,6 +125,7 @@
                     <td><?= $r['id_nomeclatura'] ?></td>
                     <td><?= $r['nome_nomeclatura'] ?></td>
                     <td><?= $r['uni_medida_nomeclatura']?></td>
+                    <td><?=$r['quant_minima_nomeclatura']?></td>
                     <td><a href="editarNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Editar</a></td>
                     <td></td>
                   </tr>

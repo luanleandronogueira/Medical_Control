@@ -21,7 +21,7 @@
     } else {
 
         $RemedioUpper = strtoupper($remedio);
-        $funcao->inserirNomeclatura($RemedioUpper, strtoupper($uni_medida_nomeclatura));
+        $funcao->inserirNomeclatura($RemedioUpper, strtoupper($uni_medida_nomeclatura), $quant_minima_nomeclatura);
         header("Location: ../Nomeclatura.php?insercao=sucesso");
     }
 

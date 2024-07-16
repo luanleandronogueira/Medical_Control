@@ -16,6 +16,9 @@
   $nomePedido = $funcPedido->chamaPedido();
 
 
+  // echo '<pre>';
+  // print_r($nomeclatura);
+  // echo '</pre>';
 ?>
 
 <!DOCTYPE html>
@@ -71,21 +74,21 @@
 
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
             <i class="bi bi-check-circle me-1"></i>
-                Nota Inserida com Sucesso!
+                Nota/Pedido Inserido com Sucesso!
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
             <?php }?>
 
                 <div class="col-lg-4">
-                    <label for="">Nº Nota Fiscal</label>
+                    <label for="">Nº Nota/Pedido</label>
                     <input class="form-control" type="text" name="n_nota_fiscal_pedido" id="">
                 </div>
 
-                <div class="col-lg-12">
+                <!-- <div class="col-lg-12">
                     <label for="">Chave de Acesso:</label>
                     <input class="form-control" type="text" name="chave_nota_pedido" id="">
-                </div>
+                </div> -->
 
                 <div class="col-lg-4">
                     <label for="">Data Entrada:</label>
@@ -130,7 +133,7 @@
                 <label>Selecione o Item:</label>
                 <select class="form-control" required name="nomeclatura_p_emitido" id="">
                       <?php foreach($nomeclatura as $n) { ?>
-                        <option value="<?= $n['nome_nomeclatura'] ?>"><?= $n['nome_nomeclatura'] . " -  " . $n['uni_medida_nomeclatura']?></option>
+                        <option value="<?= $n['nome_nomeclatura'] . ' - ' . $n['quant_minima_nomeclatura'] ?>"><?= $n['nome_nomeclatura'] . " -  " . $n['uni_medida_nomeclatura']?></option>
                       <?php } ?>
                 </select>
 

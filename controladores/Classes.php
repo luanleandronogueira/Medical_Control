@@ -7,11 +7,12 @@
 //     exit('Acesso proibido');
 // }
 
-    include "Conexao.php";
-    $conexao = new Conexao();
-    date_default_timezone_set('America/Sao_Paulo');
+include "Conexao.php";
+$conexao = new Conexao();
+date_default_timezone_set('America/Sao_Paulo');
 
-class Nomeclatura {
+class Nomeclatura
+{
 
     private $id;
     private $conexao;
@@ -19,11 +20,13 @@ class Nomeclatura {
     private $quant_minima_nomeclatura;
 
     // Adicione um construtor para inicializar a conexão
-    public function __construct() {
+    public function __construct()
+    {
         $this->conexao = new Conexao();
     }
 
-    public function inserirNomeclatura($nomeclatura, $uni_medida_nomeclatura, $quant_minima_nomeclatura){
+    public function inserirNomeclatura($nomeclatura, $uni_medida_nomeclatura, $quant_minima_nomeclatura)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -35,10 +38,10 @@ class Nomeclatura {
         $stmt->bindParam(":quant_minima_nomeclatura", $quant_minima_nomeclatura);
 
         $stmt->execute();
-
     }
 
-    public function chamaNomeclatura(){
+    public function chamaNomeclatura()
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -46,20 +49,20 @@ class Nomeclatura {
 
         $stmt = $conn->prepare($query);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
     }
 
-    public function analisaNomeclatura($nomeclatura) {
+    public function analisaNomeclatura($nomeclatura)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -68,13 +71,13 @@ class Nomeclatura {
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':nome_nomeclatura', $nomeclatura);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
-
     }
 
-    public function chamaNomeclaturaEspecifica($id_nomeclatura) {
+    public function chamaNomeclaturaEspecifica($id_nomeclatura)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -83,13 +86,13 @@ class Nomeclatura {
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':id_nomeclatura', $id_nomeclatura);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
-
     }
 
-    public function atualizarNomeclatura($nome_nomeclatura, $uni_medida_nomeclatura, $quant_minima_nomeclatura,  $id_nomeclatura){
+    public function atualizarNomeclatura($nome_nomeclatura, $uni_medida_nomeclatura, $quant_minima_nomeclatura,  $id_nomeclatura)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -100,15 +103,13 @@ class Nomeclatura {
         $stmt->bindValue(':uni_medida_nomeclatura', "$uni_medida_nomeclatura");
         $stmt->bindValue(':quant_minima_nomeclatura', "$quant_minima_nomeclatura");
         $stmt->bindValue(':id_nomeclatura', $id_nomeclatura);
-        
+
         $stmt->execute();
-
-
     }
-
 }
 
-class Usuario {
+class Usuario
+{
 
     private $id;
     private $conexao;
@@ -119,17 +120,19 @@ class Usuario {
 
 
     // Adicione um construtor para inicializar a conexão
-    public function __construct() {
+    public function __construct()
+    {
         $this->conexao = new Conexao();
     }
 
-    public function consultarUsuario($login, $senha){
+    public function consultarUsuario($login, $senha)
+    {
 
         $query = "SELECT * FROM tb_usuario WHERE cpf_usuario = :login LIMIT 1";
 
         $conn = $this->conexao->Conectar();
 
-        $stmt = $conn->prepare($query);  
+        $stmt = $conn->prepare($query);
         $stmt->bindParam(':login', $login);
         // $stmt->bindParam(':senha', $senha);
         $stmt->execute();
@@ -139,13 +142,14 @@ class Usuario {
         return $usuario;
     }
 
-    public function consultarUsuarioCadastrado($cpf){
+    public function consultarUsuarioCadastrado($cpf)
+    {
 
         $query = "SELECT cpf_usuario FROM tb_usuario WHERE cpf_usuario = :cpf LIMIT 1";
 
         $conn = $this->conexao->Conectar();
 
-        $stmt = $conn->prepare($query);  
+        $stmt = $conn->prepare($query);
         $stmt->bindParam(':cpf', $cpf);
         // $stmt->bindParam(':senha', $senha);
         $stmt->execute();
@@ -155,13 +159,14 @@ class Usuario {
         return $usuario;
     }
 
-    public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario, $setor_usuario){
+    public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario, $setor_usuario)
+    {
 
         $query = "INSERT INTO tb_usuario (nome_usuario, cpf_usuario, senha_usuario, tipo_usuario, setor_usuario) VALUES (:nome_usuario, :cpf_usuario, :senha_usuario, :tipo_usuario, :setor_usuario)";
-        
+
         $conn = $this->conexao->Conectar();
 
-        $stmt = $conn->prepare($query);  
+        $stmt = $conn->prepare($query);
         $stmt->bindParam(':nome_usuario', $nome_usuario);
         $stmt->bindParam(':cpf_usuario', $cpf_usuario);
         $stmt->bindParam(':senha_usuario', $senha_usuario);
@@ -171,7 +176,8 @@ class Usuario {
         $stmt->execute();
     }
 
-    public function atualizarUsuario($id, $nome_usuario, $tipo_usuario){
+    public function atualizarUsuario($id, $nome_usuario, $tipo_usuario)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -181,13 +187,12 @@ class Usuario {
         $stmt->bindValue(':nome_usuario', "$nome_usuario");
         $stmt->bindValue(':tipo_usuario', "$tipo_usuario");
         $stmt->bindValue(':id', $id);
-        
+
         $stmt->execute();
-
-
     }
 
-    public function atualizarSenhaUsuario($id, $senha){
+    public function atualizarSenhaUsuario($id, $senha)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -196,13 +201,12 @@ class Usuario {
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':senha_usuario', "$senha");
         $stmt->bindValue(':id', $id);
-        
+
         $stmt->execute();
-
-
     }
 
-    public function chamaUsuario($id){
+    public function chamaUsuario($id)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -211,18 +215,16 @@ class Usuario {
         $stmt = $conn->prepare($query);
         $stmt->bindParam('id', $id);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $r;
-
-
     }
-
 }
 
-class Estoque {
+class Estoque
+{
 
     private $id;
     private $conexao;
@@ -235,7 +237,8 @@ class Estoque {
     }
 
 
-    public function inserirEstoque($nome_estoque){
+    public function inserirEstoque($nome_estoque)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -245,10 +248,10 @@ class Estoque {
         $stmt->bindParam(":nome_estoque", $nome_estoque);
 
         $stmt->execute();
-
     }
 
-    public function chamaEstoque(){
+    public function chamaEstoque()
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -256,20 +259,20 @@ class Estoque {
 
         $stmt = $conn->prepare($query);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
     }
 
-    public function chamaEstoqueEspecifico($id_estoque){
+    public function chamaEstoqueEspecifico($id_estoque)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -278,16 +281,16 @@ class Estoque {
         $stmt = $conn->prepare($query);
         $stmt->bindParam('id_estoque', $id_estoque);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $r;
     }
-
 }
 
-class Remedio {
+class Remedio
+{
 
     private $id;
     private $conexao;
@@ -303,7 +306,8 @@ class Remedio {
         $this->conexao = new Conexao();
     }
 
-    public function inserirRemedio($nome_remedio, $uni_medida_remedio, $quantidade_remedio, $quant_min_estoque_remedio, $vencimento_remedio, $estoque_remedio){
+    public function inserirRemedio($nome_remedio, $uni_medida_remedio, $quantidade_remedio, $quant_min_estoque_remedio, $vencimento_remedio, $estoque_remedio)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -320,7 +324,8 @@ class Remedio {
         $stmt->execute();
     }
 
-    public function chamaRemedio() {
+    public function chamaRemedio()
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -328,66 +333,65 @@ class Remedio {
 
         $stmt = $conn->prepare($query);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
-
     }
 
-    public function chamaRemedioNome($nome_remedio) {
+    public function chamaRemedioNome($nome_remedio)
+    {
 
         $conn = $this->conexao->Conectar();
-    
+
         $query = "SELECT *
         FROM tb_remedio AS r
         INNER JOIN tb_estoques AS e ON r.estoque_remedio = e.id_estoque
         WHERE r.nome_remedio = :nome_remedio";
-    
-        $stmt = $conn->prepare($query);
-    
-        $stmt->bindParam(':nome_remedio', $nome_remedio);
-    
-        $stmt->execute(); 
-    
-        $r = [];
-    
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
-    
-            $r[] = $retorno;
-    
-        };
-    
-        return $r;
-    
-    }    
 
-    public function chamaRemedioPorNome($id_estoque, $nome_remedio) {
-        
+        $stmt = $conn->prepare($query);
+
+        $stmt->bindParam(':nome_remedio', $nome_remedio);
+
+        $stmt->execute();
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $r[] = $retorno;
+        };
+
+        return $r;
+    }
+
+    public function chamaRemedioPorNome($id_estoque, $nome_remedio)
+    {
+
         $conn = $this->conexao->Conectar();
-    
+
         $query = "SELECT * FROM tb_remedio WHERE estoque_remedio = :estoque_remedio AND nome_remedio = :nome_remedio";
-    
+
         $stmt = $conn->prepare($query);
         $stmt->bindParam(':estoque_remedio', $id_estoque);
         $stmt->bindParam(':nome_remedio', $nome_remedio);
-    
-        $stmt->execute(); 
-    
+
+        $stmt->execute();
+
         $retorno = $stmt->fetch(PDO::FETCH_ASSOC);
-    
+
         return $retorno;
     }
-    
 
-    public function chamaRemedioPorEstoque($idEstoque){
+
+    public function chamaRemedioPorEstoque($idEstoque)
+    {
 
         // Consulta SQL para obter os remédios associados ao estoque atual
         $query = "SELECT * FROM tb_remedio WHERE estoque_remedio = :idEstoque";
@@ -399,17 +403,16 @@ class Remedio {
         $stmt->execute();
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
-
     }
 
-    public function chamaUnidadeRemedio($id_remedio) {
+    public function chamaUnidadeRemedio($id_remedio)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -418,15 +421,15 @@ class Remedio {
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':id_remedio', "$id_remedio");
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $retorno = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $retorno;
-
     }
 
-    public function chamaEstoqueUsuario($id_estoque){
+    public function chamaEstoqueUsuario($id_estoque)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -435,21 +438,20 @@ class Remedio {
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':id_estoque', "$id_estoque");
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
+    }
 
-    } 
-    
-    public function chamaRemedioNomeEstoque($id_remedio, $nome_remedio, $estoque_remedio){
+    public function chamaRemedioNomeEstoque($id_remedio, $nome_remedio, $estoque_remedio)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -461,17 +463,17 @@ class Remedio {
         $stmt->bindValue(':nome_remedio', $nome_remedio);
         $stmt->bindValue(':estoque_remedio', "$estoque_remedio");
 
-        $stmt->execute(); 
-        
+        $stmt->execute();
+
         $retorno = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $r = $retorno;
 
         return $r;
-
     }
 
-    public function atualizaRemedioEstoque($id_remedio, $soma_remedio) {
+    public function atualizaRemedioEstoque($id_remedio, $soma_remedio)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -480,16 +482,14 @@ class Remedio {
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':soma_remedio', "$soma_remedio");
         $stmt->bindValue(':id_remedio', "$id_remedio");
-        
-        $stmt->execute(); 
 
+        $stmt->execute();
     }
- 
-
 }
 
 
-class Historico {
+class Historico
+{
 
     private $id_historico;
     private $conexao;
@@ -506,10 +506,11 @@ class Historico {
     }
 
 
-    public function inserirHistorico($historico_historico, $data_historico, $sessao_historico, $item_tras_historico, $quantidade_historico, $id_estoque_enviado_historico, $id_estoque_recebido_historico){
+    public function inserirHistorico($historico_historico, $data_historico, $sessao_historico, $item_tras_historico, $quantidade_historico, $id_estoque_enviado_historico, $id_estoque_recebido_historico)
+    {
 
         $conn = $this->conexao->Conectar();
-        
+
         $query = "INSERT INTO tb_historico (historico_historico, data_historico, sessao_historico, item_tras_historico, quantidade_historico, id_estoque_enviado_historico, id_estoque_recebido_historico) VALUES (:historico_historico, :data_historico, :sessao_historico, :item_tras_historico, :quantidade_historico, :id_estoque_enviado_historico, :id_estoque_recebido_historico)";
 
         $stmt = $conn->prepare($query);
@@ -522,14 +523,14 @@ class Historico {
         $stmt->bindValue(':id_estoque_enviado_historico', "$id_estoque_enviado_historico");
         $stmt->bindValue(':id_estoque_recebido_historico', "$id_estoque_recebido_historico");
 
-        $stmt->execute(); 
-
+        $stmt->execute();
     }
 
-    public function chamaHistorico() {
-        
+    public function chamaHistorico()
+    {
+
         $conn = $this->conexao->Conectar();
-    
+
         $query = "
             SELECT 
                 h.*, 
@@ -544,22 +545,22 @@ class Historico {
             ORDER BY 
                 h.id_historico DESC
         ";
-    
+
         $stmt = $conn->prepare($query);
         $stmt->execute();
-    
+
         $historico = [];
-    
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
             $historico[] = $retorno;
         }
-    
+
         return $historico;
     }
-
 }
 
-class Saida {
+class Saida
+{
 
     private $id;
     private $conexao;
@@ -580,39 +581,42 @@ class Saida {
         $this->conexao = new Conexao();
     }
 
-    public function inserirSaida($status_receita_saida, 
-                                 $id_remedio_saida, 
-                                 $remedio_saida, 
-                                 $quantidade_saida,
-                                 $sus_saida,
-                                 $nome_paciente_saida,
-                                 $n_receita_saida,
-                                 $observacao_saida,
-                                 $sessao_saida,
-                                 $data_saida,
-                                 $estoque_saida){
+    public function inserirSaida(
+        $status_receita_saida,
+        $id_remedio_saida,
+        $remedio_saida,
+        $quantidade_saida,
+        $sus_saida,
+        $nome_paciente_saida,
+        $n_receita_saida,
+        $observacao_saida,
+        $sessao_saida,
+        $data_saida,
+        $estoque_saida
+    ) {
 
-         $conn = $this->conexao->Conectar();
-         $query = "INSERT INTO tb_saida (status_receita_saida, id_remedio_saida, remedio_saida, quantidade_saida, sus_saida, nome_paciente_saida, n_receita_saida, observacao_saida, sessao_saida, data_saida, estoque_saida) VALUES (:status_receita_saida, :id_remedio_saida, :remedio_saida, :quantidade_saida, :sus_saida, :nome_paciente_saida, :n_receita_saida, :observacao_saida, :sessao_saida, :data_saida, :estoque_saida)";
-         
-         $stmt = $conn->prepare($query);
+        $conn = $this->conexao->Conectar();
+        $query = "INSERT INTO tb_saida (status_receita_saida, id_remedio_saida, remedio_saida, quantidade_saida, sus_saida, nome_paciente_saida, n_receita_saida, observacao_saida, sessao_saida, data_saida, estoque_saida) VALUES (:status_receita_saida, :id_remedio_saida, :remedio_saida, :quantidade_saida, :sus_saida, :nome_paciente_saida, :n_receita_saida, :observacao_saida, :sessao_saida, :data_saida, :estoque_saida)";
 
-         $stmt->bindValue(':status_receita_saida', $status_receita_saida);
-         $stmt->bindValue(':id_remedio_saida', $id_remedio_saida);
-         $stmt->bindValue(':remedio_saida', $remedio_saida);
-         $stmt->bindValue(':quantidade_saida', $quantidade_saida);
-         $stmt->bindValue(':sus_saida', $sus_saida);
-         $stmt->bindValue(':nome_paciente_saida', $nome_paciente_saida);
-         $stmt->bindValue(':n_receita_saida', $n_receita_saida);
-         $stmt->bindValue(':observacao_saida', $observacao_saida);
-         $stmt->bindValue(':sessao_saida', $sessao_saida);
-         $stmt->bindValue(':data_saida', $data_saida);
-         $stmt->bindValue(':estoque_saida', $estoque_saida);
+        $stmt = $conn->prepare($query);
 
-         $stmt->execute();
+        $stmt->bindValue(':status_receita_saida', $status_receita_saida);
+        $stmt->bindValue(':id_remedio_saida', $id_remedio_saida);
+        $stmt->bindValue(':remedio_saida', $remedio_saida);
+        $stmt->bindValue(':quantidade_saida', $quantidade_saida);
+        $stmt->bindValue(':sus_saida', $sus_saida);
+        $stmt->bindValue(':nome_paciente_saida', $nome_paciente_saida);
+        $stmt->bindValue(':n_receita_saida', $n_receita_saida);
+        $stmt->bindValue(':observacao_saida', $observacao_saida);
+        $stmt->bindValue(':sessao_saida', $sessao_saida);
+        $stmt->bindValue(':data_saida', $data_saida);
+        $stmt->bindValue(':estoque_saida', $estoque_saida);
+
+        $stmt->execute();
     }
 
-    public function chamaSaida(){
+    public function chamaSaida()
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -639,21 +643,20 @@ class Saida {
 
         $stmt = $conn->prepare($query);
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
-
     }
 
-    public function chamaPessoaSaida($id_saida){
+    public function chamaPessoaSaida($id_saida)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -668,10 +671,11 @@ class Saida {
         return $r;
     }
 
-    public function chamaSaidaPorEstoque($estoque_saida, $data_inicial, $data_final){
-        
+    public function chamaSaidaPorEstoque($estoque_saida, $data_inicial, $data_final)
+    {
+
         $conn = $this->conexao->Conectar();
-    
+
         $query = "SELECT * FROM tb_saida WHERE estoque_saida = :estoque_saida AND data_saida BETWEEN :data_inicial AND :data_final";
 
         $stmt = $conn->prepare($query);
@@ -693,14 +697,12 @@ class Saida {
         }
 
         return $r;
-    
     }
-    
-
 }
 
 
-class RemedioUsuario extends Remedio {
+class RemedioUsuario extends Remedio
+{
 
     private $id;
     private $conexao;
@@ -717,7 +719,8 @@ class RemedioUsuario extends Remedio {
     }
 
 
-    public function chamaEstoqueUsuario($id_estoque){
+    public function chamaEstoqueUsuario($id_estoque)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -726,36 +729,35 @@ class RemedioUsuario extends Remedio {
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':id_estoque', "$id_estoque");
 
-        $stmt->execute(); 
+        $stmt->execute();
 
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
-
     }
-
 }
 
-class Pedido {
+class Pedido
+{
 
     private $id_pedido;
     private $conexao;
     private $n_nota_fiscal_pedido;
     private $chave_nota_pedido;
     private $data_entrada_pedido;
-    
+
     public function __construct()
     {
         $this->conexao = new Conexao();
     }
 
-    public function inserirPedido($n_nota_fiscal_pedido, $chave_nota_pedido, $data_entrada_pedido){
+    public function inserirPedido($n_nota_fiscal_pedido, $chave_nota_pedido, $data_entrada_pedido)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -769,7 +771,8 @@ class Pedido {
         $stmt->execute();
     }
 
-    public function chamaPedido(){
+    public function chamaPedido()
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -780,19 +783,17 @@ class Pedido {
 
         $r = [];
 
-        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)){
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
             $r[] = $retorno;
-
         };
 
         return $r;
-
     }
-
 }
 
-class P_Emitido {
+class P_Emitido
+{
 
     private $id_p_emitido;
     private $conexao;
@@ -809,14 +810,16 @@ class P_Emitido {
         $this->conexao = new Conexao();
     }
 
-    public function inserir_P_Emitido($n_p_emitido, 
-                                     $nomeclatura_p_emitido, 
-                                     $quantidade_p_emitido,
-                                     $data_val_p_emitido,
-                                     $lote_p_emitido,
-                                     $fabricante_p_emitido,
-                                     $estoque_p_emitido){
-                
+    public function inserir_P_Emitido(
+        $n_p_emitido,
+        $nomeclatura_p_emitido,
+        $quantidade_p_emitido,
+        $data_val_p_emitido,
+        $lote_p_emitido,
+        $fabricante_p_emitido,
+        $estoque_p_emitido
+    ) {
+
         $conn = $this->conexao->Conectar();
 
         $query = "INSERT INTO tb_p_emitido (n_p_emitido, 
@@ -832,7 +835,7 @@ class P_Emitido {
                                                                        :lote_p_emitido,
                                                                        :fabricante_p_emitido,
                                                                        :estoque_p_emitido)";
-        
+
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':n_p_emitido', $n_p_emitido);
         $stmt->bindValue(':nomeclatura_p_emitido', $nomeclatura_p_emitido);
@@ -843,13 +846,13 @@ class P_Emitido {
         $stmt->bindValue(':estoque_p_emitido', $estoque_p_emitido);
 
         $stmt->execute();
-
     }
 
-    public function consultaPedidosEmitidosPorData($dataInicial, $dataFinal) {
-    
+    public function consultaPedidosEmitidosPorData($dataInicial, $dataFinal)
+    {
+
         $conn = $this->conexao->Conectar();
-    
+
         try {
             $query = "SELECT
                 pedido.id_pedido,
@@ -876,12 +879,11 @@ class P_Emitido {
             $stmt->bindParam(':dataInicial', $dataInicial);
             $stmt->bindParam(':dataFinal', $dataFinal);
             $stmt->execute();
-    
+
             // Verifique se há resultados
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
+
             return $result;
-    
         } catch (PDOException $e) {
             // Trate exceções PDO, por exemplo, imprima a mensagem de erro
             echo "Erro: " . $e->getMessage();
@@ -890,51 +892,95 @@ class P_Emitido {
             echo "Erro: " . $e->getMessage();
         }
     }
-    
 }
 
-// Função para verificar se há uma sessão aberta
-function verificarSessao() {
-    session_start();
-    // ob_start(); // Se necessário, descomente esta linha
+class Data_Retirada
+{
 
-    if($_SESSION['tipo_usuario'] === 'u'){
+    private $id_data_retirada;
+    private $conexao;
+    private $id_remedio_data_retirada;
+    private $data_data_retirada;
+    private $prox_retirada_data_retirada;
+    private $cpf_paciente_data_retirada;
+    private $nome_data_retirada;
 
-        header("Location: index.php?usuario=negado");
-        exit(); // Importante para evitar execução adicional após o redirecionamento
-
-    } else {
-
-        if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
-            $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
-            
-        }
-
-
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
     }
-    
+
+    public function inserirDataRetirada($id_remedio_data_retirada, $data_data_retirada, $prox_retirada_data_retirada, $cpf_paciente_data_retirada, $nome_data_retirada)
+    {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_data_retirada (id_remedio_data_retirada, data_data_retirada, prox_retirada_data_retirada, cpf_paciente_data_retirada, nome_data_retirada) VALUES (:id_remedio_data_retirada, :data_data_retirada, :prox_retirada_data_retirada, :cpf_paciente_data_retirada, :nome_data_retirada)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_remedio_data_retirada', $id_remedio_data_retirada);
+        $stmt->bindValue(':data_data_retirada', $data_data_retirada);
+        $stmt->bindValue(':prox_retirada_data_retirada', $prox_retirada_data_retirada);
+        $stmt->bindValue(':cpf_paciente_data_retirada', $cpf_paciente_data_retirada);
+        $stmt->bindValue(':nome_data_retirada', $nome_data_retirada);
+
+        $stmt->execute();
+    }
+
+    public function consultaDataRetirada($id_remedio_data_retirada, $cpf_paciente_data_retirada){
+
+        $query = "SELECT prox_retirada_data_retirada, nome_data_retirada, cpf_paciente_data_retirada FROM tb_data_retirada WHERE id_remedio_data_retirada = :id_remedio_data_retirada AND cpf_paciente_data_retirada = :cpf_paciente_data_retirada ORDER BY prox_retirada_data_retirada DESC";
+
+        $conn = $this->conexao->Conectar();
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_remedio_data_retirada', $id_remedio_data_retirada);
+        $stmt->bindValue(':cpf_paciente_data_retirada', $cpf_paciente_data_retirada);
+
+        $stmt->execute();
+        
+        $r = [];
+
+        return $r = $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 
-
 // Função para verificar se há uma sessão aberta
-function verificarSessaoUsuario() {
+function verificarSessao()
+{
     session_start();
     // ob_start(); // Se necessário, descomente esta linha
 
-    if($_SESSION['tipo_usuario'] != 'u'){
+    if ($_SESSION['tipo_usuario'] === 'u') {
 
         header("Location: index.php?usuario=negado");
         exit(); // Importante para evitar execução adicional após o redirecionamento
 
     } else {
 
-        if ((!isset($_SESSION['id_usuario'])) AND (!isset($_SESSION['nome_usuario']))) {
+        if ((!isset($_SESSION['id_usuario'])) and (!isset($_SESSION['nome_usuario']))) {
+            $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
+        }
+    }
+}
+
+
+// Função para verificar se há uma sessão aberta
+function verificarSessaoUsuario()
+{
+    session_start();
+    // ob_start(); // Se necessário, descomente esta linha
+
+    if ($_SESSION['tipo_usuario'] != 'u') {
+
+        header("Location: index.php?usuario=negado");
+        exit(); // Importante para evitar execução adicional após o redirecionamento
+
+    } else {
+
+        if ((!isset($_SESSION['id_usuario'])) and (!isset($_SESSION['nome_usuario']))) {
             $_SESSION['msg'] = "<p style='color: #ff0000'>Erro: Necessário realizar o login para acessar a página! </p>";
             header("Location: index.php?usuario=negado");
             exit(); // Importante para evitar execução adicional após o redirecionamento
         }
-
-
     }
-    
 }

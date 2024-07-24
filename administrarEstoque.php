@@ -1,21 +1,21 @@
-<?php 
+<?php
 
-  include "controladores/Controller.php";
-  include "controladores/Classes.php";
+include "controladores/Controller.php";
+include "controladores/Classes.php";
 
-  // Verifica se há sessão aberta.
-	verificarSessao();
+// Verifica se há sessão aberta.
+verificarSessao();
 
-  $func = new Estoque;
-  $estoques = $func->chamaEstoque();
-  
+$func = new Estoque;
+$estoques = $func->chamaEstoque();
+
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-    <?php head()?>
+  <?php head() ?>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
   <!-- ======= Header ======= -->
   <header id="header" class="header fixed-top d-flex align-items-center">
 
-    <?php logoBar()?>
+    <?php logoBar() ?>
 
     <nav class="header-nav ms-auto">
       <ul class="d-flex align-items-center">
@@ -45,54 +45,74 @@
   <!-- ======= Sidebar ======= -->
   <aside id="sidebar" class="sidebar">
 
-    <?php echo sideBar()?>
+    <?php echo sideBar() ?>
 
   </aside><!-- End Sidebar-->
 
   <main id="main" class="main">
-         <div class="card">
-            <center><h5 class="card-title">Estoques por unidade</h5></center>
-          </div>
-        </div>
-  
-        <section class="section">
-          <div class="row">
+    <div class="card">
+      <center>
+        <h5 class="card-title">Estoques por unidade</h5>
+      </center>
+    </div>
+    </div>
 
-                <?php foreach($estoques as $estoque) { ?>
+    <section class="section">
+      <div class="row">
 
-                <div class="col-lg-6 col-md-6">
-                    <div class="card">
-                        <div class="card-body">
-                        <h5 class="card-title"><?= $estoque['nome_estoque'] ?></h5>
-                        <table class="table table-sm">
-                            <thead>
-                            <tr>
-                                <th scope="col"><a href="detalhaEstoque.php?id=<?=$estoque['id_estoque'] ?>">Ver Estoque</a></th>
-                                <th scope="col"><a href="transferenciasEntreEstoques.php?id=<?=$estoque['id_estoque']?>&&nome=<?=$estoque['nome_estoque']?>"># Transferir Itens deste Estoque</a></th>
-                            </tr>
-                            </thead>
+        <?php foreach ($estoques as $estoque) { ?>
 
-                        </table>
+          <div class="col-lg-6 col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title"><?= $estoque['nome_estoque'] ?></h5>
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th scope="col"><a href="detalhaEstoque.php?id=<?= $estoque['id_estoque'] ?>">Ver Estoque</a></th>
+                      <th scope="col"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal"># Transferir Itens deste Estoque</a></th>
+                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Transferências</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              <h4>Deseja criar um lote de transferência?</h4>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                              <a href="transferenciasEstoques.php?id=<?= $estoque['id_estoque'] ?>&&nome=<?= $estoque['nome_estoque'] ?>"type="button" class="btn btn-primary">Criar Lote</a>
+                            </div>
+                          </div>
                         </div>
-                    </div>
-                </div>
-            <?php } ?>
-            
-                    
+                      </div>
+                    </tr>
+                  </thead>
 
+                </table>
+
+              </div>
+            </div>
           </div>
-        </section>
+        <?php } ?>
+
+
+
+      </div>
+    </section>
 
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
     <div class="copyright">
-      &copy; Copyright <strong><span></span></strong> 
+      &copy; Copyright <strong><span></span></strong>
     </div>
     <div class="credits">
-      
+
     </div>
   </footer><!-- End Footer -->
 

@@ -944,6 +944,86 @@ class Data_Retirada
     }
 }
 
+class CarrinhoTransferencia {
+
+    private $id_carrinho_transferencia;
+    private $conexao;
+    private $id_remedio_carrinho_transferencia;
+    private $nome_carrinho_transferencia;
+    private $quantidade_carrinho_transferencia;
+    private $estoque_enviado_carrinho_transferencia;
+    private $estoque_destino_carrinho_transferencia;
+    private $data_carrinho_transferencia;
+    private $lote_carrinho_transferencia;
+    private $status_carrinho_transferencia;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function criaLote($numero_lote, $status_lote){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_lote (numero_lote, status_lote) VALUES (:numero_lote, :status_lote)";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':numero_lote', $numero_lote);
+        $stmt->bindValue(':status_lote', $status_lote);
+
+        $stmt->execute();
+    
+    }
+
+    public function verificaLoteAberto(){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_lote WHERE status_lote = 'A' ";
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+
+        $r = [];
+
+        return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function fechaLote($numero_lote){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "DELETE FROM tb_lote WHERE numero_lote = :numero_lote AND status_lote = 'A'";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':numero_lote', $numero_lote);
+
+        $stmt->execute();
+    }
+
+    public function inserirCarrinhoTransferencia($id_remedio_carrinho_transferencia,
+$nome_carrinho_transferencia, $quantidade_carrinho_transferencia, $estoque_enviado_carrinho_transferencia, $estoque_destino_carrinho_transferencia, $data_carrinho_transferencia, $lote_carrinho_transferencia, $status_carrinho_transferencia)
+    {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_carrinho_transferencia (id_remedio_carrinho_transferencia, nome_carrinho_transferencia, quantidade_carrinho_transferencia, estoque_enviado_carrinho_transferencia, estoque_destino_carrinho_transferencia, data_carrinho_transferencia, lote_carrinho_transferencia, status_carrinho_transferencia) VALUES (:id_remedio_carrinho_transferencia, :nome_carrinho_transferencia, :quantidade_carrinho_transferencia, :estoque_enviado_carrinho_transferencia, :estoque_destino_carrinho_transferencia, :data_carrinho_transferencia, :lote_carrinho_transferencia, :status_carrinho_transferencia)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_remedio_carrinho_transferencia', $id_remedio_carrinho_transferencia);
+        $stmt->bindValue(':nome_carrinho_transferencia', $nome_carrinho_transferencia);
+        $stmt->bindValue(':quantidade_carrinho_transferencia', $quantidade_carrinho_transferencia);
+        $stmt->bindValue(':estoque_enviado_carrinho_transferencia', $estoque_enviado_carrinho_transferencia);
+        $stmt->bindValue(':estoque_destino_carrinho_transferencia', $estoque_destino_carrinho_transferencia);
+        $stmt->bindValue(':data_carrinho_transferencia', $data_carrinho_transferencia);
+        $stmt->bindValue(':lote_carrinho_transferencia', $lote_carrinho_transferencia);
+        $stmt->bindValue(':status_carrinho_transferencia', $status_carrinho_transferencia);
+
+        $stmt->execute();
+    }
+
+
+}
+
 // Função para verificar se há uma sessão aberta
 function verificarSessao()
 {

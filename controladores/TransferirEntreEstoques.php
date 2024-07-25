@@ -28,7 +28,7 @@ if (!empty($historico)) {
     print_r($_POST);
     echo '</pre>';
 
-    // // chama os remedio da unidade
+    // chama os remedio da unidade
     $chamaUnidadeRemedio = $func->chamaUnidadeRemedio($_POST['id_remedio']);
 
     // Faz o abatimento antes de atualizar no banco de dados a saida dos itens
@@ -66,6 +66,7 @@ if (!empty($historico)) {
         );
 
         header("Location: ../detalhaEstoque.php?id=" . $_POST['estoque'] . "&&insercao=sucesso");
+        
     } else {
 
         // se já tiver, primeiro faz a soma dos itens já trazidos

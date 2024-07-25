@@ -927,7 +927,8 @@ class Data_Retirada
         $stmt->execute();
     }
 
-    public function consultaDataRetirada($id_remedio_data_retirada, $cpf_paciente_data_retirada){
+    public function consultaDataRetirada($id_remedio_data_retirada, $cpf_paciente_data_retirada)
+    {
 
         $query = "SELECT prox_retirada_data_retirada, nome_data_retirada, cpf_paciente_data_retirada FROM tb_data_retirada WHERE id_remedio_data_retirada = :id_remedio_data_retirada AND cpf_paciente_data_retirada = :cpf_paciente_data_retirada ORDER BY prox_retirada_data_retirada DESC";
 
@@ -937,14 +938,15 @@ class Data_Retirada
         $stmt->bindValue(':cpf_paciente_data_retirada', $cpf_paciente_data_retirada);
 
         $stmt->execute();
-        
+
         $r = [];
 
         return $r = $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }
 
-class CarrinhoTransferencia {
+class CarrinhoTransferencia
+{
 
     private $id_carrinho_transferencia;
     private $conexao;
@@ -962,7 +964,8 @@ class CarrinhoTransferencia {
         $this->conexao = new Conexao();
     }
 
-    public function criaLote($numero_lote, $status_lote){
+    public function criaLote($numero_lote, $status_lote)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -972,10 +975,10 @@ class CarrinhoTransferencia {
         $stmt->bindValue(':status_lote', $status_lote);
 
         $stmt->execute();
-    
     }
 
-    public function verificaLoteAberto(){
+    public function verificaLoteAberto()
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -989,7 +992,8 @@ class CarrinhoTransferencia {
         return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function fechaLote($numero_lote){
+    public function fechaLote($numero_lote)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -1000,9 +1004,16 @@ class CarrinhoTransferencia {
         $stmt->execute();
     }
 
-    public function inserirCarrinhoTransferencia($id_remedio_carrinho_transferencia,
-$nome_carrinho_transferencia, $quantidade_carrinho_transferencia, $estoque_enviado_carrinho_transferencia, $estoque_destino_carrinho_transferencia, $data_carrinho_transferencia, $lote_carrinho_transferencia, $status_carrinho_transferencia)
-    {
+    public function inserirCarrinhoTransferencia(
+        $id_remedio_carrinho_transferencia,
+        $nome_carrinho_transferencia,
+        $quantidade_carrinho_transferencia,
+        $estoque_enviado_carrinho_transferencia,
+        $estoque_destino_carrinho_transferencia,
+        $data_carrinho_transferencia,
+        $lote_carrinho_transferencia,
+        $status_carrinho_transferencia
+    ) {
 
         $conn = $this->conexao->Conectar();
 
@@ -1021,7 +1032,57 @@ $nome_carrinho_transferencia, $quantidade_carrinho_transferencia, $estoque_envia
         $stmt->execute();
     }
 
+    public function chamaCarrinho($lote)
+    {
 
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT 
+                    *, 
+                    e1.nome_estoque AS nome_estoque_origem,
+                    e2.nome_estoque AS nome_estoque_destino
+                FROM 
+                    tb_carrinho_transferencia ct
+                JOIN 
+                    tb_estoques e1 ON ct.estoque_enviado_carrinho_transferencia = e1.id_estoque
+                JOIN 
+                    tb_estoques e2 ON ct.estoque_destino_carrinho_transferencia = e2.id_estoque
+                WHERE 
+                    ct.lote_carrinho_transferencia = :lote 
+                AND ct.status_carrinho_transferencia = 'A'";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':lote', $lote);
+
+        $stmt->execute();
+
+        $r = [];
+
+        return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function DeletaItemCarinnho($id){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "DELETE FROM tb_carrinho_transferencia WHERE id_carrinho_transferencia = :id";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id', $id);
+
+        $stmt->execute();
+    }
+
+    public function DeletaItem(){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "DELETE FROM tb_carrinho_transferencia WHERE status_carrinho_transferencia = 'A'";
+
+        $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+    }
 }
 
 // Função para verificar se há uma sessão aberta

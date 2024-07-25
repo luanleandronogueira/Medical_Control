@@ -13,7 +13,7 @@ $chamaEstoque = $func2->chamaEstoque();
 
 $func3 = new CarrinhoTransferencia;
 
-$lote = date('Hms');
+$lote = $_GET['lote'];
 
 $loteAberto = $func3->verificaLoteAberto();
 
@@ -25,7 +25,9 @@ if ($loteAberto) {
 
     foreach ($loteAberto as $l) {
         $func3->fechaLote($l['numero_lote']);
+        $func3->DeletaItem();
     }
+    
 } else {
 
     $func3->criaLote($lote, 'A');
@@ -129,7 +131,7 @@ $nomeEstoque = $_GET['nome'];
 
 
                                 </table>
-                                <button type="submit" class="btn btn-success">Transferir</button>
+                                <a href="fecharCarrinho.php?lote=<?=$lote?>" class="btn btn-success">Finalizar Transferências</a>
 
                                 <!-- End Table with stripped rows -->
                             </div>

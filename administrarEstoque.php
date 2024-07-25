@@ -70,8 +70,8 @@ $estoques = $func->chamaEstoque();
                   <thead>
                     <tr>
                       <th scope="col"><a href="detalhaEstoque.php?id=<?= $estoque['id_estoque'] ?>">Ver Estoque</a></th>
-                      <th scope="col"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal"># Transferir Itens deste Estoque</a></th>
-                      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <th scope="col"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal<?=$estoque['id_estoque']?>"># Transferir Itens deste Estoque</a></th>
+                      <div class="modal fade" id="exampleModal<?=$estoque['id_estoque']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                         <div class="modal-dialog">
                           <div class="modal-content">
@@ -84,7 +84,7 @@ $estoques = $func->chamaEstoque();
                             </div>
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                              <a href="transferenciasEstoques.php?id=<?= $estoque['id_estoque'] ?>&&nome=<?= $estoque['nome_estoque'] ?>"type="button" class="btn btn-primary">Criar Lote</a>
+                              <a href="transferenciasEstoques.php?id=<?= $estoque['id_estoque'] ?>&&nome=<?= $estoque['nome_estoque'] ?>&&lote=<?=date('Hms')?>"type="button" class="btn btn-primary">Criar Lote</a>
                             </div>
                           </div>
                         </div>

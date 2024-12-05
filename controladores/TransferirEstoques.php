@@ -29,9 +29,9 @@ if (!empty($historico)) {
 
     $lote = $func3->chamaCarrinho($_POST['lote']);
 
-    echo '<pre>';
-    print_r($lote);
-    echo '</pre>';
+    // echo '<pre>';
+    // print_r($lote);
+    // echo '</pre>';
     foreach ($lote as $l) {
 
         //armazena a data da transferência em uma variável
@@ -40,29 +40,35 @@ if (!empty($historico)) {
         // chama os remedio da unidade
         $chamaUnidadeRemedio = $func->chamaUnidadeRemedio($l['id_remedio_carrinho_transferencia']);
 
+        // echo '<pre>';
+        // print_r($chamaUnidadeRemedio);
+        // echo '</pre>';
+
         // Faz o abatimento antes de atualizar no banco de dados a saida dos itens
         $AbateRemedio = $chamaUnidadeRemedio['quantidade_remedio'] - $l['quantidade_carrinho_transferencia'];
+        
 
         // atualiza a saída do estoque atual
         $AtualizaRemedio = $func->atualizaRemedioEstoque($l['id_remedio_carrinho_transferencia'], $AbateRemedio);
 
         // Traz os dados do Estoque que está recebendo a atualização
         $chamaNomeRemedio = $func->chamaRemedioPorNome($l['estoque_destino_carrinho_transferencia'], $l['nome_carrinho_transferencia']);
+        
 
         if ($chamaNomeRemedio == "") {
 
             // se no estoque ainda não tiver esse remedio, inserir um novo
-            $inserirRemedio = $func->inserirRemedio(
+            $func->inserirRemedio(
                 $l['nome_carrinho_transferencia'],
                 $chamaUnidadeRemedio['uni_medida_remedio'],
                 $l['quantidade_carrinho_transferencia'],
                 $_POST['quant_min_estoque_remedio'],
                 $chamaUnidadeRemedio['vencimento_remedio'],
-                $l['estoque_enviado_carrinho_transferencia']
+                $l['estoque_destino_carrinho_transferencia']
             );
 
             // inserir histórico da transferência
-            $inserirHistorico = $func2->inserirHistorico(
+            $func2->inserirHistorico(
                 $historico,
                 $data,
                 $_SESSION['nome_usuario'],
@@ -72,7 +78,7 @@ if (!empty($historico)) {
                 $l['estoque_destino_carrinho_transferencia']
             );
 
-            header("Location: ../detalhaEstoque.php?id=" . $_POST['estoque'] . "&&insercao=sucesso");
+           header("Location: ../detalhaEstoque.php?id=" . $_POST['estoque'] . "&&insercao=sucesso");
         } else {
 
             // se já tiver, primeiro faz a soma dos itens já trazidos
@@ -82,7 +88,7 @@ if (!empty($historico)) {
             $atualizandoValorRemedio = $func->atualizaRemedioEstoque($chamaNomeRemedio['id_remedio'], $somaAtualizada);
 
             // inserir histórico da transferência
-            $inserirHistorico = $func2->inserirHistorico(
+            $func2->inserirHistorico(
                 $historico,
                 $data,
                 $_SESSION['nome_usuario'],
@@ -92,7 +98,7 @@ if (!empty($historico)) {
                 $l['estoque_destino_carrinho_transferencia']
             );
 
-            header("Location: ../detalhaEstoque.php?id=" . $l['estoque_destino_carrinho_transferencia'] . "&&insercao=sucesso");
+           header("Location: ../detalhaEstoque.php?id=" . $l['estoque_destino_carrinho_transferencia'] . "&&insercao=sucesso");
         }
     }
 } else {

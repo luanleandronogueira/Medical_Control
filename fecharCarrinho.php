@@ -80,8 +80,8 @@ $Carrinho = $func->chamaCarrinho($_GET['lote']);
                                 <form action="controladores/TransferirEstoques.php" method="post">
                                     <input type="hidden" name="lote" value="<?= $_GET['lote'] ?>">
                                     <div class="card-body mt-4">
-                                        <label for="">Histórico da Transferência: </label>
-                                        <textarea name="historico_historico" class="form-control" id=""></textarea>
+                                        <label for="historico_historico">Histórico da Transferência: </label>
+                                        <textarea required name="historico_historico" class="form-control" id="historico_historico"></textarea>
                                     </div>
                                     <button type="submit" class="btn btn-success mt-3">Transferir Lote</button>
                                     <a href="administrarEstoque.php" class="btn btn-warning mt-3">Cancelar</a>

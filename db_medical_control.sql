@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24-Jul-2024 às 22:30
+-- Tempo de geração: 06-Dez-2024 às 13:50
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -38,15 +38,6 @@ CREATE TABLE `tb_carrinho_transferencia` (
   `lote_carrinho_transferencia` varchar(20) NOT NULL,
   `status_carrinho_transferencia` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `tb_carrinho_transferencia`
---
-
-INSERT INTO `tb_carrinho_transferencia` (`id_carrinho_transferencia`, `id_remedio_carrinho_transferencia`, `nome_carrinho_transferencia`, `quantidade_carrinho_transferencia`, `estoque_enviado_carrinho_transferencia`, `estoque_destino_carrinho_transferencia`, `data_carrinho_transferencia`, `lote_carrinho_transferencia`, `status_carrinho_transferencia`) VALUES
-(2, 56, 'CORUS 100 MG', 1, 7, 7, '2024-07-24', '170758', 'A'),
-(3, 57, 'AMOXILINA 50ML', 1, 7, 7, '2024-07-24', '170758', 'A'),
-(4, 57, 'AMOXILINA 50ML', 2, 7, 7, '2024-07-24', '170758', 'A');
 
 -- --------------------------------------------------------
 
@@ -116,17 +107,9 @@ CREATE TABLE `tb_historico` (
 --
 
 INSERT INTO `tb_historico` (`id_historico`, `historico_historico`, `data_historico`, `sessao_historico`, `item_tras_historico`, `quantidade_historico`, `id_estoque_enviado_historico`, `id_estoque_recebido_historico`) VALUES
-(10, 'Transferência de Teste', '2024-07-15 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG - 100', 50, 9, 9),
-(11, 'Transferência de teste', '2024-07-15 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG - 100', 50, 9, 9),
-(12, 'Transferência de teste', '2024-07-15 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG - 100', 50, 9, 9),
-(13, 'Transferência de teste', '2024-07-15 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG - 100', 50, 9, 9),
-(14, 'Transferência de emergência', '2024-07-15 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG - 100', 50, 9, 8),
-(15, 'Emergência', '2024-07-15 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG - 100', 2, 9, 8),
-(16, 'E', '2024-07-15 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG - 100', 3, 9, 8),
-(17, 'Transferência de emergência', '2024-07-16 00:00:00', 'Luan Leandro Nogueira', 'CORUS 100 MG', 10, 9, 7),
-(18, 'Transferência da unidade', '2024-07-17 00:00:00', 'Luan Leandro Nogueira', 'AMOXILINA 50ML', 50, 9, 7),
-(19, 'Transferência de acompanhamento', '2024-07-17 00:00:00', 'Luan Leandro Nogueira', 'AAS 50MG', 100, 9, 8),
-(20, 'Transferência feita par ajuste', '2024-07-17 00:00:00', 'Luan Leandro Nogueira', 'LOSARTANA 50MG', 100, 9, 8);
+(46, 'G para MA 001', '2024-12-05 00:00:00', 'Luan Leandro Nogueira', 'TRAMADOL 50MG/2ML', 1, 9, 7),
+(47, 'G para MA 001', '2024-12-05 00:00:00', 'Luan Leandro Nogueira', 'TRAMADOL 50MG/2ML', 1, 9, 7),
+(48, 'G para MAND 002', '2024-12-05 00:00:00', 'Luan Leandro Nogueira', 'TRAMADOL 50MG/2ML', 1, 9, 7);
 
 -- --------------------------------------------------------
 
@@ -145,7 +128,7 @@ CREATE TABLE `tb_lote` (
 --
 
 INSERT INTO `tb_lote` (`id_lote`, `numero_lote`, `status_lote`) VALUES
-(37, '170758', 'A');
+(62, '081202', 'A');
 
 -- --------------------------------------------------------
 
@@ -227,7 +210,11 @@ INSERT INTO `tb_p_emitido` (`id_p_emitido`, `n_p_emitido`, `nomeclatura_p_emitid
 (24, 9, 'AAS 50MG', 2000, '2027-07-16', 'QWE1121', 'EUROPHARMA', 9),
 (25, 9, 'AAS 50MG', 10, '2024-07-17', 'QWE1121', 'EUROPHARMA', 9),
 (26, 9, 'AAS 50MG', 1, '2024-07-17', 'AZ165GEE', 'EUROPHARMA', 9),
-(27, 9, 'AAS 50MG', 10, '2024-07-16', 'AZ165GEE', 'EUROPHARMA', 9);
+(27, 9, 'AAS 50MG', 10, '2024-07-16', 'AZ165GEE', 'EUROPHARMA', 9),
+(28, 9, 'TILENOL 50MG', 20, '2034-07-25', '12321', 'AZIPHARMA', 9),
+(29, 9, 'LOSARTANA 50MG', 1000, '2025-07-31', 'LZ453', 'NEOQUIMICA', 9),
+(30, 9, 'AAS 50MG', 999, '2026-07-31', 'LZ453', 'CIMED', 9),
+(31, 9, 'TRAMADOL 50MG/2ML', 10, '2026-12-05', 'LZ453', 'NEOQUIMICA', 9);
 
 -- --------------------------------------------------------
 
@@ -250,16 +237,8 @@ CREATE TABLE `tb_remedio` (
 --
 
 INSERT INTO `tb_remedio` (`id_remedio`, `nome_remedio`, `uni_medida_remedio`, `quantidade_remedio`, `quant_min_estoque_remedio`, `vencimento_remedio`, `estoque_remedio`) VALUES
-(48, 'CORUS 100 MG', 'CARTELA', 990, 200, '2025-07-15', 9),
-(49, 'AMOXILINA 50ML', 'CARTELA', 45, 100, '2026-07-15', 9),
-(50, 'CORUS 50 MG', 'CARTELA', 24, 100, '2026-07-15', 8),
-(51, 'DIPIRONA DE 20MG - 100', 'CARTELA', 300, 100, '2024-12-31', 9),
-(52, 'LOSARTANA 50MG', 'CARTELA', 2011, 300, '2026-07-16', 9),
-(53, 'AAS 50MG', 'CARTELA', 1910, 0, '2027-07-16', 9),
-(56, 'CORUS 100 MG', 'CARTELA', 10, 200, '2025-07-15', 7),
-(57, 'AMOXILINA 50ML', 'CARTELA', 50, 100, '2026-07-15', 7),
-(58, 'AAS 50MG', 'CARTELA', 99, 0, '2027-07-16', 8),
-(59, 'LOSARTANA 50MG', 'CARTELA', 99, 300, '2026-07-16', 8);
+(77, 'TRAMADOL 50MG/2ML', 'CARTELA', 7, 0, '2026-12-05', 9),
+(78, 'TRAMADOL 50MG/2ML', 'CARTELA', 3, 0, '2026-12-05', 7);
 
 -- --------------------------------------------------------
 
@@ -300,6 +279,28 @@ INSERT INTO `tb_saida` (`id_saida`, `status_receita_saida`, `id_remedio_saida`, 
 (20, 'Com Receita', 58, 'AAS 50MG', 0, '11769868488', 'Luan NN', '1233', 'zdfdf', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-07-17 00:00:00', 8),
 (21, 'Com Receita', 50, 'CORUS 50 MG', 2, '11769868488', 'Luan Nogueira', '123', '', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-07-17 00:00:00', 8),
 (22, 'Com Receita', 59, 'LOSARTANA 50MG', 1, '11769868488', 'Luan Nogueira', '12', '', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-07-17 00:00:00', 8);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_subsetor_interno`
+--
+
+CREATE TABLE `tb_subsetor_interno` (
+  `id_subsetor` int(11) NOT NULL,
+  `nome_subsetor` varchar(100) NOT NULL,
+  `estoque_subsetor` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `tb_subsetor_interno`
+--
+
+INSERT INTO `tb_subsetor_interno` (`id_subsetor`, `nome_subsetor`, `estoque_subsetor`) VALUES
+(1, 'ENFERMARIA', 7),
+(3, 'SALA DO DENTISTA', 7),
+(4, 'SALA DE ATENDIMENTO', 7),
+(5, 'ENFERMARIA DO HOSPITAL', 8);
 
 -- --------------------------------------------------------
 
@@ -395,6 +396,12 @@ ALTER TABLE `tb_saida`
   ADD KEY `fk_estoque_saida` (`estoque_saida`);
 
 --
+-- Índices para tabela `tb_subsetor_interno`
+--
+ALTER TABLE `tb_subsetor_interno`
+  ADD PRIMARY KEY (`id_subsetor`);
+
+--
 -- Índices para tabela `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
@@ -409,7 +416,7 @@ ALTER TABLE `tb_usuario`
 -- AUTO_INCREMENT de tabela `tb_carrinho_transferencia`
 --
 ALTER TABLE `tb_carrinho_transferencia`
-  MODIFY `id_carrinho_transferencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_carrinho_transferencia` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT de tabela `tb_data_retirada`
@@ -427,13 +434,13 @@ ALTER TABLE `tb_estoques`
 -- AUTO_INCREMENT de tabela `tb_historico`
 --
 ALTER TABLE `tb_historico`
-  MODIFY `id_historico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_historico` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT de tabela `tb_lote`
 --
 ALTER TABLE `tb_lote`
-  MODIFY `id_lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_lote` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT de tabela `tb_nomeclatura`
@@ -451,19 +458,25 @@ ALTER TABLE `tb_pedido`
 -- AUTO_INCREMENT de tabela `tb_p_emitido`
 --
 ALTER TABLE `tb_p_emitido`
-  MODIFY `id_p_emitido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id_p_emitido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT de tabela `tb_remedio`
 --
 ALTER TABLE `tb_remedio`
-  MODIFY `id_remedio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id_remedio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
 
 --
 -- AUTO_INCREMENT de tabela `tb_saida`
 --
 ALTER TABLE `tb_saida`
   MODIFY `id_saida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT de tabela `tb_subsetor_interno`
+--
+ALTER TABLE `tb_subsetor_interno`
+  MODIFY `id_subsetor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `tb_usuario`

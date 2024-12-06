@@ -4,14 +4,14 @@
     
     include 'Classes.php';
 
-    $func = new Estoque;
-    $nome_estoque = strtoupper($_POST['nome_estoque']);
+    $func = new Subsetor;
+    $nome_estoque = strtoupper($_POST['nome_subsetor']);
 
 
     if (!empty($nome_estoque)){
 
-       $func->inserirEstoque($nome_estoque);
-       header("Location: ../cadastrarEstoque.php?insercao=sucesso");
+       $func->inserirSubsetor($nome_estoque, $_POST['estoque_subsetor']);
+       header("Location: ../cadastrarSubsetor.php?insercao=sucesso&&id=" . $_POST['estoque_subsetor']);
 
 
     } else {

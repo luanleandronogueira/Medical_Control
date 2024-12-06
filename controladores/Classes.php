@@ -1085,6 +1085,49 @@ class CarrinhoTransferencia
     }
 }
 
+class Subsetor {
+
+    private int $id_subsetor;
+    private $conexao;
+    private $nome_subsetor;
+    private $estoque_subsetor;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function inserirSubsetor($nome_subsetor, $estoque_subsetor){
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_subsetor_interno (nome_subsetor, estoque_subsetor) VALUES (:nome_subsetor, :estoque_subsetor)";
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':nome_subsetor', $nome_subsetor);
+        $stmt->bindValue(':estoque_subsetor', $estoque_subsetor);
+
+        $stmt->execute();
+    }   
+
+    public function chamaSubsetorEspecifico($id_subsetor){
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_subsetor_interno si JOIN tb_estoques e on si.estoque_subsetor = :id_subsetor WHERE e.id_estoque = :id_subsetor";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_subsetor', $id_subsetor);
+
+        $stmt->execute();
+
+        $r = [];
+
+        return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    }
+}
+
+
+
 // Função para verificar se há uma sessão aberta
 function verificarSessao()
 {

@@ -163,6 +163,13 @@ function sideBar(){
                 </li>
 
                 <li class='nav-item'>
+                    <a class='nav-link collapsed' href='transferenciasInternas.php'>
+                        <i class='bx bx-transfer'></i>
+                        Transferências Internas
+                    </a>
+                </li>
+
+                <li class='nav-item'>
                     <a class='nav-link collapsed' href='controladores/SairSessao.php'>
                         <i class='bi bi-box-arrow-right'></i>
                         Sair

@@ -78,7 +78,7 @@ $nomeEstoque = $funcEstoque->chamaEstoqueEspecifico($_GET['id']);
                 <form action="controladores/CadastrarSubsetor.php" method="post">
                     <div class="m-3">
                         <label for="nome_subsetor">Nome do Subsetor</label>
-                        <input type="text" class="form-control" name="nome_subsetor" id="nome_subsetor">
+                        <input type="text" required class="form-control" name="nome_subsetor" id="nome_subsetor">
                         </br>
                         <input type="hidden" name="estoque_subsetor" value="<?= $nomeEstoque['id_estoque'] ?>">
                         <button class="btn btn-success" type="submit">Cadastrar</button>

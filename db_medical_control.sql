@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06-Dez-2024 às 13:50
+-- Tempo de geração: 06-Dez-2024 às 22:29
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -123,13 +123,6 @@ CREATE TABLE `tb_lote` (
   `status_lote` varchar(2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Extraindo dados da tabela `tb_lote`
---
-
-INSERT INTO `tb_lote` (`id_lote`, `numero_lote`, `status_lote`) VALUES
-(62, '081202', 'A');
-
 -- --------------------------------------------------------
 
 --
@@ -214,7 +207,10 @@ INSERT INTO `tb_p_emitido` (`id_p_emitido`, `n_p_emitido`, `nomeclatura_p_emitid
 (28, 9, 'TILENOL 50MG', 20, '2034-07-25', '12321', 'AZIPHARMA', 9),
 (29, 9, 'LOSARTANA 50MG', 1000, '2025-07-31', 'LZ453', 'NEOQUIMICA', 9),
 (30, 9, 'AAS 50MG', 999, '2026-07-31', 'LZ453', 'CIMED', 9),
-(31, 9, 'TRAMADOL 50MG/2ML', 10, '2026-12-05', 'LZ453', 'NEOQUIMICA', 9);
+(31, 9, 'TRAMADOL 50MG/2ML', 10, '2026-12-05', 'LZ453', 'NEOQUIMICA', 9),
+(32, 9, 'DIPIRONA DE 20MG', 300, '2026-12-28', 'LZ453', 'AZIPHARMA', 8),
+(33, 9, 'LOSARTANA 50MG', 10, '2026-12-31', 'LZ453', 'CIMED', 8),
+(34, 9, 'CORUS 100 MG', 10, '2026-12-31', 'LZ453', 'NEOQUIMICA', 8);
 
 -- --------------------------------------------------------
 
@@ -238,7 +234,10 @@ CREATE TABLE `tb_remedio` (
 
 INSERT INTO `tb_remedio` (`id_remedio`, `nome_remedio`, `uni_medida_remedio`, `quantidade_remedio`, `quant_min_estoque_remedio`, `vencimento_remedio`, `estoque_remedio`) VALUES
 (77, 'TRAMADOL 50MG/2ML', 'CARTELA', 7, 0, '2026-12-05', 9),
-(78, 'TRAMADOL 50MG/2ML', 'CARTELA', 3, 0, '2026-12-05', 7);
+(78, 'TRAMADOL 50MG/2ML', 'CARTELA', 3, 0, '2026-12-05', 7),
+(79, 'DIPIRONA DE 20MG', 'CARTELA', 298, 100, '2026-12-28', 8),
+(80, 'LOSARTANA 50MG', 'CARTELA', 6, 300, '2026-12-31', 8),
+(81, 'CORUS 100 MG', 'CARTELA', 8, 100, '2026-12-31', 8);
 
 -- --------------------------------------------------------
 
@@ -301,6 +300,32 @@ INSERT INTO `tb_subsetor_interno` (`id_subsetor`, `nome_subsetor`, `estoque_subs
 (3, 'SALA DO DENTISTA', 7),
 (4, 'SALA DE ATENDIMENTO', 7),
 (5, 'ENFERMARIA DO HOSPITAL', 8);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_transferencia_interna`
+--
+
+CREATE TABLE `tb_transferencia_interna` (
+  `id_transferencia_interna` int(11) NOT NULL,
+  `data_transferencia_interna` date NOT NULL,
+  `id_remedio_transferencia_interna` int(11) NOT NULL,
+  `remedio_transferencia_interna` varchar(200) NOT NULL,
+  `uni_transferencia_interna` varchar(100) NOT NULL,
+  `id_estoque_transferencia_interna` int(11) NOT NULL,
+  `quant_transferencia_interna` int(11) NOT NULL,
+  `subsetor_transferencia_interna` int(11) NOT NULL,
+  `usuario_transferencia_interna` varchar(100) NOT NULL,
+  `status_transferencia_interna` varchar(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Extraindo dados da tabela `tb_transferencia_interna`
+--
+
+INSERT INTO `tb_transferencia_interna` (`id_transferencia_interna`, `data_transferencia_interna`, `id_remedio_transferencia_interna`, `remedio_transferencia_interna`, `uni_transferencia_interna`, `id_estoque_transferencia_interna`, `quant_transferencia_interna`, `subsetor_transferencia_interna`, `usuario_transferencia_interna`, `status_transferencia_interna`) VALUES
+(26, '2024-12-06', 80, 'LOSARTANA 50MG', 'CARTELA', 8, 1, 3, 'Luan Leandro Nogueira', 'F');
 
 -- --------------------------------------------------------
 
@@ -402,6 +427,12 @@ ALTER TABLE `tb_subsetor_interno`
   ADD PRIMARY KEY (`id_subsetor`);
 
 --
+-- Índices para tabela `tb_transferencia_interna`
+--
+ALTER TABLE `tb_transferencia_interna`
+  ADD PRIMARY KEY (`id_transferencia_interna`);
+
+--
 -- Índices para tabela `tb_usuario`
 --
 ALTER TABLE `tb_usuario`
@@ -458,13 +489,13 @@ ALTER TABLE `tb_pedido`
 -- AUTO_INCREMENT de tabela `tb_p_emitido`
 --
 ALTER TABLE `tb_p_emitido`
-  MODIFY `id_p_emitido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id_p_emitido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de tabela `tb_remedio`
 --
 ALTER TABLE `tb_remedio`
-  MODIFY `id_remedio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=79;
+  MODIFY `id_remedio` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=82;
 
 --
 -- AUTO_INCREMENT de tabela `tb_saida`
@@ -477,6 +508,12 @@ ALTER TABLE `tb_saida`
 --
 ALTER TABLE `tb_subsetor_interno`
   MODIFY `id_subsetor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de tabela `tb_transferencia_interna`
+--
+ALTER TABLE `tb_transferencia_interna`
+  MODIFY `id_transferencia_interna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de tabela `tb_usuario`

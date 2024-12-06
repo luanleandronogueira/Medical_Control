@@ -70,28 +70,13 @@ $estoques = $func->chamaEstoque();
                   <thead>
                     <tr>
                       <th scope="col"><a href="detalhaEstoque.php?id=<?= $estoque['id_estoque'] ?>">Ver Estoque</a></th>
-                      <th scope="col"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal<?=$estoque['id_estoque']?>"># Realizar Transferência Interna</a></th>
-                      <div class="modal fade" id="exampleModal<?=$estoque['id_estoque']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h1 class="modal-title fs-5" id="exampleModalLabel">Transferências</h1>
-                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                              <h4>Deseja criar um lote de transferência?</h4>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                              <a href="transferenciasEstoques.php?id=<?= $estoque['id_estoque'] ?>&&nome=<?= $estoque['nome_estoque'] ?>&&lote=<?=date('Hms')?>"type="button" class="btn btn-primary">Criar Lote</a>
-                            </div>
-                          </div>
-                        </div>
+                      <th scope="col">
+                        <a href="realizarTransferenciaInterna.php?id=<?= $estoque['id_estoque'] ?>"># Realizar Transferência Interna</a>
+                      </th>
                       </div>
                       <th scope="col"><a href="subsetor.php">+ Novo Subsetor</a></th>
                     </tr>
-                    
+
                   </thead>
 
                 </table>

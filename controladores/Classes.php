@@ -144,7 +144,6 @@ class Usuario
 
     public function consultarUsuarioCadastrado($cpf)
     {
-
         $query = "SELECT cpf_usuario FROM tb_usuario WHERE cpf_usuario = :cpf LIMIT 1";
 
         $conn = $this->conexao->Conectar();
@@ -161,7 +160,6 @@ class Usuario
 
     public function inserirUsuario($nome_usuario, $cpf_usuario, $senha_usuario, $tipo_usuario, $setor_usuario)
     {
-
         $query = "INSERT INTO tb_usuario (nome_usuario, cpf_usuario, senha_usuario, tipo_usuario, setor_usuario) VALUES (:nome_usuario, :cpf_usuario, :senha_usuario, :tipo_usuario, :setor_usuario)";
 
         $conn = $this->conexao->Conectar();
@@ -178,11 +176,9 @@ class Usuario
 
     public function atualizarUsuario($id, $nome_usuario, $tipo_usuario)
     {
-
         $conn = $this->conexao->Conectar();
 
         $query = "UPDATE tb_usuario SET nome_usuario = :nome_usuario, tipo_usuario = :tipo_usuario WHERE id = :id";
-
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':nome_usuario', "$nome_usuario");
         $stmt->bindValue(':tipo_usuario', "$tipo_usuario");
@@ -193,7 +189,6 @@ class Usuario
 
     public function atualizarSenhaUsuario($id, $senha)
     {
-
         $conn = $this->conexao->Conectar();
 
         $query = "UPDATE tb_usuario SET senha_usuario = :senha_usuario WHERE id = :id";
@@ -207,7 +202,6 @@ class Usuario
 
     public function chamaUsuario($id)
     {
-
         $conn = $this->conexao->Conectar();
 
         $query = "SELECT * FROM tb_usuario WHERE id = :id";
@@ -225,21 +219,17 @@ class Usuario
 
 class Estoque
 {
-
     private $id;
     private $conexao;
     private $nome_estoque;
-
 
     public function __construct()
     {
         $this->conexao = new Conexao();
     }
 
-
     public function inserirEstoque($nome_estoque)
     {
-
         $conn = $this->conexao->Conectar();
 
         $query = "INSERT INTO tb_estoques (nome_estoque) VALUES (:nome_estoque)";
@@ -252,7 +242,6 @@ class Estoque
 
     public function chamaEstoque()
     {
-
         $conn = $this->conexao->Conectar();
 
         $query = "SELECT * FROM tb_estoques";
@@ -273,7 +262,6 @@ class Estoque
 
     public function chamaEstoqueEspecifico($id_estoque)
     {
-
         $conn = $this->conexao->Conectar();
 
         $query = "SELECT * FROM tb_estoques WHERE id_estoque = :id_estoque";
@@ -291,7 +279,6 @@ class Estoque
 
 class Remedio
 {
-
     private $id;
     private $conexao;
     private $nome_remedio;
@@ -392,7 +379,6 @@ class Remedio
 
     public function chamaRemedioPorEstoque($idEstoque)
     {
-
         // Consulta SQL para obter os remédios associados ao estoque atual
         $query = "SELECT * FROM tb_remedio WHERE estoque_remedio = :idEstoque";
         $conn = $this->conexao->Conectar();
@@ -474,7 +460,6 @@ class Remedio
 
     public function atualizaRemedioEstoque($id_remedio, $soma_remedio)
     {
-
         $conn = $this->conexao->Conectar();
 
         $query = "UPDATE tb_remedio SET quantidade_remedio = :soma_remedio WHERE id_remedio = :id_remedio";
@@ -490,7 +475,6 @@ class Remedio
 
 class Historico
 {
-
     private $id_historico;
     private $conexao;
     private $historico_historico;
@@ -561,7 +545,6 @@ class Historico
 
 class Saida
 {
-
     private $id;
     private $conexao;
     private $status_receita_saida;
@@ -896,7 +879,6 @@ class P_Emitido
 
 class Data_Retirada
 {
-
     private $id_data_retirada;
     private $conexao;
     private $id_remedio_data_retirada;
@@ -1061,7 +1043,8 @@ class CarrinhoTransferencia
         return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function DeletaItemCarinnho($id){
+    public function DeletaItemCarinnho($id)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -1073,7 +1056,8 @@ class CarrinhoTransferencia
         $stmt->execute();
     }
 
-    public function DeletaItem(){
+    public function DeletaItem()
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -1085,7 +1069,8 @@ class CarrinhoTransferencia
     }
 }
 
-class Subsetor {
+class Subsetor
+{
 
     private int $id_subsetor;
     private $conexao;
@@ -1097,7 +1082,8 @@ class Subsetor {
         $this->conexao = new Conexao();
     }
 
-    public function inserirSubsetor($nome_subsetor, $estoque_subsetor){
+    public function inserirSubsetor($nome_subsetor, $estoque_subsetor)
+    {
 
         $conn = $this->conexao->Conectar();
 
@@ -1107,9 +1093,24 @@ class Subsetor {
         $stmt->bindValue(':estoque_subsetor', $estoque_subsetor);
 
         $stmt->execute();
-    }   
+    }
 
-    public function chamaSubsetorEspecifico($id_subsetor){
+    public function chamaSetor()
+    {
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT * FROM tb_subsetor_interno si JOIN tb_estoques e ORDER BY e.nome_estoque ASC";
+
+        $stmt = $conn->prepare($query);
+        $stmt->execute();
+
+        $r = [];
+
+        return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function chamaSubsetorEspecifico($id_subsetor)
+    {
         $conn = $this->conexao->Conectar();
 
         $query = "SELECT * FROM tb_subsetor_interno si JOIN tb_estoques e on si.estoque_subsetor = :id_subsetor WHERE e.id_estoque = :id_subsetor";
@@ -1122,7 +1123,89 @@ class Subsetor {
         $r = [];
 
         return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+}
 
+class TransferenciaInterna
+{
+
+    private $id_transferencia_interna;
+    private $conexao;
+    private $data_transferencia_interna;
+    private $id_remedio_transferencia_interna;
+    private $remedio_transferencia_interna;
+    private $uni_transferencia_interna;
+    private $id_estoque_transferencia_interna;
+    private $quant_transferencia_interna;
+    private $subsetor_transferencia_interna;
+    private $usuario_transferencia_interna;
+    private $status_transferencia_interna;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function insereTransferenciaInterna($data_transferencia_interna, $id_remedio_transferencia_interna, $remedio_transferencia_interna, $uni_transferencia_interna, $id_estoque_transferencia_interna, $quant_transferencia_interna, $subsetor_transferencia_interna, $usuario_transferencia_interna, $status_transferencia_interna)
+    {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_transferencia_interna (data_transferencia_interna, id_remedio_transferencia_interna, remedio_transferencia_interna, uni_transferencia_interna, id_estoque_transferencia_interna, quant_transferencia_interna, subsetor_transferencia_interna, usuario_transferencia_interna, status_transferencia_interna) VALUES (:data_transferencia_interna, :id_remedio_transferencia_interna, :remedio_transferencia_interna, :uni_transferencia_interna, :id_estoque_transferencia_interna, :quant_transferencia_interna, :subsetor_transferencia_interna, :usuario_transferencia_interna, :status_transferencia_interna)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':data_transferencia_interna', $data_transferencia_interna);
+        $stmt->bindValue(':id_remedio_transferencia_interna', $id_remedio_transferencia_interna);
+        $stmt->bindValue(':remedio_transferencia_interna', $remedio_transferencia_interna);
+        $stmt->bindValue(':uni_transferencia_interna', $uni_transferencia_interna);
+        $stmt->bindValue(':id_estoque_transferencia_interna', $id_estoque_transferencia_interna);
+        $stmt->bindValue(':quant_transferencia_interna', $quant_transferencia_interna);
+        $stmt->bindValue(':subsetor_transferencia_interna', $subsetor_transferencia_interna);
+        $stmt->bindValue(':usuario_transferencia_interna', $usuario_transferencia_interna);
+        $stmt->bindValue(':status_transferencia_interna', $status_transferencia_interna);
+
+        $stmt->execute();
+    }
+
+    public function chamaTransferenciaInternaAberta($id_estoque, $data_)
+    {
+
+        $conn = $this->conexao->Conectar();
+        $query = "SELECT * FROM tb_transferencia_interna WHERE id_estoque_transferencia_interna = :id_estoque AND status_transferencia_interna = 'A' AND data_transferencia_interna = :data_";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_estoque', $id_estoque);
+        $stmt->bindValue(':data_', $data_);
+        $stmt->execute();
+
+        $r = [];
+
+        return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function DeletaTransferenciaAberta($id_transferencia)
+    {
+
+        $conn = $this->conexao->Conectar();
+        $query = "DELETE FROM tb_transferencia_interna WHERE id_transferencia_interna = :id_transferencia";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_transferencia', $id_transferencia);
+        $stmt->execute();
+    }
+
+    public function AtualizaTransferenciaInterna($id_transferencia, $subsetor_transferencia_interna, $status_transferencia_interna)
+    {
+
+        $conn = $this->conexao->Conectar();
+        $query = "UPDATE tb_transferencia_interna SET subsetor_transferencia_interna = :subsetor_transferencia_interna, 
+    status_transferencia_interna = :status_transferencia_interna  WHERE id_transferencia_interna = :id_transferencia";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_transferencia', $id_transferencia);
+        $stmt->bindValue(':subsetor_transferencia_interna', $subsetor_transferencia_interna);
+        $stmt->bindValue(':status_transferencia_interna', $status_transferencia_interna);
+        $stmt->execute();
     }
 }
 

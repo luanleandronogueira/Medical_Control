@@ -1169,7 +1169,6 @@ class TransferenciaInterna
 
     public function chamaTransferenciaInternaAberta($id_estoque, $data_)
     {
-
         $conn = $this->conexao->Conectar();
         $query = "SELECT * FROM tb_transferencia_interna WHERE id_estoque_transferencia_interna = :id_estoque AND status_transferencia_interna = 'A' AND data_transferencia_interna = :data_";
 
@@ -1206,6 +1205,33 @@ class TransferenciaInterna
         $stmt->bindValue(':subsetor_transferencia_interna', $subsetor_transferencia_interna);
         $stmt->bindValue(':status_transferencia_interna', $status_transferencia_interna);
         $stmt->execute();
+    }
+
+    public function ChamaSaidaInterna($data_inicial, $data_final)
+    {
+        $conn = $this->conexao->Conectar();
+        $query = "SELECT 
+                    it.*, 
+                    e.*, 
+                    s.*
+                FROM 
+                    tb_transferencia_interna it 
+                JOIN 
+                    tb_estoques e ON it.id_estoque_transferencia_interna = e.id_estoque 
+                JOIN 
+                    tb_subsetor_interno s ON it.subsetor_transferencia_interna = s.id_subsetor 
+                WHERE 
+                    it.status_transferencia_interna = 'F' 
+                    AND it.data_transferencia_interna BETWEEN :data_inicial AND :data_final";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':data_inicial', $data_inicial);
+        $stmt->bindValue(':data_final', $data_final);
+        $stmt->execute();
+
+        $r = [];
+
+        return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 

@@ -1222,7 +1222,7 @@ class TransferenciaInterna
                     tb_subsetor_interno s ON it.subsetor_transferencia_interna = s.id_subsetor 
                 WHERE 
                     it.status_transferencia_interna = 'F' 
-                    AND it.data_transferencia_interna BETWEEN :data_inicial AND :data_final";
+                    AND it.data_transferencia_interna BETWEEN :data_inicial AND :data_final ORDER BY it.id_transferencia_interna ASC";
 
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':data_inicial', $data_inicial);

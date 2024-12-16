@@ -32,7 +32,7 @@ if(!empty($_POST)){
         // Atualiza o remédio no estoque que está saindo
         $Remedios->atualizaRemedioEstoque($transferencia_aberta['id_remedio_transferencia_interna'], $ValorAbatido);
 
-        header("Location: ../realizarTransferenciaInterna.php?insercao=sucesso&&id=" . $_POST['id_estoque']);
+        header("Location: ../usuario/transferenciasInternasUsuario.php?insercao=sucesso&&id=" . $_POST['id_estoque']);
 
     }
 

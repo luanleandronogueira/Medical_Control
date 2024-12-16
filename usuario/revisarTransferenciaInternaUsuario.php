@@ -1,8 +1,9 @@
 <?php
-include "controladores/Controller.php";
-include "controladores/Classes.php";
+include "../controladores/Controller.php";
+include "../controladores/Classes.php";
+
 // Verifica se há sessão aberta.
-verificarSessao();
+verificarSessaoUsuario();
 
 $func = new TransferenciaInterna;
 $func2 = new Subsetor;
@@ -10,16 +11,14 @@ $data = date('Y-m-d');
 $revisao = $func->chamaTransferenciaInternaAberta($_GET['id'], $data);
 $subsetor = $func2->chamaSetor();
 
-// echo '<pre>';
-// print_r($subsetor);
-// echo '</pre>';
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <?php head() ?>
 </head>
+
 <body>
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
@@ -32,7 +31,7 @@ $subsetor = $func2->chamaSetor();
                     </a>
                 </li>
                 <!-- Perfil -->
-                <?php echo Perfil() ?>
+                <?php echo PerfilUsuario()  ?>
             </ul>
         </nav><!-- End Icons Navigation -->
     </header><!-- End Header -->
@@ -40,7 +39,7 @@ $subsetor = $func2->chamaSetor();
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
 
-        <?php echo sideBar() ?>
+        <?php echo sideBarUsuario() ?>
 
     </aside><!-- End Sidebar-->
 
@@ -94,7 +93,7 @@ $subsetor = $func2->chamaSetor();
                     </table>
                 </div>
 
-                <form action="controladores/TransferirRevisao.php" method="post">
+                <form action="../controladores/TransferirRevisaoUsuario.php" method="post">
                     <div>
                         <center>
                             <h6 class="card-title" for="">Selecione o setor e subsetor</h6>
@@ -116,7 +115,6 @@ $subsetor = $func2->chamaSetor();
                 </center>
             </div>
         </div>
-
     </main>
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
@@ -132,7 +130,7 @@ $subsetor = $func2->chamaSetor();
             const row = button.closest('tr');
             const id = row.querySelector('input[name="id"]').value;
             const btn = row.querySelector('button[id="btnColeta"]');
-            const API = `controladores/DeletaRevisao.php?id=${id}`;
+            const API = `../controladores/DeletaRevisao.php?id=${id}`;
 
             if (id) {
                 btn.disabled = false
@@ -171,4 +169,5 @@ $subsetor = $func2->chamaSetor();
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
 </body>
+
 </html>

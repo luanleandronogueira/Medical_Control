@@ -195,6 +195,13 @@ function sideBarUsuario(){
                 </li>
 
                 <li class='nav-item'>
+                    <a class='nav-link collapsed' href='transferenciasInternasUsuario.php'>
+                        <i class='bx bx-transfer'></i>
+                        Transferências Internas
+                    </a>
+                </li>
+
+                <li class='nav-item'>
                     <a class='nav-link collapsed' href='saidaMedicamentos.php'>
                         <i class='bx bxs-capsule'></i>
                         <span>Saída de Medicamentos</span>

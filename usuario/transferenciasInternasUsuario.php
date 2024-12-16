@@ -1,25 +1,24 @@
 <?php
-include "controladores/Controller.php";
-include "controladores/Classes.php";
+include "../controladores/Controller.php";
+include "../controladores/Classes.php";
 
 // Verifica se há sessão aberta.
-verificarSessao();
-$func = new Remedio;
-$Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
+verificarSessaoUsuario();
+$func2 = new Usuario;
+$chamaUsuario = $func2->chamaUsuario($_SESSION['id_usuario']);
+
+$func = new RemedioUsuario;
+$Remedios = $func->chamaEstoqueUsuario($chamaUsuario['setor_usuario']);
 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <?php head() ?>
 </head>
-
 <body>
-
     <!-- ======= Header ======= -->
     <header id="header" class="header fixed-top d-flex align-items-center">
-
         <?php logoBar() ?>
 
         <nav class="header-nav ms-auto">
@@ -29,15 +28,16 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
                         <i class="bi bi-search"></i>
                     </a>
                 </li>
+
                 <!-- Perfil -->
-                <?php echo Perfil() ?>
+                <?php echo PerfilUsuario() ?>
             </ul>
-        </nav>
-    </header>
+        </nav><!-- End Icons Navigation -->
+    </header><!-- End Header -->
 
     <!-- ======= Sidebar ======= -->
     <aside id="sidebar" class="sidebar">
-        <?php echo sideBar() ?>
+        <?php echo sideBarUsuario() ?>
     </aside><!-- End Sidebar-->
 
     <main id="main" class="main">
@@ -46,12 +46,12 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
                 <h5 class="card-title">Transferência para um Subsetor</h5>
             </center>
         </div>
+        <!-- <section class="section">
+            <?php echo '<pre>';
+            print_r($Remedios);
+            echo '</pre>'; ?>
 
-        <!-- <?php
-                echo '<pre>';
-                print_r($Remedios);
-                echo '</pre>';
-                ?> -->
+        </section> -->
         <section class="section">
             <div class="row">
                 <div class="col-lg-12 col-md-12">
@@ -102,7 +102,7 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
                                                     name="quantidade_transferencia_interna[<?= $R['id_remedio'] ?>]"
                                                     id="quantidade_transferencia_interna_<?= $R['id_remedio'] ?>">
                                             </td>
-                                            <input type="hidden" name="id_estoque_saida" value="<?= $_GET['id'] ?>">
+                                            <input type="hidden" name="id_estoque_saida" value="<?= $R['estoque_remedio'] ?>">
                                             <input type="hidden" name="id_remedio" value="<?= $R['id_remedio'] ?>">
                                             <input type="hidden" name="uni_medida" value="<?= $R['uni_medida_remedio'] ?>">
                                             <td><button id="btnColeta" onclick="coletaInfo(this)" class="btn btn-info btn-sm">+ Add</button></td>
@@ -113,15 +113,15 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
                                 </thead>
                             </table>
                             <center>
-                                <a href="revisarTransferenciaInterna.php?id=<?= $_GET['id'] ?>" class="btn btn-success">Revisar</a>
+                                <a href="revisarTransferenciaInternaUsuario.php?id=<?= $R['estoque_remedio'] ?>" class="btn btn-success">Revisar</a>
                             </center>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-
     </main>
+
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">
@@ -132,8 +132,20 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
         </div>
     </footer><!-- End Footer -->
 
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
     <script>
-        function coletaInfo(button) {
+            function coletaInfo(button) {
 
             // Localiza a linha do botão clicado
             const row = button.closest('tr');
@@ -152,7 +164,7 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
 
             const btn = row.querySelector('button[id="btnColeta"]');
 
-            const API = `controladores/InsereRevisao.php?id_estoque=${idEstoqueSaida}&&quantidade=${quantidade}&&id_remedio=${idRemedio}&&uni_medida=${uniMedida}&&id_remedio=${id_remedio}`;
+            const API = `../controladores/InsereRevisao.php?id_estoque=${idEstoqueSaida}&&quantidade=${quantidade}&&id_remedio=${idRemedio}&&uni_medida=${uniMedida}&&id_remedio=${id_remedio}`;
 
             if (quantidade <= 0) {
 
@@ -190,19 +202,6 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
             }
         }
     </script>
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/chart.js/chart.umd.js"></script>
-    <script src="assets/vendor/echarts/echarts.min.js"></script>
-    <script src="assets/vendor/quill/quill.min.js"></script>
-    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
-    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-
 </body>
 
 </html>

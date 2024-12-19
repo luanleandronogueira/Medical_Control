@@ -414,6 +414,23 @@ class Remedio
         return $retorno;
     }
 
+    public function chamaNomeRemedio($id_remedio)
+    {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT nome_remedio FROM tb_remedio WHERE id_remedio = :id_remedio";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_remedio', "$id_remedio");
+
+        $stmt->execute();
+
+        $retorno = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $retorno;
+    }
+
     public function chamaEstoqueUsuario($id_estoque)
     {
 

@@ -62,7 +62,6 @@ if (!empty($_POST)) {
             // echo '</pre></br>';
 
             if ($data_data_retirada >= $prox_retirada_data_retirada) {
-
                 // Faz o abate dos valores do banco de dados com o valor de saída
                 $abateParaSaida = $remedio['quantidade_remedio'] - $_POST['quantidade_saida'];
 

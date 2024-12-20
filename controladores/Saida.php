@@ -13,7 +13,10 @@ if (empty($_POST['sem_receita'])) {
     $_POST['sem_receita'] = 'Com Receita';
 }
 
-$remedio_id = $_POST['quantidade_transferencia_interna'];
+// exclui as posições que estão zeradas
+$remedio_id = array_filter($_POST['quantidade_transferencia_interna'], function($valor) {
+    return $valor !== '';
+});
 
 foreach($remedio_id as $ID => $quant_saida){
     $r_nome = $func->chamaNomeRemedio($ID);
@@ -26,6 +29,7 @@ foreach($remedio_id as $ID => $quant_saida){
     if ($remedio['quantidade_remedio'] < $quant_saida or  $remedio['quantidade_remedio'] == 0) {
         header("Location: ../usuario/saidaMedicamentos.php?valor=excedido&&SaidaMedicamentos");
         die();
+        //echo 'caiu aqui';
 
     } else {
         $Ultima_Retirada = $Data_Retirada->consultaDataRetirada($ID, $_POST['sus_saida']);
@@ -36,7 +40,7 @@ foreach($remedio_id as $ID => $quant_saida){
 
             if ($data_data_retirada >= $prox_retirada_data_retirada) {
                 // Faz o abate dos valores do banco de dados com o valor de saída
-                $abateParaSaida = $remedio['quantidade_remedio'] - $quant_saida;
+                $abateParaSaida = $remedio['quantidade_remedio'] - intval($quant_saida);
 
                 // Aqui método que atualiza a saída no banco de dados
                 $func->atualizaRemedioEstoque($ID, $abateParaSaida);
@@ -45,7 +49,7 @@ foreach($remedio_id as $ID => $quant_saida){
                 $func2->inserirSaida(
                     $_POST['sem_receita'],
                     $ID,
-                    $r_nome['nome_remedio'],
+                    $remedio['nome_remedio'],
                     $quant_saida,
                     $_POST['sus_saida'],
                     ucwords($_POST['nome_paciente_saida']),
@@ -65,16 +69,16 @@ foreach($remedio_id as $ID => $quant_saida){
             }
         } else {
             // Faz o abate dos valores do banco de dados com o valor de saída
-            $abateParaSaida = $remedio['quantidade_remedio'] - $quant_saida;
+            $abateParaSaida = $remedio['quantidade_remedio'] - intval($quant_saida);
 
             if (empty($_POST['sem_receita'])) {
                 $_POST['sem_receita'] = 'Com Receita';
             }
 
-            // Aqui método que atualiza a saída no banco de dados
+            // // Aqui método que atualiza a saída no banco de dados
             $func->atualizaRemedioEstoque($ID, $abateParaSaida);
 
-            // Inserir saída 
+            // // Inserir saída 
             $func2->inserirSaida(
                 $_POST['sem_receita'],
                 $ID,

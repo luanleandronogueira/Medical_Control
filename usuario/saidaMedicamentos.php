@@ -83,7 +83,7 @@ $remedio = $func->chamaEstoqueUsuario($chamaUsuario['setor_usuario']);
                                 </div>
                                 <div class="col-lg-3 col-xxl-3 col-xl-3">
                                     <label for="data_data_retirada">Data de Distribuição:</label>
-                                    <input type="date" class="form-control" readonly required name="data_data_retirada" id="DataAtual">
+                                    <input type="date" class="form-control" required name="data_data_retirada" id="DataAtual">
                                 </div>
                                 <div class="col-lg-3 col-xxl-3 col-xl-3">
                                     <label for="prox_retirada_data_retirada">Data de Abastecimento:</label>

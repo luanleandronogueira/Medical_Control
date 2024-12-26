@@ -1252,6 +1252,34 @@ class TransferenciaInterna
     }
 }
 
+class PrecoPedido {
+    private int $id_preco_pedido;
+    private $conexao;
+    private $nome_preco_pedido;
+    private $v_unidade_preco_pedido;
+    private $data_preco_pedido;
+    private $quantidade_preco_pedido;
+    private $valor_total_preco_pedido;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function insereValorPedido($nome_preco_pedido, $v_unidade_preco_pedido, $data_preco_pedido, $quantidade_preco_pedido, $valor_total_preco_pedido){
+        $conn = $this->conexao->Conectar();
+        $query = "INSERT INTO tb_preco_pedido (nome_preco_pedido, v_unidade_preco_pedido, data_preco_pedido, quantidade_preco_pedido, valor_total_preco_pedido) VALUES (:nome_preco_pedido, :v_unidade_preco_pedido, :data_preco_pedido, :quantidade_preco_pedido, :valor_total_preco_pedido)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':nome_preco_pedido', $nome_preco_pedido);
+        $stmt->bindValue(':v_unidade_preco_pedido', $v_unidade_preco_pedido);
+        $stmt->bindValue(':data_preco_pedido', $data_preco_pedido);
+        $stmt->bindValue(':quantidade_preco_pedido', $quantidade_preco_pedido);
+        $stmt->bindValue(':valor_total_preco_pedido', $valor_total_preco_pedido);
+        $stmt->execute();
+    }
+}
+
 
 
 // Função para verificar se há uma sessão aberta

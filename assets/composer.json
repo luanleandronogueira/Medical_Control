@@ -1,0 +1,5 @@
+{
+    "require": {
+        "igorescobar/jquery-mask-plugin": "^1.14"
+    }
+}

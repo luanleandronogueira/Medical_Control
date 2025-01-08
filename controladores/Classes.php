@@ -478,7 +478,6 @@ class Remedio
     public function atualizaRemedioEstoque($id_remedio, $soma_remedio)
     {
         $conn = $this->conexao->Conectar();
-
         $query = "UPDATE tb_remedio SET quantidade_remedio = :soma_remedio WHERE id_remedio = :id_remedio";
 
         $stmt = $conn->prepare($query);
@@ -1088,7 +1087,6 @@ class CarrinhoTransferencia
 
 class Subsetor
 {
-
     private int $id_subsetor;
     private $conexao;
     private $nome_subsetor;
@@ -1101,9 +1099,7 @@ class Subsetor
 
     public function inserirSubsetor($nome_subsetor, $estoque_subsetor)
     {
-
         $conn = $this->conexao->Conectar();
-
         $query = "INSERT INTO tb_subsetor_interno (nome_subsetor, estoque_subsetor) VALUES (:nome_subsetor, :estoque_subsetor)";
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':nome_subsetor', $nome_subsetor);
@@ -1115,28 +1111,24 @@ class Subsetor
     public function chamaSetor()
     {
         $conn = $this->conexao->Conectar();
-
         $query = "SELECT * FROM tb_subsetor_interno si JOIN tb_estoques e ORDER BY e.nome_estoque ASC";
 
         $stmt = $conn->prepare($query);
         $stmt->execute();
 
         $r = [];
-
         return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function chamaSubsetorEspecifico($id_subsetor)
     {
         $conn = $this->conexao->Conectar();
-
         $query = "SELECT * FROM tb_subsetor_interno si JOIN tb_estoques e on si.estoque_subsetor = :id_subsetor WHERE e.id_estoque = :id_subsetor";
 
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':id_subsetor', $id_subsetor);
 
         $stmt->execute();
-
         $r = [];
 
         return $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -1145,7 +1137,6 @@ class Subsetor
 
 class TransferenciaInterna
 {
-
     private $id_transferencia_interna;
     private $conexao;
     private $data_transferencia_interna;
@@ -1167,7 +1158,6 @@ class TransferenciaInterna
     {
 
         $conn = $this->conexao->Conectar();
-
         $query = "INSERT INTO tb_transferencia_interna (data_transferencia_interna, id_remedio_transferencia_interna, remedio_transferencia_interna, uni_transferencia_interna, id_estoque_transferencia_interna, quant_transferencia_interna, subsetor_transferencia_interna, usuario_transferencia_interna, status_transferencia_interna) VALUES (:data_transferencia_interna, :id_remedio_transferencia_interna, :remedio_transferencia_interna, :uni_transferencia_interna, :id_estoque_transferencia_interna, :quant_transferencia_interna, :subsetor_transferencia_interna, :usuario_transferencia_interna, :status_transferencia_interna)";
 
         $stmt = $conn->prepare($query);
@@ -1201,7 +1191,6 @@ class TransferenciaInterna
 
     public function DeletaTransferenciaAberta($id_transferencia)
     {
-
         $conn = $this->conexao->Conectar();
         $query = "DELETE FROM tb_transferencia_interna WHERE id_transferencia_interna = :id_transferencia";
 
@@ -1212,7 +1201,6 @@ class TransferenciaInterna
 
     public function AtualizaTransferenciaInterna($id_transferencia, $subsetor_transferencia_interna, $status_transferencia_interna)
     {
-
         $conn = $this->conexao->Conectar();
         $query = "UPDATE tb_transferencia_interna SET subsetor_transferencia_interna = :subsetor_transferencia_interna, 
     status_transferencia_interna = :status_transferencia_interna  WHERE id_transferencia_interna = :id_transferencia";
@@ -1280,6 +1268,36 @@ class PrecoPedido {
     }
 }
 
+class AjusteInventario {
+    private int $id_ajuste_inventario;
+    private $conexao;
+    private $id_remedio_ajuste_inventario;
+    private $valor_ajuste_inventario;
+    private $usuario_ajuste_inventario;
+    private $obs_ajuste_inventario;
+    private $data_ajuste_inventario;
+    private $id_estoque_ajuste_inventario;
+
+    public function __construct()
+    {
+        $this->conexao = new Conexao();
+    }
+
+    public function insereObservacao($id_remedio_ajuste_inventario, $valor_ajuste_inventario, $usuario_ajuste_inventario, $obs_ajuste_inventario, $data_ajuste_inventario, $id_estoque_ajuste_inventario){
+        $conn = $this->conexao->Conectar();
+
+        $query = "INSERT INTO tb_ajuste_inventario (id_remedio_ajuste_inventario, valor_ajuste_inventario, usuario_ajuste_inventario, obs_ajuste_inventario, data_ajuste_inventario, id_estoque_ajuste_inventario) VALUES (:id_remedio_ajuste_inventario, :valor_ajuste_inventario, :usuario_ajuste_inventario, :obs_ajuste_inventario, :data_ajuste_inventario, :id_estoque_ajuste_inventario)";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_remedio_ajuste_inventario', $id_remedio_ajuste_inventario);
+        $stmt->bindValue(':valor_ajuste_inventario', $valor_ajuste_inventario);
+        $stmt->bindValue(':usuario_ajuste_inventario', $usuario_ajuste_inventario);
+        $stmt->bindValue(':obs_ajuste_inventario', $obs_ajuste_inventario);
+        $stmt->bindValue(':data_ajuste_inventario', $data_ajuste_inventario);
+        $stmt->bindValue(':id_estoque_ajuste_inventario', $id_estoque_ajuste_inventario);
+        $stmt->execute();
+    }
+}
 
 
 // Função para verificar se há uma sessão aberta

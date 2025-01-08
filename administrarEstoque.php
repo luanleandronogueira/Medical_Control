@@ -71,6 +71,7 @@ $estoques = $func->chamaEstoque();
                     <tr>
                       <th scope="col"><a href="detalhaEstoque.php?id=<?= $estoque['id_estoque'] ?>">Ver Estoque</a></th>
                       <th scope="col"><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal<?=$estoque['id_estoque']?>"># Transferir Itens deste Estoque</a></th>
+                      
                       <div class="modal fade" id="exampleModal<?=$estoque['id_estoque']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                         <div class="modal-dialog">

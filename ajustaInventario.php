@@ -3,17 +3,12 @@
   include "controladores/Classes.php";
 
   // Verifica se há sessão aberta.
-	verificarSessao();
-
+  verificarSessao();
   $id_estoque = $_GET['id'];
-
   $func = new Remedio;
   $remedio = $func->chamaRemedioPorEstoque($id_estoque);
-
   $func2 = new Estoque;
   $estoque = $func2->chamaEstoqueEspecifico($id_estoque);
-
- 
 
 ?>
 
@@ -66,20 +61,13 @@
 
             <div class="alert alert-success alert-dismissible fade show mt-4" role="alert">
               <i class="bi bi-check-circle me-1"></i>
-                  Feito com Sucesso!
+                  Ajuste feito com Sucesso!
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
 
             <?php }?> 
-              <div class="row">
-                <div class="col-6">
-                  <h5 class="card-title">Estoque da Unidade <?php echo $estoque['nome_estoque']?>:</h5>
-                </div>
-                <div class="col-6">
-                  <a class="btn btn-sm btn-success mt-3 float-end" href="ajustaInventario.php?id=<?=$_GET['id']?>">Ajustar Invetário</a>
-                </div>
-              </div>
-              <br>
+              <h5 class="card-title">Estoque da Unidade <?php echo $estoque['nome_estoque']?>:</h5>
+
               <table class="table datatable">
                 <thead>
                   <tr>
@@ -110,7 +98,7 @@
                             </span>
                         <?php } ?>
     
-                            <!-- <div class="modal fade" id="disablebackdrop<?= $r['id_remedio'] ?>" tabindex="-1" data-bs-backdrop="false">
+                            <div class="modal fade" id="disablebackdrop<?= $r['id_remedio'] ?>" tabindex="-1" data-bs-backdrop="false">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -122,18 +110,21 @@
                                             
                                                 <?php echo $r['nome_remedio'] ?>:
                                                 <input type="number" name="quantidade_remedio" id="">
-                                                <input type="hidden" value="<?=$r['id_remedio']?>" name="id_remedio"> 
+                                                <input type="hidden" value="<?=$r['id_remedio']?>" name="id_remedio">
+                                                <label class="mt-3" for="inventario_observacao">Insira detalhes sobre a operação:</label>
+                                                <textarea class="form-control" name="inventario_observacao" id="inventario_observacao"></textarea>
+                                                <input type="hidden" value="<?=$_SESSION['id_usuario']?>" name="id_usuario"> 
                                                 <input type="hidden" value="<?=$id_estoque?>" name="id_estoque"> 
                                             
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                                            <button type="submit" class="btn btn-primary">Adicionar</button>
+                                            <button type="submit" class="btn btn-primary">Ajustar</button>
                                         </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div> -->
+                            </div>
                         </td>
                         <td><?=$r['quant_min_estoque_remedio'] ?></td>
                         <td><?= $r['vencimento_remedio'] ?></td>

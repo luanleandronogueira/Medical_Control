@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 26-Dez-2024 às 16:26
+-- Tempo de geração: 08-Jan-2025 às 15:49
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -20,6 +20,31 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `db_medical_control`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tb_ajuste_inventario`
+--
+
+CREATE TABLE `tb_ajuste_inventario` (
+  `id_ajuste_inventario` int(11) NOT NULL,
+  `id_remedio_ajuste_inventario` int(11) NOT NULL,
+  `valor_ajuste_inventario` int(11) NOT NULL,
+  `usuario_ajuste_inventario` int(11) NOT NULL,
+  `obs_ajuste_inventario` text NOT NULL,
+  `data_ajuste_inventario` date NOT NULL,
+  `id_estoque_ajuste_inventario` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Extraindo dados da tabela `tb_ajuste_inventario`
+--
+
+INSERT INTO `tb_ajuste_inventario` (`id_ajuste_inventario`, `id_remedio_ajuste_inventario`, `valor_ajuste_inventario`, `usuario_ajuste_inventario`, `obs_ajuste_inventario`, `data_ajuste_inventario`, `id_estoque_ajuste_inventario`) VALUES
+(1, 78, 78, 1, 'OI pode sodae isso', '2025-01-08', 7),
+(2, 78, 78, 1, 'Ajuste feito manualmente', '2025-01-08', 7),
+(3, 78, 78, 1, 'Ajustando com 300', '2025-01-08', 7);
 
 -- --------------------------------------------------------
 
@@ -69,7 +94,11 @@ INSERT INTO `tb_data_retirada` (`id_data_retirada`, `id_remedio_data_retirada`, 
 (37, 79, '2024-12-20', '2024-12-20', '001', 'Luiza Bezerra Nogueira'),
 (38, 81, '2024-12-20', '2024-12-20', '0002', 'Andreza Rosa De Moura'),
 (39, 82, '2024-12-20', '2024-12-20', '0003', 'Olivia Leandro De Moraes'),
-(40, 82, '2024-12-20', '2024-12-21', '12345678900', 'Luiza Bezerra Nogueira');
+(40, 82, '2024-12-20', '2024-12-21', '12345678900', 'Luiza Bezerra Nogueira'),
+(41, 83, '2025-01-08', '2025-01-11', '1234567', 'Amarilia De Souza Sobral'),
+(42, 83, '2025-01-08', '2025-01-11', '98765432100', 'Olivia Leandro De Moraes'),
+(43, 83, '2025-01-08', '2025-01-25', '12345678912', 'Andreza Rosa De Moura'),
+(44, 83, '2025-01-08', '2025-01-17', '98765432112', 'Andreza Rosa De Moura');
 
 -- --------------------------------------------------------
 
@@ -198,15 +227,6 @@ CREATE TABLE `tb_preco_pedido` (
   `valor_total_preco_pedido` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Extraindo dados da tabela `tb_preco_pedido`
---
-
-INSERT INTO `tb_preco_pedido` (`id_preco_pedido`, `nome_preco_pedido`, `v_unidade_preco_pedido`, `data_preco_pedido`, `quantidade_preco_pedido`, `valor_total_preco_pedido`) VALUES
-(1, 'DIPIRONA DE 20MG - 100', 1.99, '2024-12-26', 23, 45.77),
-(2, 'AMOXILINA 50ML - 60', 1.02, '2024-12-26', 13, 13.26),
-(3, 'AAS 50MG - 0', 0.99, '2024-12-31', 1000, 990);
-
 -- --------------------------------------------------------
 
 --
@@ -273,12 +293,12 @@ CREATE TABLE `tb_remedio` (
 
 INSERT INTO `tb_remedio` (`id_remedio`, `nome_remedio`, `uni_medida_remedio`, `quantidade_remedio`, `quant_min_estoque_remedio`, `vencimento_remedio`, `estoque_remedio`) VALUES
 (77, 'TRAMADOL 50MG/2ML', 'CARTELA', 2, 0, '2026-12-05', 9),
-(78, 'TRAMADOL 50MG/2ML', 'CARTELA', 0, 0, '2026-12-05', 7),
+(78, 'TRAMADOL 50MG/2ML', 'CARTELA', 300, 0, '2026-12-05', 7),
 (79, 'DIPIRONA DE 20MG', 'CARTELA', 270, 100, '2026-12-28', 8),
 (80, 'LOSARTANA 50MG', 'CARTELA', 0, 300, '2026-12-31', 8),
 (81, 'CORUS 100 MG', 'CARTELA', 4, 100, '2026-12-31', 8),
 (82, 'TRAMADOL 50MG/2ML', 'CARTELA', 2, 0, '2026-12-05', 8),
-(83, 'DIPIRONA DE 20MG', 'CARTELA', 23, 100, '2028-12-26', 7),
+(83, 'DIPIRONA DE 20MG', 'CARTELA', 22, 100, '2028-12-26', 7),
 (84, 'AMOXILINA 50ML', 'CARTELA', 13, 60, '2024-12-31', 7),
 (85, 'AAS 50MG', 'CARTELA', 1000, 0, '2029-12-28', 9);
 
@@ -311,7 +331,11 @@ INSERT INTO `tb_saida` (`id_saida`, `status_receita_saida`, `id_remedio_saida`, 
 (59, 'Com Receita', 79, 'DIPIRONA DE 20MG', 9, '001', 'Luiza Bezerra Nogueira', '1234', '', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-12-20 00:00:00', 8),
 (60, 'Com Receita', 81, 'CORUS 100 MG', 1, '0002', 'Andreza Rosa De Moura', '1234', '', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-12-20 00:00:00', 8),
 (61, 'Com Receita', 82, 'TRAMADOL 50MG/2ML', 2, '0003', 'Olivia Leandro De Moraes', '321', '', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-12-20 00:00:00', 8),
-(62, 'Com Receita', 82, 'TRAMADOL 50MG/2ML', 1, '12345678900', 'Luiza Bezerra Nogueira', '1234', '', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-12-20 00:00:00', 8);
+(62, 'Com Receita', 82, 'TRAMADOL 50MG/2ML', 1, '12345678900', 'Luiza Bezerra Nogueira', '1234', '', 'Aylla De Kássia Alves Ferreira Nogueira', '2024-12-20 00:00:00', 8),
+(63, 'Com Receita', 83, 'DIPIRONA DE 20MG', 1, '1234567', 'Amarilia De Souza Sobral', '1234', '', 'Luan Leandro Nogueira', '2025-01-08 00:00:00', 7),
+(64, 'Com Receita', 83, 'DIPIRONA DE 20MG', 1, '98765432100', 'Olivia Leandro De Moraes', '1234', '', 'Luan Leandro Nogueira', '2025-01-08 00:00:00', 7),
+(65, 'Com Receita', 83, 'DIPIRONA DE 20MG', 1, '12345678912', 'Andreza Rosa De Moura', '1234', '', 'Luan Leandro Nogueira', '2025-01-08 00:00:00', 7),
+(66, 'Com Receita', 83, 'DIPIRONA DE 20MG', 1, '98765432112', 'Andreza Rosa De Moura', '1234', '', 'Luan Leandro Nogueira', '2025-01-08 00:00:00', 7);
 
 -- --------------------------------------------------------
 
@@ -360,7 +384,9 @@ CREATE TABLE `tb_transferencia_interna` (
 
 INSERT INTO `tb_transferencia_interna` (`id_transferencia_interna`, `data_transferencia_interna`, `id_remedio_transferencia_interna`, `remedio_transferencia_interna`, `uni_transferencia_interna`, `id_estoque_transferencia_interna`, `quant_transferencia_interna`, `subsetor_transferencia_interna`, `usuario_transferencia_interna`, `status_transferencia_interna`) VALUES
 (41, '2024-12-20', 77, 'TRAMADOL 50MG/2ML', 'CARTELA', 9, 4, 0, 'Luan Leandro Nogueira', 'A'),
-(42, '2024-12-20', 79, 'DIPIRONA DE 20MG', 'CARTELA', 8, 9, 0, 'Aylla De Kássia Alves Ferreira Nogueira', 'A');
+(42, '2024-12-20', 79, 'DIPIRONA DE 20MG', 'CARTELA', 8, 9, 0, 'Aylla De Kássia Alves Ferreira Nogueira', 'A'),
+(43, '2025-01-08', 83, 'DIPIRONA DE 20MG', 'CARTELA', 7, 1, 3, 'Luan Leandro Nogueira', 'F'),
+(44, '2025-01-08', 83, 'DIPIRONA DE 20MG', 'CARTELA', 7, 1, 0, 'Luan Leandro Nogueira', 'A');
 
 -- --------------------------------------------------------
 
@@ -388,6 +414,12 @@ INSERT INTO `tb_usuario` (`id`, `nome_usuario`, `cpf_usuario`, `senha_usuario`, 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices para tabela `tb_ajuste_inventario`
+--
+ALTER TABLE `tb_ajuste_inventario`
+  ADD PRIMARY KEY (`id_ajuste_inventario`);
 
 --
 -- Índices para tabela `tb_carrinho_transferencia`
@@ -485,6 +517,12 @@ ALTER TABLE `tb_usuario`
 --
 
 --
+-- AUTO_INCREMENT de tabela `tb_ajuste_inventario`
+--
+ALTER TABLE `tb_ajuste_inventario`
+  MODIFY `id_ajuste_inventario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de tabela `tb_carrinho_transferencia`
 --
 ALTER TABLE `tb_carrinho_transferencia`
@@ -494,7 +532,7 @@ ALTER TABLE `tb_carrinho_transferencia`
 -- AUTO_INCREMENT de tabela `tb_data_retirada`
 --
 ALTER TABLE `tb_data_retirada`
-  MODIFY `id_data_retirada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id_data_retirada` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de tabela `tb_estoques`
@@ -548,7 +586,7 @@ ALTER TABLE `tb_remedio`
 -- AUTO_INCREMENT de tabela `tb_saida`
 --
 ALTER TABLE `tb_saida`
-  MODIFY `id_saida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id_saida` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT de tabela `tb_subsetor_interno`
@@ -560,7 +598,7 @@ ALTER TABLE `tb_subsetor_interno`
 -- AUTO_INCREMENT de tabela `tb_transferencia_interna`
 --
 ALTER TABLE `tb_transferencia_interna`
-  MODIFY `id_transferencia_interna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id_transferencia_interna` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de tabela `tb_usuario`

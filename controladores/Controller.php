@@ -67,16 +67,22 @@ function Perfil() {
         <li>
             <hr class='dropdown-divider'>
         </li>
-
+        <li>
+            <a class='dropdown-item d-flex align-items-center' href='ajustaInventario.php'>
+                <i class='bx bx-abacus'></i>
+                <span>Ajustar Invetário</span>
+            </a>
+        </li>
+        <hr class='dropdown-divider'> 
         <li>
             <a class='dropdown-item d-flex align-items-center' href='controladores/SairSessao.php'>
                 <i class='bi bi-box-arrow-right'></i>
                 <span>Sair</span>
             </a>
         </li>
-
-        
-    </ul><!-- End Profile Dropdown Items -->
+              
+    </ul>
+    <!-- End Profile Dropdown Items -->
 </li>";
 
 }
@@ -224,10 +230,6 @@ function sideBarUsuario(){
                 </li>
            
             </ul>";
-
-
-
-
 }
 
 function PerfilUsuario() {

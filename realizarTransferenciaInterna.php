@@ -69,7 +69,7 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
 
                             <?php } ?>
                             <!-- <form action="controladores/RevisaTransferencia.php" method="post"> -->
-                            <table class="table table-sm">
+                            <table class="table table-sm datatable">
                                 <thead>
                                     <tr>
                                         <th></th>
@@ -80,6 +80,8 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
                                         <th>Quantidade</th>
                                         <th></th>
                                     </tr>
+                                    </thead>
+                                    <tbody>
                                     <?php foreach ($Remedios as $R) { ?>
                                         <tr>
                                             <td>
@@ -110,7 +112,7 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
 
                                         </tr>
                                     <?php } ?>
-                                </thead>
+                                </tbody>
                             </table>
                             <center>
                                 <a href="revisarTransferenciaInterna.php?id=<?= $_GET['id'] ?>" class="btn btn-success">Revisar</a>

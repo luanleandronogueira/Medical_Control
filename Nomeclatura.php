@@ -127,7 +127,7 @@
                     <td><?= $r['uni_medida_nomeclatura']?></td>
                     <td><?=$r['quant_minima_nomeclatura']?></td>
                     <td><a href="editarNomeclatura.php?id=<?=$r['id_nomeclatura']?>">Editar</a></td>
-                    <td></td>
+                    
                   </tr>
 
                  <?php } ?> 

@@ -24,6 +24,7 @@ function head() {
     <link href='assets/vendor/quill/quill.bubble.css' rel='stylesheet'>
     <link href='assets/vendor/remixicon/remixicon.css' rel='stylesheet'>
     <link href='assets/vendor/simple-datatables/style.css' rel='stylesheet'>
+    <link rel='stylesheet' href='https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css'>
     
     <!-- Template Main CSS File -->
     <link href='assets/css/style.css' rel='stylesheet'>";
@@ -159,6 +160,13 @@ function sideBar(){
                     <a class='nav-link collapsed' href='relatorios.php'>
                         <i class='bx bx-copy-alt'></i>
                         Relatórios
+                    </a>
+                </li>
+
+                <li class='nav-item'>
+                    <a class='nav-link collapsed' href='saidaMedicamentos.php'>
+                        <i class='bx bxs-capsule'></i>
+                        <span>Saída de Medicamentos</span>
                     </a>
                 </li>
 

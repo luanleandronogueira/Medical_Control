@@ -10,23 +10,7 @@ include 'Classes.php';
 
 // verifica se há um POST válido
 if (!empty($_POST)){
-
-    $DadosSeparados = explode('-', $_POST['nomeclatura_p_emitido']);
-    $quant_min_estoque_remedio = $DadosSeparados[1];
-
-    $data_preco_pedido = $_POST['data_preco_pedido'];
-    // ver recebe valores para realizar soma
-    $quantidade = $_POST['quantidade_p_emitido'];
-    $preco_unitario = $_POST['valor_preco'];
     
-    // soma os valores e armazena em variável
-    $valor_preco = floatval(str_replace(',', '.', $_POST['valor_preco']));
-    $soma_Total = $valor_preco * intval($quantidade);
-
-    $func3 = new PrecoPedido;
-    //inserir o valor na tela preco_pedido
-    $func3->insereValorPedido($_POST['nomeclatura_p_emitido'], $valor_preco, $data_preco_pedido, $quantidade, $soma_Total);
-   
     // vê qual a condição do POST enviado
     if(isset($_POST['nota_pedido'])) {
         // Instância o método e dá um extract no POST dividindo o Array em variáveis
@@ -47,6 +31,22 @@ if (!empty($_POST)){
         // Instância o método e dá um extract no POST dividindo o Array em variáveis
         $func = new P_Emitido;
         extract($_POST);
+
+        $DadosSeparados = explode('-', $_POST['nomeclatura_p_emitido']);
+        $quant_min_estoque_remedio = $DadosSeparados[1];
+
+        $data_preco_pedido = $_POST['data_preco_pedido'];
+        // ver recebe valores para realizar soma
+        $quantidade = $_POST['quantidade_p_emitido'];
+        $preco_unitario = $_POST['valor_preco'];
+        
+        // soma os valores e armazena em variável
+        $valor_preco = floatval(str_replace(',', '.', $_POST['valor_preco']));
+        $soma_Total = $valor_preco * intval($quantidade);
+
+        $func3 = new PrecoPedido;
+        //inserir o valor na tela preco_pedido
+        $func3->insereValorPedido($_POST['nomeclatura_p_emitido'], $valor_preco, $data_preco_pedido, $quantidade, $soma_Total);
 
         // Separa o string por explode
         $nome_p_emitido = explode(' - ', $nomeclatura_p_emitido);

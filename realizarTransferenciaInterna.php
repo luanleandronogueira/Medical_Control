@@ -79,6 +79,7 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
                                         <th>Disponível</th>
                                         <th>Quantidade</th>
                                         <th></th>
+                                        <th></th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -104,9 +105,11 @@ $Remedios = $func->chamaRemedioPorEstoque($_GET['id']);
                                                     name="quantidade_transferencia_interna[<?= $R['id_remedio'] ?>]"
                                                     id="quantidade_transferencia_interna_<?= $R['id_remedio'] ?>">
                                             </td>
+                                            <td>
                                             <input type="hidden" name="id_estoque_saida" value="<?= $_GET['id'] ?>">
                                             <input type="hidden" name="id_remedio" value="<?= $R['id_remedio'] ?>">
                                             <input type="hidden" name="uni_medida" value="<?= $R['uni_medida_remedio'] ?>">
+                                            </td>
                                             <td><button id="btnColeta" onclick="coletaInfo(this)" class="btn btn-info btn-sm">+ Add</button></td>
 
 

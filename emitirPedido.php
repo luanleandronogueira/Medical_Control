@@ -86,10 +86,10 @@ $nomePedido = $funcPedido->chamaPedido();
                 <input class="form-control" type="text" name="n_nota_fiscal_pedido" id="">
               </div>
 
-              <!-- <div class="col-lg-12">
+              <div class="col-lg-12">
                     <label for="">Chave de Acesso:</label>
                     <input class="form-control" type="text" name="chave_nota_pedido" id="">
-                </div> -->
+                </div>
 
               <div class="col-lg-4">
                 <label for="">Data Entrada:</label>

@@ -13,6 +13,9 @@
   $func = new RemedioUsuario;
   $remedio = $func->chamaEstoqueUsuario($chamaUsuario['setor_usuario']);
 
+  // echo '<pre>';
+  // print_r($remedio);
+  // echo '</pre>';
 
 
 ?>

@@ -5,9 +5,9 @@ include 'Classes.php';
 $TransferenciaInterna = new TransferenciaInterna;
 $Remedios = new Remedio;
 
-echo '<pre>';
-                print_r($_POST);
-                echo '</pre>';
+// echo '<pre>';
+//                 print_r($_POST);
+//                 echo '</pre>';
 
 if(!empty($_POST)){
 

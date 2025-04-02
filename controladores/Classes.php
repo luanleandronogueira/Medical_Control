@@ -45,7 +45,7 @@ class Nomeclatura
 
         $conn = $this->conexao->Conectar();
 
-        $query = "SELECT * FROM tb_nomeclatura";
+        $query = "SELECT * FROM tb_nomeclatura ORDER BY nome_nomeclatura ASC";
 
         $stmt = $conn->prepare($query);
 
@@ -641,6 +641,49 @@ class Saida
         s.id_saida DESC ";
 
         $stmt = $conn->prepare($query);
+
+        $stmt->execute();
+
+        $r = [];
+
+        while ($retorno = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+            $r[] = $retorno;
+        };
+
+        return $r;
+    }
+
+    public function chamaSaidaEstoque($id)
+    {
+
+        $conn = $this->conexao->Conectar();
+
+        $query = "SELECT 
+        s.id_saida,
+        s.status_receita_saida,
+        s.id_remedio_saida,
+        s.remedio_saida,
+        s.quantidade_saida,
+        s.sus_saida,
+        s.nome_paciente_saida,
+        s.n_receita_saida,
+        s.observacao_saida,
+        s.sessao_saida,
+        s.data_saida,
+        s.estoque_saida,
+        e.nome_estoque
+    FROM 
+        tb_saida s
+    WHERE 
+        s.estoque_saida = :id_estoque
+    JOIN 
+        tb_estoques e ON s.estoque_saida = e.id_estoque
+    ORDER BY 
+        s.id_saida DESC ";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':id_estoque', $id);
 
         $stmt->execute();
 

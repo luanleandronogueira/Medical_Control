@@ -8,6 +8,9 @@
   $func = new Saida;
 
   $retorno = $func->chamaSaida();
+  echo '<pre>';
+  print_r($_SESSION);
+  echo '</pre>';
   
 ?>
 
